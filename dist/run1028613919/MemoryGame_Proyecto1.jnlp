@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="MemoryGame_Proyecto1.jnlp">
+  <information>
+    <title>MemoryGame_Proyecto1</title>
+    <vendor>Administrador</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="MemoryGame_Proyecto1.jar" size="34978817" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="Controladores.JuegoMemoria"  name="MemoryGame_Proyecto1" />
+  <update check="always"/>
+</jnlp>

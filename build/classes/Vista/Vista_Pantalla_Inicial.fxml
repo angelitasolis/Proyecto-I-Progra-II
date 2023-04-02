@@ -15,54 +15,6 @@
 
 <StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.Vista_Pantalla_InicialController">
    <children>
-      <BorderPane fx:id="VistaJugadores" prefHeight="200.0" prefWidth="200.0">
-         <center>
-            <Pane prefHeight="742.0" prefWidth="1276.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="754.0" fitWidth="1302.0" layoutX="-4.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/Background%20sencillo.jpg" />
-                     </image>
-                  </ImageView>
-                  <Text layoutX="542.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   L O S   J U G A D O R E S" />
-                  <CheckBox fx:id="HumanoVSHumano" layoutX="565.0" layoutY="129.0" mnemonicParsing="false" onAction="#HumanoVSHumano" prefHeight="48.0" prefWidth="280.0" text="Humano VS Humano">
-                     <font>
-                        <Font name="MV Boli" size="16.0" />
-                     </font></CheckBox>
-                  <TextField fx:id="JugadorHumano1vsH" layoutX="408.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
-                  <Text layoutX="646.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" />
-                  <TextField fx:id="JugadorHumano2vsH" layoutX="718.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
-                  <CheckBox fx:id="HumanoVSComputadora" layoutX="555.0" layoutY="311.0" mnemonicParsing="false" onAction="#HumanoVSComputadora" text="Humano VS Computadora">
-                     <font>
-                        <Font name="MV Boli" size="16.0" />
-                     </font></CheckBox>
-                  <TextField fx:id="JugadorHumano1vsC" layoutX="576.0" layoutY="357.0" prefHeight="26.0" prefWidth="168.0" />
-                  <Button fx:id="EnviarHumanoVSHumano" layoutX="611.0" layoutY="244.0" mnemonicParsing="false" onAction="#getInfoHumanovsHumano" style="-fx-background-color: orange;" text="Aceptar">
-                     <font>
-                        <Font name="Showcard Gothic" size="17.0" />
-                     </font></Button>
-                  <Button fx:id="EnviarHumanoVSC" layoutX="618.0" layoutY="409.0" mnemonicParsing="false" onAction="#getInfoHumanovsComputadora" style="-fx-background-color: orange;" text="Aceptar">
-                     <font>
-                        <Font name="Showcard Gothic" size="17.0" />
-                     </font></Button>
-                  <ImageView fx:id="BotBackJugadores" fitHeight="150.0" fitWidth="200.0" layoutX="996.0" layoutY="522.0" onMouseClicked="#BackJugadores" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Backkkk.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="378.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/BowserPNG.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="859.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/HonguitoPNG.png" />
-                     </image>
-                  </ImageView>
-               </children></Pane>
-         </center>
-      </BorderPane>
       <BorderPane fx:id="VistaModoJuego" prefHeight="700.0" prefWidth="1200.0">
          <center>
             <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
@@ -174,6 +126,109 @@
                </children>
             </Pane>
          </top>
+      </BorderPane>
+      <BorderPane fx:id="VistaDificultades" prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="762.0" fitWidth="1358.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/VistaDificultades.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="505.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   U N   N I V E L   D E  D I F I C U L T A D " wrappingWidth="649.5422515869141" />
+                  <ImageView fx:id="BackDificultades" fitHeight="150.0" fitWidth="144.0" layoutX="1104.0" layoutY="564.0" onMouseClicked="#BackDificultades" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Backkkk.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="579.0" layoutY="470.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="236.0" text="Dificultadad 3" />
+                  <Button layoutX="585.0" layoutY="381.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="230.0" text="Dificultad 2" />
+                  <Button layoutX="585.0" layoutY="282.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="229.0" text="Dificultad 1" />
+               </children>
+            </Pane>
+         </top></BorderPane>
+      <BorderPane fx:id="VistaPrincipal" prefHeight="700.0" prefWidth="1200.0">
+         <center>
+            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
+               <children>
+                  <ImageView fitHeight="761.0" fitWidth="1358.0" layoutX="-2.0" layoutY="-1.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/interfez%20inicio.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="133.0" fitWidth="427.0" layoutX="457.0" layoutY="36.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/pngegg.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="AcercaDeImagen" fitHeight="147.0" fitWidth="100.0" layoutX="1258.0" layoutY="509.0" onMouseClicked="#AcercaDe" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="305.0" onMouseClicked="#ExplicacionJuego" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="587.0" layoutY="482.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: red; -fx-border-image-width: 7; -fx-border-color: black;" text="R E V I S I O N" />
+                  <Button layoutX="555.0" layoutY="536.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="245.0" style="-fx-background-color: B2FF66; -fx-border-color: black; -fx-border-width: 4;" text="I N I C I A R " />
+                  <Button layoutX="603.0" layoutY="436.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="P U N T A J E S " />
+                  <Button layoutX="580.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#BotDificultad" prefHeight="58.0" prefWidth="193.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="D I F I C U L T A D " />
+                  <Button layoutX="599.0" layoutY="342.0" mnemonicParsing="false" onAction="#VistaJugadores" prefHeight="38.0" prefWidth="159.0" style="-fx-background-color: b2ff66; -fx-border-color: black;" text="J U G A D O R E S " />
+                  <Button layoutX="577.0" layoutY="310.0" mnemonicParsing="false" onAction="#mostrarPantallaModoJuego" prefHeight="26.0" prefWidth="198.0" style="-fx-background-color: red; -fx-border-width: 3px 3px 3px 3px; -fx-border-color: black; -fx-border-radius: 10;" text="M O D O  D E  J U E G O " />
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="VistaJugadores" prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <Pane prefHeight="742.0" prefWidth="1276.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="754.0" fitWidth="1302.0" layoutX="-4.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/Background%20sencillo.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="542.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   L O S   J U G A D O R E S" />
+                  <CheckBox fx:id="HumanoVSHumano" layoutX="565.0" layoutY="129.0" mnemonicParsing="false" onAction="#HumanoVSHumano" prefHeight="48.0" prefWidth="280.0" text="Humano VS Humano">
+                     <font>
+                        <Font name="MV Boli" size="16.0" />
+                     </font></CheckBox>
+                  <TextField fx:id="JugadorHumano1vsH" layoutX="408.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
+                  <Text layoutX="646.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" />
+                  <TextField fx:id="JugadorHumano2vsH" layoutX="718.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
+                  <CheckBox fx:id="HumanoVSComputadora" layoutX="555.0" layoutY="311.0" mnemonicParsing="false" onAction="#HumanoVSComputadora" text="Humano VS Computadora">
+                     <font>
+                        <Font name="MV Boli" size="16.0" />
+                     </font></CheckBox>
+                  <TextField fx:id="JugadorHumano1vsC" layoutX="576.0" layoutY="357.0" prefHeight="26.0" prefWidth="168.0" />
+                  <Button fx:id="EnviarHumanoVSHumano" layoutX="611.0" layoutY="244.0" mnemonicParsing="false" onAction="#getInfoHumanovsHumano" style="-fx-background-color: orange;" text="Aceptar">
+                     <font>
+                        <Font name="Showcard Gothic" size="17.0" />
+                     </font></Button>
+                  <Button fx:id="EnviarHumanoVSC" layoutX="618.0" layoutY="409.0" mnemonicParsing="false" onAction="#getInfoHumanovsComputadora" style="-fx-background-color: orange;" text="Aceptar">
+                     <font>
+                        <Font name="Showcard Gothic" size="17.0" />
+                     </font></Button>
+                  <ImageView fx:id="BotBackJugadores" fitHeight="150.0" fitWidth="200.0" layoutX="996.0" layoutY="522.0" onMouseClicked="#BackJugadores" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Backkkk.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="378.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/BowserPNG.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="859.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/HonguitoPNG.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
+         </center>
       </BorderPane>
       <BorderPane fx:id="VistaJuegoDificultad3" prefHeight="200.0" prefWidth="200.0">
          <top>
@@ -358,6 +413,7 @@
                         <Image url="@../Imagenes/SignoPregunta.png" />
                      </image>
                   </ImageView>
+                  <Button layoutX="46.0" layoutY="701.0" mnemonicParsing="false" text="R E V I S I ON" />
                </children>
             </Pane>
          </top></BorderPane>
@@ -465,6 +521,7 @@
                         <Image url="@../Imagenes/SignoPregunta.png" />
                      </image>
                   </ImageView>
+                  <Button layoutX="45.0" layoutY="701.0" mnemonicParsing="false" text="R E V I S I O N" />
                </children>
             </Pane>
          </top></BorderPane>
@@ -532,64 +589,10 @@
                         <Image url="@../Imagenes/SignoPregunta.png" />
                      </image>
                   </ImageView>
+                  <Button layoutX="90.0" layoutY="676.0" mnemonicParsing="false" text="R E V I S I O N" />
                </children>
             </Pane>
          </top>
-      </BorderPane>
-      <BorderPane fx:id="VistaDificultades" prefHeight="200.0" prefWidth="200.0">
-         <top>
-            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="762.0" fitWidth="1358.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/VistaDificultades.jpg" />
-                     </image>
-                  </ImageView>
-                  <Text layoutX="505.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   U N   N I V E L   D E  D I F I C U L T A D " wrappingWidth="649.5422515869141" />
-                  <ImageView fx:id="BackDificultades" fitHeight="150.0" fitWidth="144.0" layoutX="1104.0" layoutY="564.0" onMouseClicked="#BackDificultades" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Backkkk.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="579.0" layoutY="470.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="236.0" text="Dificultadad 3" />
-                  <Button layoutX="585.0" layoutY="381.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="230.0" text="Dificultad 2" />
-                  <Button layoutX="585.0" layoutY="282.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="229.0" text="Dificultad 1" />
-               </children>
-            </Pane>
-         </top></BorderPane>
-      <BorderPane fx:id="VistaPrincipal" prefHeight="700.0" prefWidth="1200.0">
-         <center>
-            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
-               <children>
-                  <ImageView fitHeight="761.0" fitWidth="1358.0" layoutX="-2.0" layoutY="-1.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/interfez%20inicio.jpg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="133.0" fitWidth="427.0" layoutX="457.0" layoutY="36.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/pngegg.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="AcercaDeImagen" fitHeight="147.0" fitWidth="100.0" layoutX="1258.0" layoutY="509.0" onMouseClicked="#AcercaDe" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="305.0" onMouseClicked="#ExplicacionJuego" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="587.0" layoutY="482.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: red; -fx-border-image-width: 7; -fx-border-color: black;" text="R E V I S I O N" />
-                  <Button layoutX="555.0" layoutY="536.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="245.0" style="-fx-background-color: B2FF66; -fx-border-color: black; -fx-border-width: 4;" text="I N I C I A R " />
-                  <Button layoutX="603.0" layoutY="436.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="P U N T A J E S " />
-                  <Button layoutX="580.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#BotDificultad" prefHeight="58.0" prefWidth="193.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="D I F I C U L T A D " />
-                  <Button layoutX="599.0" layoutY="342.0" mnemonicParsing="false" onAction="#VistaJugadores" prefHeight="38.0" prefWidth="159.0" style="-fx-background-color: b2ff66; -fx-border-color: black;" text="J U G A D O R E S " />
-                  <Button layoutX="577.0" layoutY="310.0" mnemonicParsing="false" onAction="#mostrarPantallaModoJuego" prefHeight="26.0" prefWidth="198.0" style="-fx-background-color: red; -fx-border-width: 3px 3px 3px 3px; -fx-border-color: black; -fx-border-radius: 10;" text="M O D O  D E  J U E G O " />
-               </children>
-            </AnchorPane>
-         </center>
       </BorderPane>
    </children>
 </StackPane>
