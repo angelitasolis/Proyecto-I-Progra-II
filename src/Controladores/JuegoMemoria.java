@@ -1,115 +1,93 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controladores;
 
-import java.io.IOException;
 import java.net.URL;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
-/**
- *
- * @author Administrador
- */
 public class JuegoMemoria extends Application {
 
     private Tablero tablero;
     private int tamanno = 4;
+    private String ruta = getClass().getResource("/Imagenes/SignoPreguntabien.png").toExternalForm();
+    private Image cartaImagenVuelta = new Image(ruta);
 
     public JuegoMemoria() {
-
     }
 
-    public static void main(String[] args) {//argumentos
-        try {
-            launch(args);
-        } catch (Exception e) {
-            if (e.getCause() != null) {
-                e.getCause().printStackTrace();
-            } else {
-                e.printStackTrace();
-
-            }
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Juego Memoria");
-        try {
-            
-            String ruta = getClass().getResource("/Imagenes/1.png").toExternalForm();
-            String ruta2 = getClass().getResource("/Imagenes/2.png").toExternalForm();
-            
-            String ruta3 = getClass().getResource("/Imagenes/3.png").toExternalForm();
-            
-            String ruta4 = getClass().getResource("/Imagenes/4.png").toExternalForm();
-            
-            String ruta5 = getClass().getResource("/Imagenes/5.png").toExternalForm();
-            
-            String ruta6 = getClass().getResource("/Imagenes/6.png").toExternalForm();
 
-            String[] cartasImagenes = {
-                ruta, ruta2, ruta3, ruta4, ruta5, ruta6, ruta, ruta, ruta, ruta, ruta, ruta};
-            
-            
-            
-            tablero = new Tablero(tamanno, cartasImagenes);
-
-            // Create the game board layout
-            GridPane cuadricula = new GridPane();
-
-            for (int fila = 0; fila < tamanno; fila++) {
-                for (int col = 0; col < tamanno; col++) {
-                    Carta carta = tablero.getCarta(fila, col);
-                    ImageView imageView = carta.getVistaImagen();
-                    imageView.setUserData(carta);
-                    imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, this::handleCardClick);
-                    cuadricula.add(imageView, col, fila);
-                }
-            };
-
-            primaryStage.setScene(new Scene(cuadricula));
-            primaryStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        String[] cartasImagenes = new String[16];
+        for (int i = 1; i < 17; i++) {
+            String ruta = getClass().getResource("/Imagenes/" + i + ".png").toExternalForm();
+            cartasImagenes[i - 1] = ruta;
+            System.out.println(i);
         }
+
+        tablero = new Tablero(tamanno, cartasImagenes);
+
+        // Create the game board layout
+        GridPane cuadricula = new GridPane();
+
+        for (int fila = 0; fila < tamanno; fila++) {
+            for (int col = 0; col < tamanno; col++) {
+                Carta carta = tablero.getCarta(fila, col);
+                ImageView imageView = carta.getVistaImagen();
+                imageView.setImage(cartaImagenVuelta);
+                imageView.setUserData(carta);
+                imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, this::handleCardClick);
+                cuadricula.add(imageView, col, fila);
+            }
+        }
+
+        primaryStage.setScene(new Scene(cuadricula));
+        primaryStage.show();
     }
 
     private Carta primerCarta = null;
 
     private void handleCardClick(MouseEvent event) {
+
         ImageView imageView = (ImageView) event.getSource();
         Carta carta = (Carta) imageView.getUserData();
 
-        if (carta.esParejaEncontrada()) {
+        if (carta.esParejaEncontrada() || carta == primerCarta) {
             return;
         }
-
-        // Show the card image
-        imageView.setImage(carta.getVistaImagen().getImage());
+        imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
 
         if (primerCarta == null) {
             primerCarta = carta;
         } else {
             if (tablero.esPareja(primerCarta, carta)) {
                 System.out.println("Son pareja");
+                primerCarta.setParejaEncontrada(true);
+                carta.setParejaEncontrada(true);
+                primerCarta = null;
             } else {
                 System.out.println("No son pareja");
-                // Hide the card images after a short delay
-                imageView.setImage(null);
-                primerCarta.getVistaImagen().setImage(null);
+                PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+                pausa.setOnFinished((e) -> {
+                    imageView.setImage(cartaImagenVuelta);
+                    if (primerCarta != null) {
+                        primerCarta.getVistaImagen().setImage(cartaImagenVuelta);
+                        primerCarta = null;
+                    }
+                });
+                pausa.play();
             }
-            primerCarta = null;
         }
     }
 }
