@@ -12,7 +12,7 @@ public class MemoryGame_Proyecto1 extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        
+
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MemoryGame_Proyecto1.class.getResource("/Vista/Vista_Pantalla_Inicial.fxml"));
@@ -21,8 +21,7 @@ public class MemoryGame_Proyecto1 extends Application {
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();
-            
-            
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

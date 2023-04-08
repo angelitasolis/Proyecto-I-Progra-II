@@ -8,19 +8,18 @@ package Controladores;
  *
  * @author Administrador
  */
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
 public class Carta {
+
     private ImageView vistaImagen;
     private int valor;
     private boolean parejaEncontrada;
     private final String rutaImagen;
 
     public Carta(int valor, String rutaImagen) {
-        
+
         this.valor = valor;
         this.parejaEncontrada = false;
         this.rutaImagen = rutaImagen;
@@ -49,9 +48,5 @@ public class Carta {
     public String getRutaImagen() {
         return rutaImagen;
     }
-    
-    
-    
-            
-    
+
 }

@@ -4,45 +4,85 @@ import java.net.URL;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.layout.VBox;
 
-public class JuegoMemoria extends Application {
+public class JuegoMemoria {
+    // private int n=0;
 
     private Tablero tablero;
-    private int tamanno = 4;
+    private int tamannoFilas;
+    private int tamannoColumnas;
     private String ruta = getClass().getResource("/Imagenes/SignoPreguntabien.png").toExternalForm();
     private Image cartaImagenVuelta = new Image(ruta);
+// crono variables
+    private IntegerProperty tiempoTranscurrido = new SimpleIntegerProperty(0);// para almacenar el tiempo transcurrido 
+    private Timeline cronometro;
+    private int cantidadSegundos;
+
+    private int jugador1Puntaje;
+    private int jugador2Puntaje;
+    private String jugador1Nombre;
+    private String jugador2Nombre;
+    private boolean turnoJugador1;
+    private boolean modoHumanoVsHumano;
+    private Label jugador1Label;
+    private Label jugador2Label;
+
+    //Cronometro
+    private void iniciarCronometro(int duracionSegundos) {
+        Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.seconds(1),
+                        event -> tiempoTranscurrido.set(tiempoTranscurrido.get() + 1)
+                )
+        );
+        timeline.setCycleCount(duracionSegundos);
+        timeline.setOnFinished(event -> System.out.println("Tiempo terminado"));
+        timeline.play();
+    }
 
     public JuegoMemoria() {
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
+    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre) {
         primaryStage.setTitle("Juego Memoria");
+        tamannoFilas = ptamannoFilas;
+        tamannoColumnas = ptamannoColumnas;
 
-        String[] cartasImagenes = new String[16];
-        for (int i = 1; i < 17; i++) {
+        this.modoHumanoVsHumano = pModoHumanoVsHumano;
+        this.jugador1Nombre = pJugador1Nombre;
+        this.jugador2Nombre = pJugador2Nombre;
+        this.jugador1Puntaje = 0;
+        this.jugador2Puntaje = 0;
+        this.turnoJugador1 = true;
+
+        String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
+
+        for (int i = 1; i < (tamannoFilas * tamannoColumnas) / 2 + 1; i++) {
+
             String ruta = getClass().getResource("/Imagenes/" + i + ".png").toExternalForm();
             cartasImagenes[i - 1] = ruta;
             System.out.println(i);
         }
 
-        tablero = new Tablero(tamanno, cartasImagenes);
+        tablero = new Tablero(tamannoFilas, tamannoColumnas, cartasImagenes);
 
         // Create the game board layout
         GridPane cuadricula = new GridPane();
 
-        for (int fila = 0; fila < tamanno; fila++) {
-            for (int col = 0; col < tamanno; col++) {
+        for (int fila = 0; fila < tamannoFilas; fila++) {
+            for (int col = 0; col < tamannoColumnas; col++) {
                 Carta carta = tablero.getCarta(fila, col);
                 ImageView imageView = carta.getVistaImagen();
                 imageView.setImage(cartaImagenVuelta);
@@ -52,8 +92,20 @@ public class JuegoMemoria extends Application {
             }
         }
 
-        primaryStage.setScene(new Scene(cuadricula));
+        Label tiempoTranscurridoLabel = new Label();
+        tiempoTranscurridoLabel.textProperty().bind(tiempoTranscurrido.asString());
+
+        // Add the label to the scene
+        VBox vbox = new VBox();
+        jugador1Label = new Label(jugador1Nombre + ": " + jugador1Puntaje);
+        jugador2Label = new Label(jugador2Nombre + ": " + jugador2Puntaje);
+        vbox.getChildren().addAll(jugador1Label, jugador2Label, cuadricula, tiempoTranscurridoLabel);
+
+        primaryStage.setScene(new Scene(vbox));
         primaryStage.show();
+
+        iniciarCronometro(cantidadSegundos);//llega hasta donde yo quiera
+
     }
 
     private Carta primerCarta = null;
@@ -76,6 +128,10 @@ public class JuegoMemoria extends Application {
                 primerCarta.setParejaEncontrada(true);
                 carta.setParejaEncontrada(true);
                 primerCarta = null;
+
+                if (partidaGanada()) {
+                    System.out.println("Felicidades, ha ganado la partida");
+                }
             } else {
                 System.out.println("No son pareja");
                 PauseTransition pausa = new PauseTransition(Duration.seconds(1));
@@ -90,4 +146,17 @@ public class JuegoMemoria extends Application {
             }
         }
     }
-}
+
+    private boolean partidaGanada() {
+        for (int fila = 0; fila < tamannoFilas; fila++) {
+            for (int col = 0; col < tamannoColumnas; col++) {
+                Carta carta = tablero.getCarta(fila, col);
+                if (!carta.esParejaEncontrada()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+};

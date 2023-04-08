@@ -127,61 +127,6 @@
             </Pane>
          </top>
       </BorderPane>
-      <BorderPane fx:id="VistaDificultades" prefHeight="200.0" prefWidth="200.0">
-         <top>
-            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="762.0" fitWidth="1358.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/VistaDificultades.jpg" />
-                     </image>
-                  </ImageView>
-                  <Text layoutX="505.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   U N   N I V E L   D E  D I F I C U L T A D " wrappingWidth="649.5422515869141" />
-                  <ImageView fx:id="BackDificultades" fitHeight="150.0" fitWidth="144.0" layoutX="1104.0" layoutY="564.0" onMouseClicked="#BackDificultades" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Backkkk.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="579.0" layoutY="470.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="236.0" text="Dificultadad 3" />
-                  <Button layoutX="585.0" layoutY="381.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="230.0" text="Dificultad 2" />
-                  <Button layoutX="585.0" layoutY="282.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="229.0" text="Dificultad 1" />
-               </children>
-            </Pane>
-         </top></BorderPane>
-      <BorderPane fx:id="VistaPrincipal" prefHeight="700.0" prefWidth="1200.0">
-         <center>
-            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
-               <children>
-                  <ImageView fitHeight="761.0" fitWidth="1358.0" layoutX="-2.0" layoutY="-1.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/interfez%20inicio.jpg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="133.0" fitWidth="427.0" layoutX="457.0" layoutY="36.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/pngegg.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="AcercaDeImagen" fitHeight="147.0" fitWidth="100.0" layoutX="1258.0" layoutY="509.0" onMouseClicked="#AcercaDe" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="305.0" onMouseClicked="#ExplicacionJuego" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="587.0" layoutY="482.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: red; -fx-border-image-width: 7; -fx-border-color: black;" text="R E V I S I O N" />
-                  <Button layoutX="555.0" layoutY="536.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="245.0" style="-fx-background-color: B2FF66; -fx-border-color: black; -fx-border-width: 4;" text="I N I C I A R " />
-                  <Button layoutX="603.0" layoutY="436.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="P U N T A J E S " />
-                  <Button layoutX="580.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#BotDificultad" prefHeight="58.0" prefWidth="193.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="D I F I C U L T A D " />
-                  <Button layoutX="599.0" layoutY="342.0" mnemonicParsing="false" onAction="#VistaJugadores" prefHeight="38.0" prefWidth="159.0" style="-fx-background-color: b2ff66; -fx-border-color: black;" text="J U G A D O R E S " />
-                  <Button layoutX="577.0" layoutY="310.0" mnemonicParsing="false" onAction="#mostrarPantallaModoJuego" prefHeight="26.0" prefWidth="198.0" style="-fx-background-color: red; -fx-border-width: 3px 3px 3px 3px; -fx-border-color: black; -fx-border-radius: 10;" text="M O D O  D E  J U E G O " />
-               </children>
-            </AnchorPane>
-         </center>
-      </BorderPane>
       <BorderPane fx:id="VistaJugadores" prefHeight="200.0" prefWidth="200.0">
          <center>
             <Pane prefHeight="742.0" prefWidth="1276.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
@@ -594,5 +539,60 @@
             </Pane>
          </top>
       </BorderPane>
+      <BorderPane fx:id="VistaPrincipal" prefHeight="700.0" prefWidth="1200.0">
+         <center>
+            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
+               <children>
+                  <ImageView fitHeight="761.0" fitWidth="1358.0" layoutX="-2.0" layoutY="-1.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/interfez%20inicio.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="133.0" fitWidth="427.0" layoutX="457.0" layoutY="36.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/pngegg.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="AcercaDeImagen" fitHeight="147.0" fitWidth="100.0" layoutX="1258.0" layoutY="509.0" onMouseClicked="#AcercaDe" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="305.0" onMouseClicked="#ExplicacionJuego" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="587.0" layoutY="482.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: red; -fx-border-image-width: 7; -fx-border-color: black;" text="R E V I S I O N" />
+                  <Button layoutX="555.0" layoutY="536.0" mnemonicParsing="false" onMouseClicked="#botIniciarJuego" prefHeight="74.0" prefWidth="245.0" style="-fx-background-color: B2FF66; -fx-border-color: black; -fx-border-width: 4;" text="I N I C I A R " />
+                  <Button layoutX="603.0" layoutY="436.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="P U N T A J E S " />
+                  <Button fx:id="BotDificultad" layoutX="580.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#BotDificultad" prefHeight="58.0" prefWidth="193.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="D I F I C U L T A D " />
+                  <Button layoutX="599.0" layoutY="342.0" mnemonicParsing="false" onAction="#VistaJugadores" prefHeight="38.0" prefWidth="159.0" style="-fx-background-color: b2ff66; -fx-border-color: black;" text="J U G A D O R E S " />
+                  <Button layoutX="577.0" layoutY="310.0" mnemonicParsing="false" onAction="#mostrarPantallaModoJuego" prefHeight="26.0" prefWidth="198.0" style="-fx-background-color: red; -fx-border-width: 3px 3px 3px 3px; -fx-border-color: black; -fx-border-radius: 10;" text="M O D O  D E  J U E G O " />
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="VistaDificultades" prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="762.0" fitWidth="1358.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/VistaDificultades.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="505.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   U N   N I V E L   D E  D I F I C U L T A D " wrappingWidth="649.5422515869141" />
+                  <ImageView fx:id="BackDificultades" fitHeight="150.0" fitWidth="144.0" layoutX="1104.0" layoutY="564.0" onMouseClicked="#BackDificultades" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Backkkk.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="579.0" layoutY="470.0" mnemonicParsing="false" onMouseClicked="#onDificultad3" prefHeight="64.0" prefWidth="236.0" text="Dificultadad 3" />
+                  <Button layoutX="585.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#onDificultad2" prefHeight="65.0" prefWidth="230.0" text="Dificultad 2" />
+                  <Button layoutX="585.0" layoutY="282.0" mnemonicParsing="false" onMouseClicked="#onDificultad1" prefHeight="67.0" prefWidth="229.0" text="Dificultad 1" />
+               </children>
+            </Pane>
+         </top></BorderPane>
    </children>
 </StackPane>

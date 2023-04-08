@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -24,15 +25,15 @@ import javafx.scene.text.Text;
  */
 public class Vista_Pantalla_InicialController implements Initializable {
 
+    private JuegoMemoria juegoMemoria;
+    int dificultad = 0;
+
     @FXML
     private Text Jugador1;
     @FXML
     private Text Jugador2;
     private String Jugador1vsComputadora;
 
-   
-    
-    
     @FXML
     private BorderPane VistaPrincipal;
     @FXML
@@ -223,6 +224,14 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private BorderPane VistaDificultades;
     @FXML
     private ImageView BackDificultades;
+    private BorderPane vistaModosAlternativos;
+
+    @FXML
+    private Button BotDificultad;
+
+    private Stage getPrimaryStage() {
+        return (Stage) VistaPrincipal.getScene().getWindow();
+    }
 
     /**
      * Initializes the controller class.
@@ -230,12 +239,13 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         VistaPrincipal.toFront();
-    }    
+        juegoMemoria = new JuegoMemoria();
+    }
 
     @FXML
     private void DesplegarInfo(MouseEvent event) {
         System.out.println("hola");
-        
+
     }
 
     @FXML
@@ -245,7 +255,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     @FXML
     private void mostrarPantallaModoJuego(ActionEvent event) {
-            VistaModoJuego.toFront();
+        VistaModoJuego.toFront();
     }
 
     @FXML
@@ -255,47 +265,45 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     @FXML
     private void HumanoVSHumano(ActionEvent event) {
-        if(HumanoVSHumano.isSelected()==true){
+        if (HumanoVSHumano.isSelected() == true) {
             HumanoVSComputadora.setDisable(true);
             EnviarHumanoVSC.setDisable(true);
             JugadorHumano1vsC.setDisable(true);
-            
-        }
-                else{
-        HumanoVSComputadora.setDisable(false);
-         EnviarHumanoVSC.setDisable(false);
+
+        } else {
+            HumanoVSComputadora.setDisable(false);
+            EnviarHumanoVSC.setDisable(false);
             JugadorHumano1vsC.setDisable(false);
         }
     }
 
     @FXML
     private void HumanoVSComputadora(ActionEvent event) {
-        if(HumanoVSComputadora.isSelected()==true){
+        if (HumanoVSComputadora.isSelected() == true) {
             HumanoVSHumano.setDisable(true);
             EnviarHumanoVSHumano.setDisable(true);
             JugadorHumano1vsH.setDisable(true);
             JugadorHumano2vsH.setDisable(true);
-            
-    }
-        else{
-         HumanoVSHumano.setDisable(false);
-         HumanoVSHumano.setDisable(false);
-         EnviarHumanoVSHumano.setDisable(false);
-         JugadorHumano1vsH.setDisable(false);
-         JugadorHumano2vsH.setDisable(false);
+
+        } else {
+            HumanoVSHumano.setDisable(false);
+            HumanoVSHumano.setDisable(false);
+            EnviarHumanoVSHumano.setDisable(false);
+            JugadorHumano1vsH.setDisable(false);
+            JugadorHumano2vsH.setDisable(false);
         }
     }
 
     @FXML
     private void getInfoHumanovsHumano(ActionEvent event) {
-  // Jugador1=JugadorHumano1vsH.getText();
-   //Jugador2=JugadorHumano2vsH.getText();
-     //   System.out.println("Los jugadores son:"+Jugador1 +" "+Jugador2);
+        // Jugador1=JugadorHumano1vsH.getText();
+        //Jugador2=JugadorHumano2vsH.getText();
+        //   System.out.println("Los jugadores son:"+Jugador1 +" "+Jugador2);
     }
 
     @FXML
     private void getInfoHumanovsComputadora(ActionEvent event) {
-        Jugador1vsComputadora=JugadorHumano1vsC.getText();
+        Jugador1vsComputadora = JugadorHumano1vsC.getText();
     }
 
     @FXML
@@ -328,11 +336,47 @@ public class Vista_Pantalla_InicialController implements Initializable {
         VistaPrincipal.toFront();
     }
 
+    private void botModosAlternativos(MouseEvent event) {
+        vistaModosAlternativos.toFront();
+    }
+
+    private void backMetodosAlternativos(MouseEvent event) {
+        VistaPrincipal.toFront();
+    }
+
     @FXML
     private void BotDificultad(MouseEvent event) {
         VistaDificultades.toFront();
     }
 
-   
-     
+    @FXML
+    void onDificultad1(MouseEvent event) {
+        dificultad = 1;
+
+    }
+
+    @FXML
+    void onDificultad2(MouseEvent event) {
+        dificultad = 2;
+    }
+
+    @FXML
+    void onDificultad3(MouseEvent event) {
+        dificultad = 3;
+
+    }
+
+    @FXML
+    private void botIniciarJuego(MouseEvent event) {
+        Stage primaryStage = getPrimaryStage();
+
+        if (dificultad == 1) {
+            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, "Ru", "Ma");
+        } else if (dificultad == 2) {
+            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, "Ru", "Ma");
+        } else {
+            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, "Ru", "Ma");
+        }
+
+    }
 }
