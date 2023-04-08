@@ -132,6 +132,16 @@ public class JuegoMemoria {
                 if (partidaGanada()) {
                     System.out.println("Felicidades, ha ganado la partida");
                 }
+
+                //jugadores
+                if (turnoJugador1) {
+                    jugador1Puntaje++;
+                    jugador1Label.setText(jugador1Nombre + ": " + jugador1Puntaje);
+                } else {
+                    jugador2Puntaje++;
+                    jugador2Label.setText(jugador2Nombre + ": " + jugador2Puntaje);
+                }
+
             } else {
                 System.out.println("No son pareja");
                 PauseTransition pausa = new PauseTransition(Duration.seconds(1));
@@ -140,6 +150,9 @@ public class JuegoMemoria {
                     if (primerCarta != null) {
                         primerCarta.getVistaImagen().setImage(cartaImagenVuelta);
                         primerCarta = null;
+                        
+                        //cambia el turno
+                        turnoJugador1 = !turnoJugador1;
                     }
                 });
                 pausa.play();

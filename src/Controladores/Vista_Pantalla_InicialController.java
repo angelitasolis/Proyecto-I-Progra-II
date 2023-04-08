@@ -32,7 +32,10 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private Text Jugador1;
     @FXML
     private Text Jugador2;
+
     private String Jugador1vsComputadora;
+    private String Jugador1HvsH;
+    private String Jugador2HvsH;
 
     @FXML
     private BorderPane VistaPrincipal;
@@ -296,14 +299,15 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     @FXML
     private void getInfoHumanovsHumano(ActionEvent event) {
-        // Jugador1=JugadorHumano1vsH.getText();
-        //Jugador2=JugadorHumano2vsH.getText();
-        //   System.out.println("Los jugadores son:"+Jugador1 +" "+Jugador2);
+        Jugador1HvsH = JugadorHumano1vsH.getText();
+        Jugador2HvsH= JugadorHumano2vsH.getText();
+        VistaPrincipal.toFront();
     }
 
     @FXML
     private void getInfoHumanovsComputadora(ActionEvent event) {
         Jugador1vsComputadora = JugadorHumano1vsC.getText();
+        VistaPrincipal.toFront();
     }
 
     @FXML
@@ -371,11 +375,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, "Ru", "Ma");
+            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, Jugador1HvsH, Jugador2HvsH);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, "Ru", "Ma");
+            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, Jugador1HvsH, Jugador2HvsH);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, "Ru", "Ma");
+            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, Jugador1HvsH, Jugador2HvsH);
         }
 
     }
