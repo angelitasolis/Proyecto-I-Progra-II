@@ -1,6 +1,7 @@
 package Controladores;
 
 import java.net.URL;
+import java.util.Random;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,6 +16,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
 public class JuegoMemoria {
@@ -35,7 +39,7 @@ public class JuegoMemoria {
     private String jugador1Nombre;
     private String jugador2Nombre;
     private boolean turnoJugador1;
-    private boolean modoHumanoVsHumano;
+    private boolean modoHumanoVsHumano = true;//True
     private Label jugador1Label;
     private Label jugador2Label;
 
@@ -104,7 +108,7 @@ public class JuegoMemoria {
         primaryStage.setScene(new Scene(vbox));
         primaryStage.show();
 
-        iniciarCronometro(cantidadSegundos);//llega hasta donde yo quiera
+        iniciarCronometro(pcantidadSegundos);//llega hasta donde yo quiera
 
     }
 
@@ -150,14 +154,23 @@ public class JuegoMemoria {
                     if (primerCarta != null) {
                         primerCarta.getVistaImagen().setImage(cartaImagenVuelta);
                         primerCarta = null;
-                        
-                        //cambia el turno
-                        turnoJugador1 = !turnoJugador1;
                     }
+                    
+                    //cambia el turno
+                    turnoJugador1 = !turnoJugador1;
+
                 });
+
                 pausa.play();
             }
         }
+
+        if (!modoHumanoVsHumano && !turnoJugador1) {
+            PauseTransition pausaAntesComputador = new PauseTransition(Duration.seconds(1));
+            pausaAntesComputador.setOnFinished(e -> jugarComputador());
+            pausaAntesComputador.play();
+        }
+
     }
 
     private boolean partidaGanada() {
@@ -170,6 +183,34 @@ public class JuegoMemoria {
             }
         }
         return true;
+    }
+
+    private void jugarComputador() {
+        PauseTransition pausa = new PauseTransition(Duration.seconds(2));
+        pausa.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Random random = new Random();
+
+                Carta[] cartas = new Carta[2];
+
+                while (cartas[0] == null || cartas[0].esParejaEncontrada()) {
+                    int fila = random.nextInt(tamannoFilas);
+                    int col = random.nextInt(tamannoColumnas);
+                    cartas[0] = tablero.getCarta(fila, col);
+                }
+
+                while (cartas[1] == null || cartas[1].esParejaEncontrada() || cartas[1] == cartas[0]) {
+                    int fila = random.nextInt(tamannoFilas);
+                    int col = random.nextInt(tamannoColumnas);
+                    cartas[1] = tablero.getCarta(fila, col);
+                }
+                // Revela las cartas elegidas
+                cartas[0].getVistaImagen().fireEvent(new MouseEvent (MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0,MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+               cartas[1].getVistaImagen().fireEvent(new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+            }
+        });
+        pausa.play();
     }
 
 };
