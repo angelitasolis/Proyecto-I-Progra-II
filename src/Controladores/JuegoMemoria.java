@@ -108,7 +108,7 @@ public class JuegoMemoria {
         primaryStage.setScene(new Scene(vbox));
         primaryStage.show();
 
-        iniciarCronometro(pcantidadSegundos);//llega hasta donde yo quiera
+        iniciarCronometro(cantidadSegundos);//llega hasta donde yo quiera
 
     }
 
@@ -154,23 +154,20 @@ public class JuegoMemoria {
                     if (primerCarta != null) {
                         primerCarta.getVistaImagen().setImage(cartaImagenVuelta);
                         primerCarta = null;
+
+                        //cambia el turno
+                        turnoJugador1 = !turnoJugador1;
+
                     }
-                    
-                    //cambia el turno
-                    turnoJugador1 = !turnoJugador1;
 
                 });
 
                 pausa.play();
             }
+            if (!modoHumanoVsHumano && !turnoJugador1) {
+                jugarComputador();
+            }
         }
-
-        if (!modoHumanoVsHumano && !turnoJugador1) {
-            PauseTransition pausaAntesComputador = new PauseTransition(Duration.seconds(1));
-            pausaAntesComputador.setOnFinished(e -> jugarComputador());
-            pausaAntesComputador.play();
-        }
-
     }
 
     private boolean partidaGanada() {
@@ -186,31 +183,52 @@ public class JuegoMemoria {
     }
 
     private void jugarComputador() {
-        PauseTransition pausa = new PauseTransition(Duration.seconds(2));
-        pausa.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Random random = new Random();
+        Random random = new Random();
 
-                Carta[] cartas = new Carta[2];
+        Carta carta1 = null;
+        Carta carta2 = null;
 
-                while (cartas[0] == null || cartas[0].esParejaEncontrada()) {
-                    int fila = random.nextInt(tamannoFilas);
-                    int col = random.nextInt(tamannoColumnas);
-                    cartas[0] = tablero.getCarta(fila, col);
-                }
+        while (carta1 == null || carta1.esParejaEncontrada()) {
+            int fila = random.nextInt(tamannoFilas);
+            int col = random.nextInt(tamannoColumnas);
+            carta1 = tablero.getCarta(fila, col);
+        }
 
-                while (cartas[1] == null || cartas[1].esParejaEncontrada() || cartas[1] == cartas[0]) {
-                    int fila = random.nextInt(tamannoFilas);
-                    int col = random.nextInt(tamannoColumnas);
-                    cartas[1] = tablero.getCarta(fila, col);
-                }
-                // Revela las cartas elegidas
-                cartas[0].getVistaImagen().fireEvent(new MouseEvent (MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0,MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-               cartas[1].getVistaImagen().fireEvent(new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+        while (carta2 == null || carta2.esParejaEncontrada() || carta2 == carta1) {
+            int fila = random.nextInt(tamannoFilas);
+            int col = random.nextInt(tamannoColumnas);
+            carta2 = tablero.getCarta(fila, col);
+        }
+        // Revela las cartas elegidas
+        carta1.getVistaImagen().setImage(new Image(carta1.getRutaImagen(), 100, 100, true, true));
+        carta2.getVistaImagen().setImage(new Image(carta2.getRutaImagen(), 100, 100, true, true));
+
+        if (tablero.esPareja(carta1, carta2)) {
+            System.out.println("Computador encontró una pareja");
+            carta1.setParejaEncontrada(true);
+            carta2.setParejaEncontrada(true);
+
+            jugador2Puntaje++;
+            jugador2Label.setText(jugador2Nombre + ": " + jugador2Puntaje);
+
+            if (partidaGanada()) {
+                System.out.println("Felicidades, ha ganado la partida");
             }
-        });
-        pausa.play();
+        } else {
+            final Carta finalCarta1 = carta1;
+            final Carta finalCarta2 = carta2;
+
+            System.out.println("Computador no encontró una pareja");
+            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+            pausa.setOnFinished((e) -> {
+                finalCarta1.getVistaImagen().setImage(cartaImagenVuelta);
+                finalCarta2.getVistaImagen().setImage(cartaImagenVuelta);
+            });
+            pausa.play();
+        }
+
+        // Cambia el turno
+        turnoJugador1 = !turnoJugador1;
     }
 
 };
