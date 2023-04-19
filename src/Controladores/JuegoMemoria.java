@@ -1,6 +1,7 @@
 package Controladores;
 
 import java.net.URL;
+import java.util.Random;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,6 +16,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
 public class JuegoMemoria {
@@ -35,19 +39,19 @@ public class JuegoMemoria {
     private String jugador1Nombre;
     private String jugador2Nombre;
     private boolean turnoJugador1;
-    private boolean modoHumanoVsHumano;
+    private boolean modoHumanoVsHumano = true;//True
     private Label jugador1Label;
     private Label jugador2Label;
 
     //Cronometro
-    private void iniciarCronometro(int duracionSegundos) {
+    private void iniciarCronometro(int pduracionSegundos) {
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.seconds(1),
                         event -> tiempoTranscurrido.set(tiempoTranscurrido.get() + 1)
                 )
         );
-        timeline.setCycleCount(duracionSegundos);
+        timeline.setCycleCount(pduracionSegundos);
         timeline.setOnFinished(event -> System.out.println("Tiempo terminado"));
         timeline.play();
     }
@@ -150,12 +154,18 @@ public class JuegoMemoria {
                     if (primerCarta != null) {
                         primerCarta.getVistaImagen().setImage(cartaImagenVuelta);
                         primerCarta = null;
-                        
+
                         //cambia el turno
                         turnoJugador1 = !turnoJugador1;
+
                     }
+
                 });
+
                 pausa.play();
+            }
+            if (!modoHumanoVsHumano && !turnoJugador1) {
+                jugarComputador();
             }
         }
     }
@@ -170,6 +180,55 @@ public class JuegoMemoria {
             }
         }
         return true;
+    }
+
+    private void jugarComputador() {
+        Random random = new Random();
+
+        Carta carta1 = null;
+        Carta carta2 = null;
+
+        while (carta1 == null || carta1.esParejaEncontrada()) {
+            int fila = random.nextInt(tamannoFilas);
+            int col = random.nextInt(tamannoColumnas);
+            carta1 = tablero.getCarta(fila, col);
+        }
+
+        while (carta2 == null || carta2.esParejaEncontrada() || carta2 == carta1) {
+            int fila = random.nextInt(tamannoFilas);
+            int col = random.nextInt(tamannoColumnas);
+            carta2 = tablero.getCarta(fila, col);
+        }
+        // Revela las cartas elegidas
+        carta1.getVistaImagen().setImage(new Image(carta1.getRutaImagen(), 100, 100, true, true));
+        carta2.getVistaImagen().setImage(new Image(carta2.getRutaImagen(), 100, 100, true, true));
+
+        if (tablero.esPareja(carta1, carta2)) {
+            System.out.println("Computador encontró una pareja");
+            carta1.setParejaEncontrada(true);
+            carta2.setParejaEncontrada(true);
+
+            jugador2Puntaje++;
+            jugador2Label.setText(jugador2Nombre + ": " + jugador2Puntaje);
+
+            if (partidaGanada()) {
+                System.out.println("Felicidades, ha ganado la partida");
+            }
+        } else {
+            final Carta finalCarta1 = carta1;
+            final Carta finalCarta2 = carta2;
+
+            System.out.println("Computador no encontró una pareja");
+            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+            pausa.setOnFinished((e) -> {
+                finalCarta1.getVistaImagen().setImage(cartaImagenVuelta);
+                finalCarta2.getVistaImagen().setImage(cartaImagenVuelta);
+            });
+            pausa.play();
+        }
+
+        // Cambia el turno
+        turnoJugador1 = !turnoJugador1;
     }
 
 };
