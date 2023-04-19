@@ -27,15 +27,18 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     private JuegoMemoria juegoMemoria;
     int dificultad = 0;
+    private boolean modoHumanoVsHumano  = true;
+    private boolean puntosExtra = false;
 
     @FXML
     private Text Jugador1;
     @FXML
     private Text Jugador2;
 
-    private String Jugador1vsComputadora;
+
     private String Jugador1HvsH;
     private String Jugador2HvsH;
+    private String Jugador1vsC;
 
     @FXML
     private BorderPane VistaPrincipal;
@@ -306,7 +309,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     @FXML
     private void getInfoHumanovsComputadora(ActionEvent event) {
-        Jugador1vsComputadora = JugadorHumano1vsC.getText();
+       Jugador1vsC = JugadorHumano1vsC.getText();
         VistaPrincipal.toFront();
     }
 
@@ -356,17 +359,20 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     void onDificultad1(MouseEvent event) {
         dificultad = 1;
+        VistaPrincipal.toFront();
 
     }
 
     @FXML
     void onDificultad2(MouseEvent event) {
         dificultad = 2;
+        VistaPrincipal.toFront();
     }
 
     @FXML
     void onDificultad3(MouseEvent event) {
         dificultad = 3;
+        VistaPrincipal.toFront();
 
     }
 
@@ -382,5 +388,27 @@ public class Vista_Pantalla_InicialController implements Initializable {
             juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, Jugador1HvsH, Jugador2HvsH);
         }
 
+    }
+
+
+  @FXML
+    private void onAceptarHvsH(MouseEvent event) {
+        Jugador1HvsH = JugadorHumano1vsH.getText();
+        Jugador2HvsH = JugadorHumano2vsH.getText();
+        modoHumanoVsHumano = true;
+        VistaPrincipal.toFront();
+
+    }
+
+    @FXML
+    private void onAceptarHvsC(MouseEvent event) {
+        Jugador1vsC = JugadorHumano1vsC.getText();
+        VistaPrincipal.toFront();
+        modoHumanoVsHumano = false;
+    }
+
+    @FXML
+    private void OnPuntosExtra(MouseEvent event) {
+        puntosExtra = BotPuntoExtra.isSelected();
     }
 }

@@ -16,6 +16,10 @@ import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.VBox;
+import java.util.Random;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 
 public class JuegoMemoria {
     // private int n=0;
@@ -35,19 +39,19 @@ public class JuegoMemoria {
     private String jugador1Nombre;
     private String jugador2Nombre;
     private boolean turnoJugador1;
-    private boolean modoHumanoVsHumano;
+    private boolean modoHumanoVsHumano = true;
     private Label jugador1Label;
     private Label jugador2Label;
 
     //Cronometro
-    private void iniciarCronometro(int duracionSegundos) {
+    private void iniciarCronometro(int pduracionSegundos) {
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.seconds(1),
                         event -> tiempoTranscurrido.set(tiempoTranscurrido.get() + 1)
                 )
         );
-        timeline.setCycleCount(duracionSegundos);
+        timeline.setCycleCount(pduracionSegundos);
         timeline.setOnFinished(event -> System.out.println("Tiempo terminado"));
         timeline.play();
     }
