@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 public class Vista_Pantalla_InicialController implements Initializable {
 
     private JuegoMemoria juegoMemoria;
-    int dificultad = 0;
+    int dificultad = 1;
     private boolean modoHumanoVsHumano  = true;
     private boolean puntosExtra = false;
 
@@ -36,9 +36,9 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private Text Jugador2;
 
 
-    private String Jugador1HvsH;
-    private String Jugador2HvsH;
-    private String Jugador1vsC;
+    private String Jugador1HvsH = "JUGADOR 1";
+    private String Jugador2HvsH = "JUGADOR 2";
+    private String Jugador1vsC = "JUGADOR HUMANO";
 
     @FXML
     private BorderPane VistaPrincipal;

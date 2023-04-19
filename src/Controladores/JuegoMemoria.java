@@ -36,8 +36,9 @@ public class JuegoMemoria {
 
     private int jugador1Puntaje;
     private int jugador2Puntaje;
-    private String jugador1Nombre;
-    private String jugador2Nombre;
+    private String jugador1Nombre = "JUGADOR 1";
+    private String jugador2Nombre = "JUGADOR 2";
+    private String Jugador1vsC = "JUGADOR HUMANO";
     private boolean turnoJugador1;
     private boolean modoHumanoVsHumano = true;
     private Label jugador1Label;
@@ -140,10 +141,10 @@ public class JuegoMemoria {
                 //jugadores
                 if (turnoJugador1) {
                     jugador1Puntaje++;
-                    jugador1Label.setText(jugador1Nombre + ": " + jugador1Puntaje);
+                    jugador1Label.setText(jugador1Nombre + " :" + jugador1Puntaje +  "-> Turno actual" );
                 } else {
                     jugador2Puntaje++;
-                    jugador2Label.setText(jugador2Nombre + ": " + jugador2Puntaje);
+                     jugador2Label.setText(jugador2Nombre + ": " + jugador1Puntaje+  "-> Turno actual" );
                 }
 
             } else {
@@ -154,9 +155,18 @@ public class JuegoMemoria {
                     if (primerCarta != null) {
                         primerCarta.getVistaImagen().setImage(cartaImagenVuelta);
                         primerCarta = null;
-                        
+
                         //cambia el turno
                         turnoJugador1 = !turnoJugador1;
+
+                        
+                        if (turnoJugador1) {
+                            jugador1Label.setText(jugador1Nombre + ": "  + "-> Turno actual");
+                             jugador2Label.setText(jugador2Nombre );
+                        } else {
+                            jugador2Label.setText(jugador2Nombre + ": " +  "-> Turno actual");
+                            jugador1Label.setText(jugador1Nombre);
+                        }
                     }
                 });
                 pausa.play();
