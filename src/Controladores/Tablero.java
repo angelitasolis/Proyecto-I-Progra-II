@@ -16,6 +16,9 @@ public class Tablero {
     private Carta[][] cartas;
     private int tamannoFilas;
     private int tamannoColumnas;
+    private int puntosAdicionales = 1;
+   
+    
 
     public Tablero(int tamannoFilas, int tamannoColumnas, String[] cartasImagenes) {
         this.tamannoFilas = tamannoFilas;
@@ -41,6 +44,10 @@ public class Tablero {
         }
     }
 
+    public void setPuntosAdicionales(int puntos) {
+        this.puntosAdicionales = puntos;
+    }
+
     public Carta getCarta(int fila, int col) {
         return cartas[fila][col];
     }
@@ -49,7 +56,8 @@ public class Tablero {
         if (carta1.getValor() == carta2.getValor()) {
             carta1.setParejaEncontrada(true);
             carta2.setParejaEncontrada(true);
-            return true;
+            int puntos = 1 + (carta1.getParejasConsecutivas() + carta2.getParejasConsecutivas()) * puntosAdicionales;
+        
         }
         return false;
     }

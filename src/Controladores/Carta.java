@@ -17,6 +17,7 @@ public class Carta {
     private int valor;
     private boolean parejaEncontrada;
     private final String rutaImagen;
+    private int parejasConsecutivas;
 
     public Carta(int valor, String rutaImagen) {
 
@@ -32,6 +33,7 @@ public class Carta {
     public ImageView getVistaImagen() {
         return vistaImagen;
     }
+
 
     public int getValor() {
         return valor;
@@ -49,4 +51,11 @@ public class Carta {
         return rutaImagen;
     }
 
-}
+    public int getParejasConsecutivas() {
+        return parejasConsecutivas;
+    }
+
+    public void setParejasConsecutivas(int parejasConsecutivas) {
+        this.parejasConsecutivas = parejasConsecutivas;
+    }
+};

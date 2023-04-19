@@ -44,14 +44,14 @@ public class JuegoMemoria {
     private Label jugador2Label;
 
     //Cronometro
-    private void iniciarCronometro(int duracionSegundos) {
+    private void iniciarCronometro(int pduracionSegundos) {
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.seconds(1),
                         event -> tiempoTranscurrido.set(tiempoTranscurrido.get() + 1)
                 )
         );
-        timeline.setCycleCount(duracionSegundos);
+        timeline.setCycleCount(pduracionSegundos);
         timeline.setOnFinished(event -> System.out.println("Tiempo terminado"));
         timeline.play();
     }

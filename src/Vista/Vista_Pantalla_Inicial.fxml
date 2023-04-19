@@ -15,61 +15,6 @@
 
 <StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.Vista_Pantalla_InicialController">
    <children>
-      <BorderPane fx:id="VistaModoJuego" prefHeight="700.0" prefWidth="1200.0">
-         <center>
-            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
-               <children>
-                  <ImageView fitHeight="100.0" fitWidth="299.0" layoutX="475.0" layoutY="14.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/pngegg.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="762.0" fitWidth="1296.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/background%20verde.png" />
-                     </image>
-                  </ImageView>
-                  <VBox layoutX="186.0" layoutY="391.0" prefHeight="311.0" prefWidth="834.0" styleClass="backdrop">
-                     <children>
-                        <CheckBox fx:id="BotCartaComdin" mnemonicParsing="false" prefHeight="84.0" prefWidth="584.0" text="Carta Comodin" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font></CheckBox>
-                        <CheckBox fx:id="BotPuntoExtra" mnemonicParsing="false" prefHeight="90.0" prefWidth="536.0" text="Punto extra por pareja encontrada" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font></CheckBox>
-                        <CheckBox fx:id="BotPuntoMenos" mnemonicParsing="false" prefHeight="72.0" prefWidth="580.0" text="Punto menos por pareja no encontrada" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font></CheckBox>
-                        <CheckBox mnemonicParsing="false" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font>
-                        </CheckBox>
-                     </children>
-                  </VBox>
-                  <Text fill="#3c8441" fontSmoothingType="LCD" layoutX="267.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E    E L    M O D O    D E    J U E G O " wrappingWidth="583.7367706298828">
-                     <font>
-                        <Font name="Bell MT" size="12.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="221.0" fitWidth="203.0" layoutX="739.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Nube%20y%20totugaOfi.png" />
-                     </image>
-                  </ImageView>
-                  <VBox prefHeight="200.0" prefWidth="100.0" />
-                  <ImageView fx:id="BackModoJuego" fitHeight="150.0" fitWidth="200.0" layoutX="1034.0" layoutY="506.0" onMouseClicked="#BackMododeJuego" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Back%20verdeeeeee.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-         </center>
-      </BorderPane>
       <BorderPane fx:id="VistaAcercaDe" prefHeight="200.0" prefWidth="200.0">
          <top>
             <Pane prefHeight="754.0" prefWidth="1237.0" BorderPane.alignment="CENTER">
@@ -592,6 +537,62 @@
                      </image>
                   </ImageView>
                </children></Pane>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="VistaModoJuego" prefHeight="700.0" prefWidth="1200.0">
+         <center>
+            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="299.0" layoutX="475.0" layoutY="14.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/pngegg.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="762.0" fitWidth="1296.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/background%20verde.png" />
+                     </image>
+                  </ImageView>
+                  <VBox layoutX="186.0" layoutY="391.0" prefHeight="311.0" prefWidth="834.0" styleClass="backdrop">
+                     <children>
+                        <CheckBox fx:id="BotCartaComdin" mnemonicParsing="false" prefHeight="84.0" prefWidth="584.0" text="Carta Comodin" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font></CheckBox>
+                        <CheckBox fx:id="BotPuntoExtra" mnemonicParsing="false" onMouseClicked="#OnPuntosExtra" prefHeight="90.0" prefWidth="536.0" text="Punto extra por pareja encontrada" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font></CheckBox>
+                        <TextField prefHeight="26.0" prefWidth="282.0" />
+                        <CheckBox fx:id="BotPuntoMenos" mnemonicParsing="false" prefHeight="72.0" prefWidth="580.0" text="Punto menos por pareja no encontrada" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font></CheckBox>
+                        <CheckBox mnemonicParsing="false" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+                  <Text fill="#3c8441" fontSmoothingType="LCD" layoutX="267.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E    E L    M O D O    D E    J U E G O " wrappingWidth="583.7367706298828">
+                     <font>
+                        <Font name="Bell MT" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="221.0" fitWidth="203.0" layoutX="739.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Nube%20y%20totugaOfi.png" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
+                  <ImageView fx:id="BackModoJuego" fitHeight="150.0" fitWidth="200.0" layoutX="1034.0" layoutY="506.0" onMouseClicked="#BackMododeJuego" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Back%20verdeeeeee.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
          </center>
       </BorderPane>
    </children>
