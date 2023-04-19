@@ -381,11 +381,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, Jugador1HvsH, Jugador2HvsH);
+            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, Jugador1HvsH, Jugador2HvsH);
+            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, Jugador1HvsH, Jugador2HvsH);
+            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, Jugador1HvsH, Jugador2HvsH, puntosExtra);
         }
 
     }

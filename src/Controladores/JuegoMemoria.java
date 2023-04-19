@@ -43,9 +43,12 @@ public class JuegoMemoria {
     private boolean modoHumanoVsHumano = true;
     private Label jugador1Label;
     private Label jugador2Label;
+    private boolean puntosExtra = true;
+    private boolean mismoJugador = false;
 
     //Cronometro
     private void iniciarCronometro(int pduracionSegundos) {
+        jugador1Label.setText(jugador1Nombre + " :" + jugador1Puntaje + "-> Turno actual");
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.seconds(1),
@@ -60,7 +63,7 @@ public class JuegoMemoria {
     public JuegoMemoria() {
     }
 
-    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre) {
+    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra) {
         primaryStage.setTitle("Juego Memoria");
         tamannoFilas = ptamannoFilas;
         tamannoColumnas = ptamannoColumnas;
@@ -71,6 +74,7 @@ public class JuegoMemoria {
         this.jugador1Puntaje = 0;
         this.jugador2Puntaje = 0;
         this.turnoJugador1 = true;
+        this.puntosExtra = pPuntosExtra;
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
 
@@ -116,7 +120,7 @@ public class JuegoMemoria {
     private Carta primerCarta = null;
 
     private void handleCardClick(MouseEvent event) {
-
+        int sumaPuntaje=0;
         ImageView imageView = (ImageView) event.getSource();
         Carta carta = (Carta) imageView.getUserData();
 
@@ -141,10 +145,22 @@ public class JuegoMemoria {
                 //jugadores
                 if (turnoJugador1) {
                     jugador1Puntaje++;
-                    jugador1Label.setText(jugador1Nombre + " :" + jugador1Puntaje +  "-> Turno actual" );
+                    if (puntosExtra & mismoJugador) {
+                         sumaPuntaje+= 1;
+                         jugador2Puntaje=sumaPuntaje;
+                    }
+
+                    jugador1Label.setText(jugador1Nombre + " :" + jugador1Puntaje + "-> Turno actual");
+                    mismoJugador = true;
                 } else {
                     jugador2Puntaje++;
-                     jugador2Label.setText(jugador2Nombre + ": " + jugador1Puntaje+  "-> Turno actual" );
+                    if (puntosExtra & mismoJugador) {
+                       sumaPuntaje+= 1;
+                       jugador2Puntaje=sumaPuntaje;
+                    }
+
+                    jugador2Label.setText(jugador2Nombre + ": " + jugador1Puntaje + "-> Turno actual");
+                    mismoJugador = true;
                 }
 
             } else {
@@ -158,13 +174,13 @@ public class JuegoMemoria {
 
                         //cambia el turno
                         turnoJugador1 = !turnoJugador1;
+                        mismoJugador = false;
 
-                        
                         if (turnoJugador1) {
-                            jugador1Label.setText(jugador1Nombre + ": "  + "-> Turno actual");
-                             jugador2Label.setText(jugador2Nombre );
+                            jugador1Label.setText(jugador1Nombre + ":" + jugador1Puntaje + "-> Turno actual");
+                            jugador2Label.setText(jugador2Nombre);
                         } else {
-                            jugador2Label.setText(jugador2Nombre + ": " +  "-> Turno actual");
+                            jugador2Label.setText(jugador2Nombre + ": " + jugador2Puntaje + "-> Turno actual");
                             jugador1Label.setText(jugador1Nombre);
                         }
                     }
