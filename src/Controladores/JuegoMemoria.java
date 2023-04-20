@@ -172,11 +172,16 @@ public class JuegoMemoria {
                 for (Carta cartaSeleccionada : cartasSeleccionadas) {
                     cartaSeleccionada.setParejaEncontrada(true);
                 }
+                int puntosGanados = 1; // Un punto por encontrar un grupo
+                if (puntosExtra && mismoJugador) {
+                    puntosGanados++; // Un punto extra por encontrar grupos consecutivos
+                }
+                mismoJugador = true;
 
                 if (turnoJugador1) {
-                    jugador1Puntaje += puntosExtra ? grupoCartas : 1;
+                    jugador1Puntaje += puntosGanados;
                 } else {
-                    jugador2Puntaje += puntosExtra ? grupoCartas : 1;
+                    jugador2Puntaje += puntosGanados;
                 }
                 cartasSeleccionadas.clear(); // Limpia la lista de cartas seleccionadas
 
@@ -212,6 +217,7 @@ public class JuegoMemoria {
                         cartaSeleccionada.getVistaImagen().setImage(cartaImagenVuelta);
                     }
                     cartasSeleccionadas.clear();
+                    mismoJugador=false;
                     turnoJugador1 = !turnoJugador1;
                     actualizarEtiquetasJugadores(); // Actualiza las etiquetas de los jugadores
                 });
