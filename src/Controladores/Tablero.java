@@ -7,35 +7,34 @@ package Controladores;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- *
- * @author Mariangel Solis Ceciliano
- */
 public class Tablero {
 
     private Carta[][] cartas;
     private int tamannoFilas;
     private int tamannoColumnas;
+    private int numCartasPorGrupo;
 
-    public Tablero(int tamannoFilas, int tamannoColumnas, String[] cartasImagenes) {
+    public Tablero(int tamannoFilas, int tamannoColumnas, String[] cartasImagenes, int numCartasPorGrupo) {
         this.tamannoFilas = tamannoFilas;
         this.tamannoColumnas = tamannoColumnas;
-        this.cartas = new Carta[tamannoFilas][tamannoColumnas];//instancia el arreglo que guarta las cartas
+        this.numCartasPorGrupo = numCartasPorGrupo;
+        this.cartas = new Carta[tamannoFilas][tamannoColumnas];
         ordenamientoCartas(cartasImagenes);
     }
 
     private void ordenamientoCartas(String[] cartasImagenes) {
-        ArrayList<Integer> valoresCarta = new ArrayList<>();//llenando los valores del 0 a largo por ancho /dos las mete en la lista
-        int total = (tamannoFilas * tamannoColumnas) / 2;
-        for (int i = 0; i < (total); i++) {
-            valoresCarta.add(i);
-            valoresCarta.add(i);
+        ArrayList<Integer> valoresCarta = new ArrayList<>();
+        int total = (tamannoFilas * tamannoColumnas) / numCartasPorGrupo;
+        for (int i = 0; i < total; i++) {
+            for (int j = 0; j < numCartasPorGrupo; j++) {
+                valoresCarta.add(i);
+            }
         }
 
-        Collections.shuffle(valoresCarta);//collection listas dinamicas, este la desordena
+        Collections.shuffle(valoresCarta);
         for (int fila = 0; fila < tamannoFilas; fila++) {
             for (int col = 0; col < tamannoColumnas; col++) {
-                int valor = valoresCarta.remove(0);//toma la primer carta de la baraja, la saca y la asiga al valor del tablero
+                int valor = valoresCarta.remove(0);
                 this.cartas[fila][col] = new Carta(valor, cartasImagenes[valor]);
             }
         }
@@ -45,17 +44,16 @@ public class Tablero {
         return cartas[fila][col];
     }
 
-    public boolean esPareja(Carta carta1, Carta carta2) {//recibe dos cartas y verifica si hizo match
-        if (carta1.getValor() == carta2.getValor()) {
-            carta1.setParejaEncontrada(true);
-            carta2.setParejaEncontrada(true);
-            return true;
+    public boolean esGrupo(Carta... cartasGrupo) {
+        int primerValor = cartasGrupo[0].getValor();
+        for (Carta carta : cartasGrupo) {
+            if (carta.getValor() != primerValor) {
+                return false;
+            }
         }
-        return false;
+        for (Carta carta : cartasGrupo) {
+            carta.setParejaEncontrada(true);
+        }
+        return true;
     }
-    
-//    public boolean esTrio(Carta carta1, Carta carta2, carta3){
-//    }
-//    
-
 }

@@ -554,7 +554,7 @@
                            <font>
                               <Font name="MV Boli" size="26.0" />
                            </font></CheckBox>
-                        <CheckBox fx:id="BotPuntoExtra" mnemonicParsing="false" onMouseClicked="#OnPuntosExtra" prefHeight="90.0" prefWidth="536.0" text="Punto extra por pareja encontrada" textFill="WHITE">
+                        <CheckBox fx:id="BotPuntoExtra" mnemonicParsing="false" onAction="#OnPuntosExtra" prefHeight="90.0" prefWidth="536.0" text="Punto extra por pareja encontrada" textFill="WHITE">
                            <font>
                               <Font name="MV Boli" size="26.0" />
                            </font></CheckBox>
@@ -562,7 +562,7 @@
                            <font>
                               <Font name="MV Boli" size="26.0" />
                            </font></CheckBox>
-                        <CheckBox fx:id="BotParejaTres" mnemonicParsing="false" onMouseClicked="#OnParejasTres" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
+                        <CheckBox fx:id="BotEsTrio" mnemonicParsing="false" onAction="#OnParejasTres" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
                            <font>
                               <Font name="MV Boli" size="26.0" />
                            </font>

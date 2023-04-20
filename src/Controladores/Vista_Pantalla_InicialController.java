@@ -27,7 +27,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     private JuegoMemoria juegoMemoria;
     int dificultad = 1;
-    private boolean modoHumanoVsHumano  = true;
+    private boolean modoHumanoVsHumano = true;
     private boolean puntosExtra = false;
     private boolean modoTrio = false;
 
@@ -35,7 +35,6 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private Text Jugador1;
     @FXML
     private Text Jugador2;
-
 
     private String Jugador1HvsH = "JUGADOR 1";
     private String Jugador2HvsH = "JUGADOR 2";
@@ -306,13 +305,13 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     private void getInfoHumanovsHumano(ActionEvent event) {
         Jugador1HvsH = JugadorHumano1vsH.getText();
-        Jugador2HvsH= JugadorHumano2vsH.getText();
+        Jugador2HvsH = JugadorHumano2vsH.getText();
         VistaPrincipal.toFront();
     }
 
     @FXML
     private void getInfoHumanovsComputadora(ActionEvent event) {
-       Jugador1vsC = JugadorHumano1vsC.getText();
+        Jugador1vsC = JugadorHumano1vsC.getText();
         VistaPrincipal.toFront();
     }
 
@@ -384,17 +383,16 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 40, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         }
 
     }
 
-
-  @FXML
+    @FXML
     private void onAceptarHvsH(MouseEvent event) {
         Jugador1HvsH = JugadorHumano1vsH.getText();
         Jugador2HvsH = JugadorHumano2vsH.getText();
@@ -411,13 +409,15 @@ public class Vista_Pantalla_InicialController implements Initializable {
     }
 
     @FXML
-    private void OnPuntosExtra(MouseEvent event) {
-        puntosExtra = BotPuntoExtra.isSelected();
+    private void OnPuntosExtra(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        puntosExtra = checkBox.isSelected();
     }
-    
-    @FXML
-    void OnParejasTres(MouseEvent event) {
-        modoTrio = BotEsTrio.isSelected();
 
+    @FXML
+    private void OnParejasTres(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        modoTrio = checkBox.isSelected();
     }
+
 }
