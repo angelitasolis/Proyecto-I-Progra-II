@@ -6,6 +6,7 @@ package Controladores;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import javafx.scene.image.Image;
 
 public class Tablero {
 
@@ -13,6 +14,7 @@ public class Tablero {
     private int tamannoFilas;
     private int tamannoColumnas;
     private int numCartasPorGrupo;
+    private String ruta = getClass().getResource("/Imagenes/SignoPreguntabien.png").toExternalForm();
 
     public Tablero(int tamannoFilas, int tamannoColumnas, String[] cartasImagenes, int numCartasPorGrupo) {
         this.tamannoFilas = tamannoFilas;
@@ -42,6 +44,26 @@ public class Tablero {
 
     public Carta getCarta(int fila, int col) {
         return cartas[fila][col];
+    }
+
+    public void mostrarTodasLasCartas() {
+        for (int fila = 0; fila < tamannoFilas; fila++) {
+            for (int columna = 0; columna < tamannoColumnas; columna++) {
+                Carta carta = cartas[fila][columna];
+                carta.getVistaImagen().setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
+            }
+        }
+    }
+
+    public void ocultarTodasLasCartas() {
+        for (int fila = 0; fila < tamannoFilas; fila++) {
+            for (int columna = 0; columna < tamannoColumnas; columna++) {
+                Carta carta = cartas[fila][columna];
+                if (!carta.esParejaEncontrada()) {
+                    carta.getVistaImagen().setImage(new Image(ruta, 100, 100, true, true));
+                }
+            }
+        }
     }
 
     public boolean esGrupo(Carta... cartasGrupo) {

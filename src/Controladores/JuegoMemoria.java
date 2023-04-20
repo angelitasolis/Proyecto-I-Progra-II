@@ -23,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
+import javafx.scene.control.CheckBox;
 
 public class JuegoMemoria {
     // private int n=0;
@@ -122,16 +123,29 @@ public class JuegoMemoria {
             modoJuegoLabel.setText("Modo de juego: Parejas");
         }
 
+        CheckBox verTodasCartas = new CheckBox("Modo Revision");
+        verTodasCartas.setSelected(false);
+        verTodasCartas.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            
+            if (newValue) {
+                // Mostrar todas las cartas
+              tablero.mostrarTodasLasCartas();
+            } else {
+                // Ocultar todas las cartas
+              tablero.ocultarTodasLasCartas();
+            }
+        });
+
         // Add the label to the scene
         VBox vbox = new VBox();
         jugador1Label = new Label(jugador1Nombre + ": " + jugador1Puntaje);
         jugador2Label = new Label(jugador2Nombre + ": " + jugador2Puntaje);
-        vbox.getChildren().addAll(modoJuegoLabel, jugador1Label, jugador2Label, cuadricula, tiempoTranscurridoLabel);
+        vbox.getChildren().addAll(modoJuegoLabel, jugador1Label, jugador2Label, verTodasCartas, cuadricula, tiempoTranscurridoLabel);
 
         primaryStage.setScene(new Scene(vbox));
         primaryStage.show();
 
-        iniciarCronometro(cantidadSegundos);
+        iniciarCronometro(cantidadSegundos); // Llamar al cronómetro con la variable actualizada
 
     }
 
@@ -139,51 +153,63 @@ public class JuegoMemoria {
     private Carta segundaCarta = null;
 
     private void handleCardClick(MouseEvent event) {
-    ImageView imageView = (ImageView) event.getSource();
-    Carta carta = (Carta) imageView.getUserData();
+        ImageView imageView = (ImageView) event.getSource();
+        Carta carta = (Carta) imageView.getUserData();
 
-    if (carta.esParejaEncontrada() || cartasSeleccionadas.contains(carta)) {
-        return;
-    }
-    imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
+        if (carta.esParejaEncontrada() || carta == primerCarta || carta == segundaCarta) {
+            return;
+        }
+        imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
 
-    cartasSeleccionadas.add(carta);
-
-    if (cartasSeleccionadas.size() == grupoCartas) {
-        boolean grupoEncontrado = tablero.esGrupo(cartasSeleccionadas.toArray(new Carta[0]));
-
-        if (grupoEncontrado) {
-            cartasSeleccionadas.forEach(c -> c.setParejaEncontrada(true));
-            if (turnoJugador1) {
-                jugador1Puntaje++;
-            } else {
-                jugador2Puntaje++;
-            }
-            actualizarEtiquetasJugadores();
-
-            if (partidaGanada()) {
-                String ganador = turnoJugador1 ? jugador1Nombre : jugador2Nombre;
-                int puntajeGanador = turnoJugador1 ? jugador1Puntaje : jugador2Puntaje;
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Juego terminado");
-                    alert.setHeaderText(null);
-                    alert.setContentText("¡Partida ganada! Ganador: " + ganador + " con " + puntajeGanador + " puntos.");
-                    alert.show(); // Cambiado a show() en lugar de showAndWait()
-                });
-            }
+        if (primerCarta == null) {
+            primerCarta = carta;
+        } else if (segundaCarta == null && modoTrio) {
+            segundaCarta = carta;
         } else {
-            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
-            pausa.setOnFinished((e) -> {
-                cartasSeleccionadas.forEach(c -> c.getVistaImagen().setImage(cartaImagenVuelta));
-                cartasSeleccionadas.clear();
-                turnoJugador1 = !turnoJugador1;
-                actualizarEtiquetasJugadores();
-            });
-            pausa.play();
+            boolean grupoEncontrado = modoTrio ? tablero.esGrupo(primerCarta, segundaCarta, carta) : tablero.esGrupo(primerCarta, carta);//grupo de 3 o 2 
+
+            if (grupoEncontrado) {
+                primerCarta.setParejaEncontrada(true);
+                carta.setParejaEncontrada(true);
+                if (modoTrio) {
+                    segundaCarta.setParejaEncontrada(true);
+                }
+                primerCarta = null;
+                segundaCarta = null;
+
+                if (partidaGanada()) {
+                    String ganador = turnoJugador1 ? jugador1Nombre : jugador2Nombre;
+                    int puntajeGanador = turnoJugador1 ? jugador1Puntaje : jugador2Puntaje;
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Juego terminado");
+                        alert.setHeaderText(null);
+                        alert.setContentText("¡Partida ganada! Ganador: " + ganador + " con " + puntajeGanador + " puntos.");
+                        alert.showAndWait();
+                    });
+                }
+            } else {
+                PauseTransition pausa = new PauseTransition(Duration.seconds(0.5));
+                pausa.setOnFinished((e) -> {
+                    imageView.setImage(cartaImagenVuelta);
+                    if (primerCarta != null) {
+                        primerCarta.getVistaImagen().setImage(cartaImagenVuelta);
+                        primerCarta = null;
+                    }
+                    if (segundaCarta != null) {
+                        segundaCarta.getVistaImagen().setImage(cartaImagenVuelta);
+                        segundaCarta = null;
+                    }
+                    // Cambio de turno si hay 2 cartas diferentes consecutivas, incluso en modo trio.
+                    if (!modoTrio || (modoTrio && cartasSeleccionadas.size() == 1)) {
+                        turnoJugador1 = !turnoJugador1;
+                        actualizarEtiquetasJugadores();
+                    }
+                });
+                pausa.play();
+            }
         }
     }
-}
 
     private void actualizarEtiquetasJugadores() {
         if (turnoJugador1) {
