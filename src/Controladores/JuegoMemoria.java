@@ -45,6 +45,7 @@ public class JuegoMemoria {
     private Label jugador2Label;
     private boolean puntosExtra = true;
     private boolean mismoJugador = false;
+    private boolean modoTrio = false;
 
     //Cronometro
     private void iniciarCronometro(int pduracionSegundos) {
@@ -63,7 +64,7 @@ public class JuegoMemoria {
     public JuegoMemoria() {
     }
 
-    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra) {
+    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio) {
         primaryStage.setTitle("Juego Memoria");
         tamannoFilas = ptamannoFilas;
         tamannoColumnas = ptamannoColumnas;
@@ -75,6 +76,7 @@ public class JuegoMemoria {
         this.jugador2Puntaje = 0;
         this.turnoJugador1 = true;
         this.puntosExtra = pPuntosExtra;
+        this.modoTrio = pmodoTrio;
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
 
@@ -156,7 +158,7 @@ public class JuegoMemoria {
                     jugador2Puntaje++;
                     if (puntosExtra && mismoJugador) {
                         jugador2Puntaje++;
-                        
+
                     }
 
                     jugador2Label.setText(jugador2Nombre + ": Puntaje:" + jugador2Puntaje + "-> Turno actual");
@@ -179,10 +181,10 @@ public class JuegoMemoria {
 
                         if (turnoJugador1) {
                             jugador1Label.setText(jugador1Nombre + ": Puntaje:" + jugador1Puntaje + "-> Turno actual");
-                            jugador2Label.setText(jugador2Nombre+ ": Puntaje:"+ jugador2Puntaje);
+                            jugador2Label.setText(jugador2Nombre + ": Puntaje:" + jugador2Puntaje);
                         } else {
                             jugador2Label.setText(jugador2Nombre + ": Puntaje:" + jugador2Puntaje + "-> Turno actual");
-                            jugador1Label.setText(jugador1Nombre+ ": Puntaje:" + jugador1Puntaje);
+                            jugador1Label.setText(jugador1Nombre + ": Puntaje:" + jugador1Puntaje);
                         }
                     }
                 });

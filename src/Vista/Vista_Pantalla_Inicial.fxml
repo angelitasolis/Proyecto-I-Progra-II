@@ -558,12 +558,11 @@
                            <font>
                               <Font name="MV Boli" size="26.0" />
                            </font></CheckBox>
-                        <TextField prefHeight="26.0" prefWidth="282.0" />
                         <CheckBox fx:id="BotPuntoMenos" mnemonicParsing="false" prefHeight="72.0" prefWidth="580.0" text="Punto menos por pareja no encontrada" textFill="WHITE">
                            <font>
                               <Font name="MV Boli" size="26.0" />
                            </font></CheckBox>
-                        <CheckBox mnemonicParsing="false" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
+                        <CheckBox fx:id="BotParejaTres" mnemonicParsing="false" onMouseClicked="#OnParejasTres" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
                            <font>
                               <Font name="MV Boli" size="26.0" />
                            </font>

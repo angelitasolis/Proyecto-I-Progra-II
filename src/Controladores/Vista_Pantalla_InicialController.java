@@ -29,6 +29,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     int dificultad = 1;
     private boolean modoHumanoVsHumano  = true;
     private boolean puntosExtra = false;
+    private boolean modoTrio = false;
 
     @FXML
     private Text Jugador1;
@@ -234,6 +235,8 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     @FXML
     private Button BotDificultad;
+    @FXML
+    private CheckBox BotEsTrio;
 
     private Stage getPrimaryStage() {
         return (Stage) VistaPrincipal.getScene().getWindow();
@@ -381,11 +384,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra);
+            juegoMemoria.mostrarJuego(primaryStage, 2, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra);
+            juegoMemoria.mostrarJuego(primaryStage, 4, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, Jugador1HvsH, Jugador2HvsH, puntosExtra);
+            juegoMemoria.mostrarJuego(primaryStage, 4, 8, 40, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         }
 
     }
@@ -410,5 +413,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     private void OnPuntosExtra(MouseEvent event) {
         puntosExtra = BotPuntoExtra.isSelected();
+    }
+    
+    @FXML
+    void OnParejasTres(MouseEvent event) {
+        modoTrio = BotEsTrio.isSelected();
+
     }
 }

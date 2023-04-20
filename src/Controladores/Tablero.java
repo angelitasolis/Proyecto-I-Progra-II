@@ -53,5 +53,9 @@ public class Tablero {
         }
         return false;
     }
+    
+//    public boolean esTrio(Carta carta1, Carta carta2, carta3){
+//    }
+//    
 
 }
