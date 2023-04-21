@@ -55,7 +55,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     private CheckBox HumanoVSHumano;
     @FXML
-    private CheckBox HumanoVSComputadora;
+    private CheckBox checkBoxHumanoVSComputadora;
     @FXML
     private TextField JugadorHumano1vsH;
     @FXML
@@ -273,13 +273,16 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     @FXML
     private void HumanoVSHumano(ActionEvent event) {
+
         if (HumanoVSHumano.isSelected() == true) {
-            HumanoVSComputadora.setDisable(true);
+            modoHumanoVsHumano = true;
+            checkBoxHumanoVSComputadora.setDisable(true);
             EnviarHumanoVSC.setDisable(true);
             JugadorHumano1vsC.setDisable(true);
 
         } else {
-            HumanoVSComputadora.setDisable(false);
+            modoHumanoVsHumano = false;
+            checkBoxHumanoVSComputadora.setDisable(false);
             EnviarHumanoVSC.setDisable(false);
             JugadorHumano1vsC.setDisable(false);
         }
@@ -287,7 +290,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
 
     @FXML
     private void HumanoVSComputadora(ActionEvent event) {
-        if (HumanoVSComputadora.isSelected() == true) {
+        if (checkBoxHumanoVSComputadora.isSelected() == true) {
             HumanoVSHumano.setDisable(true);
             EnviarHumanoVSHumano.setDisable(true);
             JugadorHumano1vsH.setDisable(true);
@@ -383,11 +386,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 2, 2, 60,  modoHumanoVsHumano , Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 60, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 60,  modoHumanoVsHumano , Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 40, true, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 40,  modoHumanoVsHumano , Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
         }
 
     }
@@ -418,6 +421,13 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private void OnParejasTres(ActionEvent event) {
         CheckBox checkBox = (CheckBox) event.getSource();
         modoTrio = checkBox.isSelected();
+    }
+
+    @FXML
+    void checkBoxHumanoVSComputadora(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        modoHumanoVsHumano = !checkBox.isSelected();
+
     }
 
 }

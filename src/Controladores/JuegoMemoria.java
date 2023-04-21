@@ -53,6 +53,9 @@ public class JuegoMemoria {
     private int grupoCartas;
     private ArrayList<Carta> cartasSeleccionadas;
     private Stage ventanaRevision;
+    private boolean jugadorAutomatico = false;
+    private Random random = new Random();
+    private JugadorComputador jugadorComputador;
 
     private enum Resultado {
         GANADOR_JUGADOR1, GANADOR_JUGADOR2, EMPATE, JUEGO_EN_PROGRESO
@@ -75,6 +78,10 @@ public class JuegoMemoria {
     public JuegoMemoria() {
     }
 
+    public Tablero getTablero() {
+        return tablero;
+    }
+
     public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio) {
         primaryStage.setTitle("Juego Memoria");
         tamannoFilas = ptamannoFilas;
@@ -92,6 +99,7 @@ public class JuegoMemoria {
         this.turnoJugador1 = true;
         this.puntosExtra = pPuntosExtra;
         this.modoTrio = pmodoTrio;
+        this.jugadorAutomatico = !pModoHumanoVsHumano;
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
 
@@ -103,7 +111,7 @@ public class JuegoMemoria {
         }
 
         tablero = new Tablero(tamannoFilas, tamannoColumnas, cartasImagenes, grupoCartas);
-
+        jugadorComputador = new JugadorComputador(tablero, tamannoFilas, tamannoColumnas);
         // Create the game board layout
         GridPane cuadricula = new GridPane();
 
@@ -146,13 +154,38 @@ public class JuegoMemoria {
         VBox vbox = new VBox();
         jugador1Label = new Label(jugador1Nombre + ": " + jugador1Puntaje);
         jugador2Label = new Label(jugador2Nombre + ": " + jugador2Puntaje);
-        vbox.getChildren().addAll(modoJuegoLabel, jugador1Label, jugador2Label, verTodasCartas, cuadricula, tiempoTranscurridoLabel);
+        Label tipoJugadores = new Label(modoHumanoVsHumano ? " Modo Humano vs Humano" : "Modo Humano vs Computador");
+
+        vbox.getChildren().addAll(tipoJugadores, modoJuegoLabel, jugador1Label, jugador2Label, verTodasCartas, cuadricula, tiempoTranscurridoLabel);
 
         primaryStage.setScene(new Scene(vbox));
         primaryStage.show();
 
         iniciarCronometro(cantidadSegundos); // Llamar al cronómetro con la variable actualizada
 
+    }
+
+    private void jugarComputador() {
+
+        Carta carta1, carta2;
+        do {
+            carta1 = jugadorComputador.elegirCarta();
+            carta2 = jugadorComputador.elegirCarta();
+        } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
+
+        int valor1 = carta1.getValor();
+        int valor2 = carta2.getValor();
+
+        ejecutarClickEnCarta(carta1);
+        ejecutarClickEnCarta(carta2);
+
+//        Platform.runLater(() -> {
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("Juego terminado");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Juega computador: " + valor1 + ": " + valor2  );
+//            alert.showAndWait();
+//        });
     }
 
     private void handleCardClick(MouseEvent event) {
@@ -187,6 +220,10 @@ public class JuegoMemoria {
 
                 actualizarEtiquetasJugadores(); // Actualiza las etiquetas de los jugadores
 
+                if (!modoHumanoVsHumano && turnoJugador1 == false) {
+                    jugarComputador();
+                }
+
                 if (partidaGanada() != Resultado.JUEGO_EN_PROGRESO) {
                     String mensaje;
                     switch (partidaGanada()) {
@@ -210,15 +247,19 @@ public class JuegoMemoria {
                         alert.showAndWait();
                     });
                 }
+
             } else {
-                PauseTransition pausa = new PauseTransition(Duration.seconds(0.5));
+                PauseTransition pausa = new PauseTransition(Duration.seconds(2));
                 pausa.setOnFinished((e) -> {
                     for (Carta cartaSeleccionada : cartasSeleccionadas) {
                         cartaSeleccionada.getVistaImagen().setImage(cartaImagenVuelta);
                     }
                     cartasSeleccionadas.clear();
-                    mismoJugador=false;
+                    mismoJugador = false;
                     turnoJugador1 = !turnoJugador1;
+                    if (!modoHumanoVsHumano && turnoJugador1 == false) {
+                        jugarComputador();
+                    }
                     actualizarEtiquetasJugadores(); // Actualiza las etiquetas de los jugadores
                 });
                 pausa.play();
@@ -260,6 +301,12 @@ public class JuegoMemoria {
         }
     }
 
+    private void ejecutarClickEnCarta(Carta cartaElegida) {
+        ImageView imageView = cartaElegida.getVistaImagen();
+        MouseEvent eventoClick = new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null);
+        imageView.fireEvent(eventoClick);
+    }
+
     private void mostrarRevision() {
         if (ventanaRevision == null) {
             ventanaRevision = new Stage();
@@ -282,5 +329,4 @@ public class JuegoMemoria {
         }
         ventanaRevision.show();
     }
-
 };
