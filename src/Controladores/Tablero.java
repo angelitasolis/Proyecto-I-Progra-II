@@ -79,6 +79,14 @@ public class Tablero {
         return true;
     }
 
+    public int getTamannoFilas() {
+        return tamannoFilas;
+    }
+
+    public int getTamannoColumnas() {
+        return tamannoColumnas;
+    }
+
     Object getCartas() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

@@ -30,6 +30,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private boolean modoHumanoVsHumano = true;
     private boolean puntosExtra = false;
     private boolean modoTrio = false;
+    int nivelIA = 1;
 
     @FXML
     private Text Jugador1;
@@ -364,6 +365,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     void onDificultad1(MouseEvent event) {
         dificultad = 1;
+        int nivelIA = 1;
         VistaPrincipal.toFront();
 
     }
@@ -371,12 +373,14 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     void onDificultad2(MouseEvent event) {
         dificultad = 2;
+        int nivelIA = 2;
         VistaPrincipal.toFront();
     }
 
     @FXML
     void onDificultad3(MouseEvent event) {
         dificultad = 3;
+        int nivelIA = 3;
         VistaPrincipal.toFront();
 
     }
@@ -386,11 +390,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 2, 2, 60,  modoHumanoVsHumano , Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 60, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, nivelIA);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 60,  modoHumanoVsHumano , Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 60, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, nivelIA);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 40,  modoHumanoVsHumano , Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 40, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, nivelIA);
         }
 
     }

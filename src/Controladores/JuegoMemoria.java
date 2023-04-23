@@ -56,6 +56,7 @@ public class JuegoMemoria {
     private boolean jugadorAutomatico = false;
     private Random random = new Random();
     private JugadorComputador jugadorComputador;
+    private int nivelIA;
 
     private enum Resultado {
         GANADOR_JUGADOR1, GANADOR_JUGADOR2, EMPATE, JUEGO_EN_PROGRESO
@@ -82,7 +83,7 @@ public class JuegoMemoria {
         return tablero;
     }
 
-    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio) {
+    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio, int pnivelIA) {
         primaryStage.setTitle("Juego Memoria");
         tamannoFilas = ptamannoFilas;
         tamannoColumnas = ptamannoColumnas;
@@ -100,6 +101,7 @@ public class JuegoMemoria {
         this.puntosExtra = pPuntosExtra;
         this.modoTrio = pmodoTrio;
         this.jugadorAutomatico = !pModoHumanoVsHumano;
+        this.nivelIA = pnivelIA;
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
 
@@ -165,42 +167,77 @@ public class JuegoMemoria {
 
     }
 
-    private void jugarComputador() {
-
+    private void jugarComputador(int nivelIA) {
         Carta carta1, carta2;
-        do {
-            carta1 = jugadorComputador.elegirCarta();
-            carta2 = jugadorComputador.elegirCarta();
-        } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
 
-        int valor1 = carta1.getValor();
-        int valor2 = carta2.getValor();
+        switch (nivelIA) {
+            case 1: // Nivel fácil: no se realiza ninguna mejora en la lógica de selección
+                do {
+                    carta1 = jugadorComputador.elegirCarta();
+                    carta2 = jugadorComputador.elegirCarta();
+                } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
+//        int valor1= carta1.getValor();
+//        int valor2= carta2.getValor();
 
-        ejecutarClickEnCarta(carta1);
-        ejecutarClickEnCarta(carta2);
+                ejecutarClickEnCarta(carta1);
+                ejecutarClickEnCarta(carta2);
 
-//        Platform.runLater(() -> {
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setTitle("Juego terminado");
-//            alert.setHeaderText(null);
-//            alert.setContentText("Juega computador: " + valor1 + ": " + valor2  );
-//            alert.showAndWait();
-//        });
+                break;
+
+             case 2: // Nivel medio: mejorar la lógica aquí (p. ej., recordar algunas cartas ya vistas)
+            // Lista de las cartas vistas por el computador
+            ArrayList<Carta> cartasVistas = new ArrayList<>();
+
+            do {
+                // Si hay alguna carta vista que no haya encontrado su pareja, elegirla
+                for (Carta carta : cartasVistas) {
+                    if (!carta.esParejaEncontrada()) {
+                        carta1 = carta;
+                        carta2 = buscarParejaParaCarta(carta1);
+                        if (carta2 != null) {
+                            ejecutarClickEnCarta(carta1);
+                            ejecutarClickEnCarta(carta2);
+                            return;
+                        }
+                    }
+                }
+
+                // Si no hay ninguna carta vista por encontrar pareja, elegir dos cartas al azar
+                carta1 = jugadorComputador.elegirCarta();
+                carta2 = jugadorComputador.elegirCarta();
+
+                // Guardar las cartas elegidas en la lista de cartas vistas
+                if (!cartasVistas.contains(carta1)) {
+                    cartasVistas.add(carta1);
+                }
+                if (!cartasVistas.contains(carta2)) {
+                    cartasVistas.add(carta2);
+                }
+            } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
+
+            ejecutarClickEnCarta(carta1);
+            ejecutarClickEnCarta(carta2);
+                break;
+
+            case 3: // Nivel difícil: mejorar aún más la lógica aquí (p. ej., utilizar un algoritmo de búsqueda como Minimax)
+                break;
+        }
+
     }
 
     private void handleCardClick(MouseEvent event) {
-        ImageView imageView = (ImageView) event.getSource();
+        ImageView imageView = (ImageView) event.getSource();//este método se utiliza para obtener el objeto que originó el evento. 
         Carta carta = (Carta) imageView.getUserData();
 
-        if (carta.esParejaEncontrada() || cartasSeleccionadas.contains(carta)) {
-            return;
+        if (carta.esParejaEncontrada() || cartasSeleccionadas.contains(carta)) {// carta ya ha sido encontrada como parte de un grupo (pareja) o si ya se encuentra en la lista de cartas seleccionadas en el turno actual. 
+            return; //evitando que la carta sea seleccionada nuevamente.
         }
         imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
-        cartasSeleccionadas.add(carta);
+        cartasSeleccionadas.add(carta);// Si la carta no ha sido encontrada previamente y no está en la lista de cartas seleccionadas,  A continuación, la carta seleccionada se añade a la lista cartasSeleccionadas.
 
-        if (cartasSeleccionadas.size() == grupoCartas) {
+        if (cartasSeleccionadas.size() == grupoCartas) {//  verifica si el número de cartas seleccionadas en el turno actual es igual al tamaño del grupo de cartas que se busca
             boolean grupoEncontrado = tablero.esGrupo(cartasSeleccionadas.toArray(new Carta[0]));
-
+//i se ha alcanzado el tamaño del grupo, esta línea convierte la lista cartasSeleccionadas en un array de objetos Carta y llama al método esGrupo() del objeto tablero para verificar si las cartas seleccionadas forman un grupo válido (es decir, si todas las cartas tienen el mismo valor). El resultado de esta comprobación se almacena en la variable grupoEncontrado.
             if (grupoEncontrado) {
                 for (Carta cartaSeleccionada : cartasSeleccionadas) {
                     cartaSeleccionada.setParejaEncontrada(true);
@@ -221,7 +258,7 @@ public class JuegoMemoria {
                 actualizarEtiquetasJugadores(); // Actualiza las etiquetas de los jugadores
 
                 if (!modoHumanoVsHumano && turnoJugador1 == false) {
-                    jugarComputador();
+                    jugarComputador(nivelIA);
                 }
 
                 if (partidaGanada() != Resultado.JUEGO_EN_PROGRESO) {
@@ -242,14 +279,14 @@ public class JuegoMemoria {
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Juego terminado");
-                        alert.setHeaderText(null);
+                        alert.setHeaderText("RESULTADOS");
                         alert.setContentText(mensaje);
                         alert.showAndWait();
                     });
                 }
 
-            } else {
-                PauseTransition pausa = new PauseTransition(Duration.seconds(2));
+            } else {//si no coinciden las cartas
+                PauseTransition pausa = new PauseTransition(Duration.seconds(0.7));
                 pausa.setOnFinished((e) -> {
                     for (Carta cartaSeleccionada : cartasSeleccionadas) {
                         cartaSeleccionada.getVistaImagen().setImage(cartaImagenVuelta);
@@ -258,7 +295,7 @@ public class JuegoMemoria {
                     mismoJugador = false;
                     turnoJugador1 = !turnoJugador1;
                     if (!modoHumanoVsHumano && turnoJugador1 == false) {
-                        jugarComputador();
+                        jugarComputador(nivelIA);
                     }
                     actualizarEtiquetasJugadores(); // Actualiza las etiquetas de los jugadores
                 });
@@ -329,4 +366,18 @@ public class JuegoMemoria {
         }
         ventanaRevision.show();
     }
+    private Carta buscarParejaParaCarta(Carta carta) {
+    for (int fila = 0; fila < tablero.getTamannoFilas(); fila++) {
+        for (int columna = 0; columna < tablero.getTamannoColumnas(); columna++) {
+            Carta posiblePareja = tablero.getCarta(fila, columna);
+            if (posiblePareja != carta && posiblePareja.getValor() == carta.getValor() && !posiblePareja.esParejaEncontrada()) {
+                return posiblePareja;
+            }
+        }
+    }
+    return null;
+}
+    
+    
+    
 };
