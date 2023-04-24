@@ -168,8 +168,8 @@ public class JuegoMemoria {
     }
 
     private void jugarComputador(int nivelIA) {
-        jugadorComputador = new JugadorComputador(tablero, tamannoFilas, tamannoColumnas, nivelIA);
-        Carta carta1, carta2;      
+
+        Carta carta1, carta2;
 
         switch (nivelIA) {
             case 1: // Nivel fácil: no se realiza ninguna mejora en la lógica de selección
@@ -189,7 +189,7 @@ public class JuegoMemoria {
 
                 break;
 
-            case 2: 
+            case 2:
                 // Lista de las cartas vistas por el computador
                 ArrayList<Carta> cartasVistas = new ArrayList<>();
 
@@ -226,7 +226,8 @@ public class JuegoMemoria {
                 ejecutarClickEnCarta(carta2);
                 break;
 
-            case 3: // Nivel difícil: mejorar aún más la lógica aquí (p. ej., utilizar un algoritmo de búsqueda como Minimax)
+            case 3: // Nivel 3
+                System.out.println("Caso tres");
                 int[] posicionCarta1 = new int[2];
                 int[] posicionCarta2 = new int[2];
 
@@ -234,7 +235,11 @@ public class JuegoMemoria {
 
                 do {
                     carta1 = jugadorComputador.elegirCarta(posicionCarta1);
-                    carta2 = jugadorComputador.elegirSegundaCarta(carta1, posicionCarta1, posicionCarta2);
+
+                    jugadorComputador.actualizarCartasVistas(carta1.getValor(), posicionCarta1);
+
+                    carta2 = jugadorComputador.elegirSegundaCartaCasoTres(carta1, posicionCarta1);
+
                 } while (carta1.esParejaEncontrada() || carta1 == carta2);
 
                 ejecutarClickEnCarta(carta1);
@@ -375,6 +380,7 @@ public class JuegoMemoria {
         ImageView imageView = cartaElegida.getVistaImagen();
         MouseEvent eventoClick = new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null);
         imageView.fireEvent(eventoClick);
+
     }
 
     private void mostrarRevision() {
