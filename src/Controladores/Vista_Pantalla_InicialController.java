@@ -365,7 +365,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     void onDificultad1(MouseEvent event) {
         dificultad = 1;
-        int nivelIA = 1;
+        nivelIA = 1;
         VistaPrincipal.toFront();
 
     }
@@ -373,14 +373,14 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     void onDificultad2(MouseEvent event) {
         dificultad = 2;
-        int nivelIA = 2;
+        nivelIA = 2;
         VistaPrincipal.toFront();
     }
 
     @FXML
     void onDificultad3(MouseEvent event) {
         dificultad = 3;
-        int nivelIA = 3;
+        nivelIA = 3;
         VistaPrincipal.toFront();
 
     }
