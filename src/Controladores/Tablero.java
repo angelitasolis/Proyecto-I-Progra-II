@@ -86,8 +86,16 @@ public class Tablero {
     public int getTamannoColumnas() {
         return tamannoColumnas;
     }
-
-    Object getCartas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public boolean todasLasParejasEncontradas() {
+    for (int fila = 0; fila < getTamannoFilas(); fila++) {
+        for (int columna = 0; columna < getTamannoColumnas(); columna++) {
+            if (!getCarta(fila, columna).esParejaEncontrada()) {
+                return false;
+            }
+        }
     }
+    return true;
+}
+
 }
