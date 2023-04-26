@@ -270,102 +270,123 @@ public class JuegoMemoria {
         return null;
     }
 
-    private void handleCardClick(MouseEvent event) {
-        ImageView imageView = (ImageView) event.getSource();//este método se utiliza para obtener el objeto que originó el evento. 
-        Carta carta = (Carta) imageView.getUserData();
+  private void handleCardClick(MouseEvent event) {
+    ImageView imageView = (ImageView) event.getSource();
+    Carta carta = (Carta) imageView.getUserData();
 
-        if (carta.esParejaEncontrada() || cartasSeleccionadas.contains(carta)) {// carta ya ha sido encontrada como parte de un grupo (pareja) o si ya se encuentra en la lista de cartas seleccionadas en el turno actual. 
-            return; //evitando que la carta sea seleccionada nuevamente.
-        }
-        imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
-        cartasSeleccionadas.add(carta);// Si la carta no ha sido encontrada previamente y no está en la lista de cartas seleccionadas,  A continuación, la carta seleccionada se añade a la lista cartasSeleccionadas.
+    // Si la carta ya ha sido encontrada como parte de un grupo o si ya está en la lista de cartas seleccionadas,
+    // se evita que sea seleccionada nuevamente.
+    if (carta.esParejaEncontrada() || cartasSeleccionadas.contains(carta)) {
+        return;
+    }
 
-        if (cartasSeleccionadas.size() == grupoCartas) {//  verifica si el número de cartas seleccionadas en el turno actual es igual al tamaño del grupo de cartas que se busca
-            boolean grupoEncontrado = tablero.esGrupo(cartasSeleccionadas.toArray(new Carta[0]));
-//i se ha alcanzado el tamaño del grupo, esta línea convierte la lista cartasSeleccionadas en un array de objetos Carta y llama al método esGrupo() del objeto tablero para verificar si las cartas seleccionadas forman un grupo válido (es decir, si todas las cartas tienen el mismo valor). El resultado de esta comprobación se almacena en la variable grupoEncontrado.
+    // Se actualiza la imagen de la carta y se añade a la lista de cartas seleccionadas.
+    imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
+    cartasSeleccionadas.add(carta);
 
-            if (grupoEncontrado) {
-                for (Carta cartaSeleccionada : cartasSeleccionadas) {
-                    cartaSeleccionada.setParejaEncontrada(true);
-                }
-                int puntosGanados = 1; // Un punto por encontrar un grupo
+    // Si se alcanza el tamaño del grupo, se verifica si las cartas seleccionadas forman un grupo válido.
+    if (cartasSeleccionadas.size() == grupoCartas) {
+        boolean grupoEncontrado = tablero.esGrupo(cartasSeleccionadas.toArray(new Carta[0]));
 
-                if (puntosExtra && mismoJugador) {
-                    puntosGanados++; // Un punto extra por encontrar grupos consecutivos
-                }
-                mismoJugador = true;
-
-                if (turnoJugador1) {
-                    jugador1Puntaje += puntosGanados;
-                } else {
-                    jugador2Puntaje += puntosGanados;
-                }
-                cartasSeleccionadas.clear(); // Limpia la lista de cartas seleccionadas
-
-                actualizarEtiquetasJugadores(); // Actualiza las etiquetas de los jugadores
-
-                if (!modoHumanoVsHumano && turnoJugador1 == false) {
-                    jugarComputador(nivelIA);
-                }
-
-                if (partidaGanada() != Resultado.JUEGO_EN_PROGRESO) {
-                    String mensaje;
-                    switch (partidaGanada()) {
-                        case GANADOR_JUGADOR1:
-                            mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos.";
-                            break;
-                        case GANADOR_JUGADOR2:
-                            mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos.";
-                            break;
-                        case EMPATE:
-                            mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos.";
-                            break;
-                        default:
-                            throw new IllegalStateException("Resultado de la partida desconocido.");
-                    }
-                    Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Juego terminado");
-                        alert.setHeaderText("RESULTADOS");
-                        alert.setContentText(mensaje);
-                        alert.showAndWait();
-                    });
-                }
-
-            } else {//si no coinciden las cartas
-
-                PauseTransition pausa = new PauseTransition(Duration.seconds(0.7));
-                pausa.setOnFinished((e) -> {
-                    for (Carta cartaSeleccionada : cartasSeleccionadas) {
-                        cartaSeleccionada.getVistaImagen().setImage(cartaImagenVuelta);
-                    }
-                    cartasSeleccionadas.clear();
-                    mismoJugador = false;
-                    turnoJugador1 = !turnoJugador1;
-
-                    actualizarEtiquetasJugadores();
-
-                    if (puntosMenos) {
-                        if (turnoJugador1 && jugador1Puntaje > 0) {
-                            jugador1Puntaje -= 0.5;
-
-                        } else if (!turnoJugador1 && jugador2Puntaje > 0) {
-                            jugador2Puntaje -= 0.5;
-                        }
-                    }
-
-                    actualizarEtiquetasJugadores();
-
-                    if (!modoHumanoVsHumano && turnoJugador1 == false) {
-                        jugarComputador(nivelIA);
-                    }
-
-                    // Actualiza las etiquetas de los jugadores
-                });
-                pausa.play();
-            }
+        if (grupoEncontrado) {
+            procesarGrupoEncontrado();
+        } else {
+            procesarGrupoNoEncontrado();
         }
     }
+}
+
+private void procesarGrupoEncontrado() {
+    // Se marca cada carta como encontrada y se actualizan los puntos.
+    for (Carta cartaSeleccionada : cartasSeleccionadas) {
+        cartaSeleccionada.setParejaEncontrada(true);
+    }
+
+    int puntosGanados = 1; // Un punto por encontrar un grupo
+    if (puntosExtra && mismoJugador) {
+        puntosGanados++; // Un punto extra por encontrar grupos consecutivos
+    }
+    mismoJugador = true;
+
+    if (turnoJugador1) {
+        jugador1Puntaje += puntosGanados;
+    } else {
+        jugador2Puntaje += puntosGanados;
+    }
+
+    // Se limpia la lista de cartas seleccionadas y se actualizan las etiquetas de los jugadores.
+    cartasSeleccionadas.clear();
+    actualizarEtiquetasJugadores();
+
+    if (!modoHumanoVsHumano && !turnoJugador1) {
+        jugarComputador(nivelIA);
+    }
+
+    // Se verifica si el juego ha terminado y se muestra el resultado.
+    if (partidaGanada() != Resultado.JUEGO_EN_PROGRESO) {
+        mostrarResultados();
+    }
+}
+
+private void procesarGrupoNoEncontrado() {
+    // Se crea una pausa antes de voltear las cartas y cambiar el turno al otro jugador.
+    PauseTransition pausa = new PauseTransition(Duration.seconds(0.7));
+    pausa.setOnFinished((e) -> {
+        for (Carta cartaSeleccionada : cartasSeleccionadas) {
+            cartaSeleccionada.getVistaImagen().setImage(cartaImagenVuelta);
+        }
+        cartasSeleccionadas.clear();
+        mismoJugador = false;
+        turnoJugador1 = !turnoJugador1;
+
+        actualizarEtiquetasJugadores();
+
+        if (puntosMenos) {
+            ajustarPuntaje();
+        }
+
+        actualizarEtiquetasJugadores();
+
+        if (!modoHumanoVsHumano && !turnoJugador1) {
+            jugarComputador(nivelIA);
+        }
+    });
+    pausa.play();
+}
+
+    private void ajustarPuntaje() {
+        if (turnoJugador1 && jugador1Puntaje > 0) {
+            jugador1Puntaje -= 0.5;
+        } else if (!turnoJugador1 && jugador2Puntaje > 0) {
+            jugador2Puntaje -= 0.5;
+        }
+    }
+
+    private void mostrarResultados() {
+        String mensaje;
+        switch (partidaGanada()) {
+            case GANADOR_JUGADOR1:
+                mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos.";
+                break;
+            case GANADOR_JUGADOR2:
+                mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos.";
+                break;
+            case EMPATE:
+                mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos.";
+                break;
+            default:
+                throw new IllegalStateException("Resultado de la partida desconocido.");
+        }
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Juego terminado");
+            alert.setHeaderText("RESULTADOS");
+            alert.setContentText(mensaje);
+            alert.showAndWait();
+        });
+    }
+
+
 
     private void actualizarEtiquetasJugadores() {
         if (turnoJugador1) {
