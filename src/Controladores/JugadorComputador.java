@@ -105,8 +105,7 @@ public class JugadorComputador {
     }
 
     public Carta elegirSegundaCartaCasoTres(Carta primeraCarta, int[] posicionPrimeraCarta) {
-       
-        
+
         if (cartasVistas != null && cartasVistas.get(primeraCarta.getValor()).size() > 1) {
             for (int[] posicion : cartasVistas.get(primeraCarta.getValor())) {
                 if (posicion[0] != posicionPrimeraCarta[0] || posicion[1] != posicionPrimeraCarta[1]) {
@@ -162,4 +161,9 @@ public class JugadorComputador {
         cartasVistas.put(valorCarta, posiciones);
     }
 
+    public void actualizarCartasVistasJugadorHumano(Carta carta, int fila, int columna) {
+        if (nivelIA == 3) {
+            actualizarCartasVistas(carta.getValor(), new int[]{fila, columna});
+        }
+    }
 }

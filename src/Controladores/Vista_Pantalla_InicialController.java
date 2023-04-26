@@ -29,6 +29,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     int dificultad = 1;
     private boolean modoHumanoVsHumano = true;
     private boolean puntosExtra = false;
+    private boolean puntosMenos = false;
     private boolean modoTrio = false;
     int nivelIA = 1;
 
@@ -47,8 +48,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private BorderPane VistaModoJuego;
     @FXML
     private CheckBox BotCartaComdin;
-    @FXML
-    private CheckBox BotPuntoExtra;
+
     @FXML
     private CheckBox BotPuntoMenos;
     @FXML
@@ -432,6 +432,12 @@ public class Vista_Pantalla_InicialController implements Initializable {
         CheckBox checkBox = (CheckBox) event.getSource();
         modoHumanoVsHumano = !checkBox.isSelected();
 
+    }
+
+    @FXML
+    void onPuntoMenos(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        puntosMenos = checkBox.isSelected();
     }
 
 }

@@ -15,63 +15,6 @@
 
 <StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.Vista_Pantalla_InicialController">
    <children>
-      <BorderPane fx:id="VistaAcercaDe" prefHeight="200.0" prefWidth="200.0">
-         <top>
-            <Pane prefHeight="754.0" prefWidth="1237.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="754.0" fitWidth="1292.0" layoutX="-1.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/Background%20nubes%20fantasmas.jpg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="530.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/UNA.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="222.0" fitWidth="221.0" layoutX="860.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/PrincesaHongosPNG.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="48.0" fitWidth="110.0" layoutX="407.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/HongoRojoPNG.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="BackAcercaDe" fitHeight="150.0" fitWidth="200.0" layoutX="1098.0" layoutY="559.0" onMouseClicked="#BackAcercaDe" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/greenbackPNG.png" />
-                     </image>
-                  </ImageView>
-                  <Text layoutX="645.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="M A R I A N G E L  S O L I S  C E C I L I A N O " wrappingWidth="271.0999755859375" />
-                  <Text layoutX="690.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="P R O G R A M A C I O N  II" wrappingWidth="219.20001220703125" />
-                  <Text layoutX="743.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="I C I C L O  " />
-                  <Text layoutX="755.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2 0 2 3" />
-               </children>
-            </Pane>
-         </top>
-      </BorderPane>
-      <BorderPane fx:id="InformacionJuego" prefHeight="200.0" prefWidth="200.0">
-         <top>
-            <Pane prefHeight="761.0" prefWidth="1357.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="762.0" fitWidth="1358.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/ImagenFondoCarnivora.jpg" />
-                     </image>
-                  </ImageView>
-                  <Text layoutX="206.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-blend-mode: black;" text=" el juego puede finalizar por dos razones, cuando se encuentran todas las parejas o tríos, o bien en caso de que el tiempo máximo de juego se cumpla siempre y cuando esta opción esté habilitada. Una vez finalizado el juego se dará una opción de ir a la pantalla principal y de deberán acumular los puntos obtenidos por cada jugador en su puntaje global." wrappingWidth="389.6000213623047" />
-                  <ImageView fitHeight="120.0" fitWidth="161.0" layoutX="1151.0" layoutY="571.0" onMouseClicked="#BackInformacionJuego" pickOnBounds="true" preserveRatio="true" rotate="2.9">
-                     <image>
-                        <Image url="@../Imagenes/Backkkk.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </Pane>
-         </top>
-      </BorderPane>
       <BorderPane fx:id="VistaJuegoDificultad1" prefHeight="200.0" prefWidth="200.0">
          <top>
             <Pane prefHeight="760.0" prefWidth="1334.0" BorderPane.alignment="CENTER">
@@ -140,40 +83,6 @@
                </children>
             </Pane>
          </top>
-      </BorderPane>
-      <BorderPane fx:id="VistaPrincipal" prefHeight="700.0" prefWidth="1200.0">
-         <center>
-            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
-               <children>
-                  <ImageView fitHeight="761.0" fitWidth="1358.0" layoutX="-2.0" layoutY="-1.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/interfez%20inicio.jpg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="133.0" fitWidth="427.0" layoutX="457.0" layoutY="36.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/pngegg.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="AcercaDeImagen" fitHeight="147.0" fitWidth="100.0" layoutX="1258.0" layoutY="509.0" onMouseClicked="#AcercaDe" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="305.0" onMouseClicked="#ExplicacionJuego" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/SignoPregunta%20bien.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="587.0" layoutY="482.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: red; -fx-border-image-width: 7; -fx-border-color: black;" text="R E V I S I O N" />
-                  <Button layoutX="555.0" layoutY="536.0" mnemonicParsing="false" onMouseClicked="#botIniciarJuego" prefHeight="74.0" prefWidth="245.0" style="-fx-background-color: B2FF66; -fx-border-color: black; -fx-border-width: 4;" text="I N I C I A R " />
-                  <Button layoutX="603.0" layoutY="436.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="P U N T A J E S " />
-                  <Button fx:id="BotDificultad" layoutX="580.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#BotDificultad" prefHeight="58.0" prefWidth="193.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="D I F I C U L T A D " />
-                  <Button layoutX="599.0" layoutY="342.0" mnemonicParsing="false" onAction="#VistaJugadores" prefHeight="38.0" prefWidth="159.0" style="-fx-background-color: b2ff66; -fx-border-color: black;" text="J U G A D O R E S " />
-                  <Button layoutX="577.0" layoutY="310.0" mnemonicParsing="false" onAction="#mostrarPantallaModoJuego" prefHeight="26.0" prefWidth="198.0" style="-fx-background-color: red; -fx-border-width: 3px 3px 3px 3px; -fx-border-color: black; -fx-border-radius: 10;" text="M O D O  D E  J U E G O " />
-               </children>
-            </AnchorPane>
-         </center>
       </BorderPane>
       <BorderPane fx:id="VistaDificultades" prefHeight="200.0" prefWidth="200.0">
          <top>
@@ -486,61 +395,6 @@
                </children>
             </Pane>
          </top></BorderPane>
-      <BorderPane fx:id="VistaModoJuego" prefHeight="700.0" prefWidth="1200.0">
-         <center>
-            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
-               <children>
-                  <ImageView fitHeight="100.0" fitWidth="299.0" layoutX="475.0" layoutY="14.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/pngegg.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="762.0" fitWidth="1296.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/background%20verde.png" />
-                     </image>
-                  </ImageView>
-                  <VBox layoutX="186.0" layoutY="391.0" prefHeight="311.0" prefWidth="834.0" styleClass="backdrop">
-                     <children>
-                        <CheckBox fx:id="BotCartaComdin" mnemonicParsing="false" prefHeight="84.0" prefWidth="584.0" text="Carta Comodin" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font></CheckBox>
-                        <CheckBox fx:id="BotPuntoExtra" mnemonicParsing="false" onAction="#OnPuntosExtra" prefHeight="90.0" prefWidth="536.0" text="Punto extra por pareja encontrada" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font></CheckBox>
-                        <CheckBox fx:id="BotPuntoMenos" mnemonicParsing="false" prefHeight="72.0" prefWidth="580.0" text="Punto menos por pareja no encontrada" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font></CheckBox>
-                        <CheckBox fx:id="BotEsTrio" mnemonicParsing="false" onAction="#OnParejasTres" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
-                           <font>
-                              <Font name="MV Boli" size="26.0" />
-                           </font>
-                        </CheckBox>
-                     </children>
-                  </VBox>
-                  <Text fill="#3c8441" fontSmoothingType="LCD" layoutX="267.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E    E L    M O D O    D E    J U E G O " wrappingWidth="583.7367706298828">
-                     <font>
-                        <Font name="Bell MT" size="12.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="221.0" fitWidth="203.0" layoutX="739.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Nube%20y%20totugaOfi.png" />
-                     </image>
-                  </ImageView>
-                  <VBox prefHeight="200.0" prefWidth="100.0" />
-                  <ImageView fx:id="BackModoJuego" fitHeight="150.0" fitWidth="200.0" layoutX="1034.0" layoutY="506.0" onMouseClicked="#BackMododeJuego" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Back%20verdeeeeee.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-         </center>
-      </BorderPane>
       <BorderPane fx:id="VistaJugadores" prefHeight="200.0" prefWidth="200.0">
          <center>
             <Pane prefHeight="742.0" prefWidth="1276.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
@@ -588,6 +442,184 @@
                   </ImageView>
                </children></Pane>
          </center>
+      </BorderPane>
+      <BorderPane fx:id="VistaModoJuego" prefHeight="700.0" prefWidth="1200.0">
+         <center>
+            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="299.0" layoutX="475.0" layoutY="14.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/pngegg.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="762.0" fitWidth="1296.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/background%20verde.png" />
+                     </image>
+                  </ImageView>
+                  <VBox layoutX="186.0" layoutY="391.0" prefHeight="311.0" prefWidth="834.0" styleClass="backdrop">
+                     <children>
+                        <CheckBox fx:id="BotCartaComdin" mnemonicParsing="false" prefHeight="84.0" prefWidth="584.0" text="Carta Comodin" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font></CheckBox>
+                        <CheckBox fx:id="BotPuntoExtra" mnemonicParsing="false" onAction="#OnPuntosExtra" prefHeight="90.0" prefWidth="536.0" text="Punto extra por pareja encontrada" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font></CheckBox>
+                        <CheckBox fx:id="BotPuntoMenos" mnemonicParsing="false" onAction="#onPuntoMenos" prefHeight="72.0" prefWidth="580.0" text="Punto menos por pareja no encontrada" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font></CheckBox>
+                        <CheckBox fx:id="BotEsTrio" mnemonicParsing="false" onAction="#OnParejasTres" prefHeight="85.0" prefWidth="518.0" text="Buscar parejas de tres" textFill="WHITE">
+                           <font>
+                              <Font name="MV Boli" size="26.0" />
+                           </font>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+                  <Text fill="#3c8441" fontSmoothingType="LCD" layoutX="267.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E    E L    M O D O    D E    J U E G O " wrappingWidth="583.7367706298828">
+                     <font>
+                        <Font name="Bell MT" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="221.0" fitWidth="203.0" layoutX="739.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Nube%20y%20totugaOfi.png" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
+                  <ImageView fx:id="BackModoJuego" fitHeight="150.0" fitWidth="200.0" layoutX="1034.0" layoutY="506.0" onMouseClicked="#BackMododeJuego" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Back%20verdeeeeee.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="VistaPrincipal" prefHeight="700.0" prefWidth="1200.0">
+         <center>
+            <AnchorPane id="AnchorPane" prefHeight="754.0" prefWidth="1297.0">
+               <children>
+                  <ImageView fitHeight="761.0" fitWidth="1358.0" layoutX="-2.0" layoutY="-1.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/interfez%20inicio.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="133.0" fitWidth="427.0" layoutX="457.0" layoutY="36.0" onMouseClicked="#DesplegarInfo" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/pngegg.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="AcercaDeImagen" fitHeight="147.0" fitWidth="100.0" layoutX="1258.0" layoutY="509.0" onMouseClicked="#AcercaDe" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/SignoPreguntabien.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-14.0" layoutY="305.0" onMouseClicked="#ExplicacionJuego" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/SignoPreguntabien.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="587.0" layoutY="482.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="184.0" style="-fx-background-color: red; -fx-border-image-width: 7; -fx-border-color: black;" text="R E V I S I O N" />
+                  <Button layoutX="555.0" layoutY="536.0" mnemonicParsing="false" onMouseClicked="#botIniciarJuego" prefHeight="74.0" prefWidth="245.0" style="-fx-background-color: B2FF66; -fx-border-color: black; -fx-border-width: 4;" text="I N I C I A R " />
+                  <Button layoutX="603.0" layoutY="436.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="126.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="P U N T A J E S " />
+                  <Button fx:id="BotDificultad" layoutX="580.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#BotDificultad" prefHeight="58.0" prefWidth="193.0" style="-fx-background-color: blue; -fx-border-color: black; -fx-border-width: 3;" text="D I F I C U L T A D " />
+                  <Button layoutX="599.0" layoutY="342.0" mnemonicParsing="false" onAction="#VistaJugadores" prefHeight="38.0" prefWidth="159.0" style="-fx-background-color: b2ff66; -fx-border-color: black;" text="J U G A D O R E S " />
+                  <Button layoutX="577.0" layoutY="310.0" mnemonicParsing="false" onAction="#mostrarPantallaModoJuego" prefHeight="26.0" prefWidth="198.0" style="-fx-background-color: red; -fx-border-width: 3px 3px 3px 3px; -fx-border-color: black; -fx-border-radius: 10;" text="M O D O  D E  J U E G O " />
+                  <ImageView fitHeight="110.0" fitWidth="85.0" layoutX="61.0" layoutY="436.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/click.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="81.0" layoutX="1279.0" layoutY="588.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/click.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="InformacionJuego" prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <Pane prefHeight="761.0" prefWidth="1357.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="762.0" fitWidth="1358.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/ImagenFondoCarnivora.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#00000095" fontSmoothingType="LCD" layoutX="14.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-blend-mode: black;" text="El juego memoria tiene por objetivo descubrir las cartas iguales en el tablero, que se encuentran ocultos. Cada jugador tiene su turno, y deberá relacionar la mayor cantidad de cartas iguales. El juego puede estar liderado por dos jugadores humanos, o bien, un jugador humano y la computadora.                                                                                                             " wrappingWidth="624.0000457763672">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <ImageView fitHeight="120.0" fitWidth="161.0" layoutX="1151.0" layoutY="571.0" onMouseClicked="#BackInformacionJuego" pickOnBounds="true" preserveRatio="true" rotate="2.9">
+                     <image>
+                        <Image url="@../Imagenes/Backkkk.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#00000092" fontSmoothingType="LCD" layoutX="14.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-blend-mode: black;" text="El juego tiene diversos modos de juego. El modo de juego clásico, en el que se buscan parejas. Primeramente, en el que por cada pareja consecutiva se sume un punto adicional. De igual manera se puede implementar que se reste medio punto por grupo no encontrado. " wrappingWidth="524.0000762939453">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#00000092" fontSmoothingType="LCD" layoutX="819.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-blend-mode: black;" text="O bien, que el objetivo del juego sea encontrar tríos de cartas. El juego finaliza por dos posibles situaciones: se acaba el tiempo o bien, se encuentran todos los grupos de cartas. Gana el jugador con más puntos al finalizar el juego." wrappingWidth="524.0000762939453">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="92.0" fitWidth="88.0" layoutX="1244.0" layoutY="656.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/click.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </top>
+      </BorderPane>
+      <BorderPane fx:id="VistaAcercaDe" prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <Pane prefHeight="754.0" prefWidth="1237.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="762.0" fitWidth="1358.0" layoutX="-1.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/Background%20nubes%20fantasmas.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="530.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/UNA.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="222.0" fitWidth="221.0" layoutX="860.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/PrincesaHongosPNG.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="48.0" fitWidth="110.0" layoutX="407.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/HongoRojoPNG.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="BackAcercaDe" fitHeight="150.0" fitWidth="200.0" layoutX="1098.0" layoutY="559.0" onMouseClicked="#BackAcercaDe" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/greenbackPNG.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="627.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="                 M A R I A N G E L  S O L I S  C E C I L I A N O " wrappingWidth="375.89996337890625" />
+                  <Text layoutX="712.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="P R O G R A M A C I O N  II" wrappingWidth="219.20001220703125" />
+                  <Text layoutX="743.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="I C I C L O  " />
+                  <Text layoutX="755.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2 0 2 3" />
+                  <ImageView fitHeight="150.0" fitWidth="128.0" layoutX="1163.0" layoutY="658.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/click.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </top>
       </BorderPane>
    </children>
 </StackPane>

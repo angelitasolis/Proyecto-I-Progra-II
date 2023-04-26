@@ -48,6 +48,7 @@ public class JuegoMemoria {
     private Label jugador1Label;
     private Label jugador2Label;
     private boolean puntosExtra = true;
+    private boolean puntosMenos = false;
     private boolean mismoJugador = false;
     private boolean modoTrio = false;
     private int grupoCartas;
@@ -65,14 +66,20 @@ public class JuegoMemoria {
     //Cronometro
     private void iniciarCronometro(int pduracionSegundos) {
         jugador1Label.setText(jugador1Nombre + " :" + jugador1Puntaje + "-> Turno actual");
+
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.seconds(1),
-                        event -> tiempoTranscurrido.set(tiempoTranscurrido.get() + 1)
+                        event -> {
+                            tiempoTranscurrido.set(tiempoTranscurrido.get() + 1);
+                            if (tiempoTranscurrido.get() >= pduracionSegundos) {
+                                //detener el tiempo, mostrar panatallla
+
+                            }
+                        }
                 )
         );
         timeline.setCycleCount(Timeline.INDEFINITE); // Cronómetro continuo
-        timeline.setOnFinished(event -> System.out.println("Tiempo terminado"));
         timeline.play();
     }
 
@@ -154,8 +161,8 @@ public class JuegoMemoria {
 
         // Add the label to the scene
         VBox vbox = new VBox();
-        jugador1Label = new Label(jugador1Nombre + ": " + jugador1Puntaje);
-        jugador2Label = new Label(jugador2Nombre + ": " + jugador2Puntaje);
+        jugador1Label = new Label(modoHumanoVsHumano ? (jugador1Nombre + ": " + jugador1Puntaje) : (Jugador1vsC + ": " + jugador1Puntaje));
+        jugador2Label = new Label(modoHumanoVsHumano ? (jugador2Nombre + ": " + jugador2Puntaje) : ("COMPUTADOR" + ": " + jugador2Puntaje));
         Label tipoJugadores = new Label(modoHumanoVsHumano ? " Modo Humano vs Humano" : "Modo Humano vs Computador");
 
         vbox.getChildren().addAll(tipoJugadores, modoJuegoLabel, jugador1Label, jugador2Label, verTodasCartas, cuadricula, tiempoTranscurridoLabel);
@@ -276,11 +283,13 @@ public class JuegoMemoria {
         if (cartasSeleccionadas.size() == grupoCartas) {//  verifica si el número de cartas seleccionadas en el turno actual es igual al tamaño del grupo de cartas que se busca
             boolean grupoEncontrado = tablero.esGrupo(cartasSeleccionadas.toArray(new Carta[0]));
 //i se ha alcanzado el tamaño del grupo, esta línea convierte la lista cartasSeleccionadas en un array de objetos Carta y llama al método esGrupo() del objeto tablero para verificar si las cartas seleccionadas forman un grupo válido (es decir, si todas las cartas tienen el mismo valor). El resultado de esta comprobación se almacena en la variable grupoEncontrado.
+
             if (grupoEncontrado) {
                 for (Carta cartaSeleccionada : cartasSeleccionadas) {
                     cartaSeleccionada.setParejaEncontrada(true);
                 }
                 int puntosGanados = 1; // Un punto por encontrar un grupo
+
                 if (puntosExtra && mismoJugador) {
                     puntosGanados++; // Un punto extra por encontrar grupos consecutivos
                 }
@@ -324,6 +333,7 @@ public class JuegoMemoria {
                 }
 
             } else {//si no coinciden las cartas
+
                 PauseTransition pausa = new PauseTransition(Duration.seconds(0.7));
                 pausa.setOnFinished((e) -> {
                     for (Carta cartaSeleccionada : cartasSeleccionadas) {
@@ -332,10 +342,25 @@ public class JuegoMemoria {
                     cartasSeleccionadas.clear();
                     mismoJugador = false;
                     turnoJugador1 = !turnoJugador1;
+
+                    actualizarEtiquetasJugadores();
+
+                    if (puntosMenos) {
+                        if (turnoJugador1 && jugador1Puntaje > 0) {
+                            jugador1Puntaje -= 0.5;
+
+                        } else if (!turnoJugador1 && jugador2Puntaje > 0) {
+                            jugador2Puntaje -= 0.5;
+                        }
+                    }
+
+                    actualizarEtiquetasJugadores();
+
                     if (!modoHumanoVsHumano && turnoJugador1 == false) {
                         jugarComputador(nivelIA);
                     }
-                    actualizarEtiquetasJugadores(); // Actualiza las etiquetas de los jugadores
+
+                    // Actualiza las etiquetas de los jugadores
                 });
                 pausa.play();
             }
