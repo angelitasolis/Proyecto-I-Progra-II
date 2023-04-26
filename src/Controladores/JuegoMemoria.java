@@ -48,7 +48,7 @@ public class JuegoMemoria {
     private Label jugador1Label;
     private Label jugador2Label;
     private boolean puntosExtra = true;
-    private boolean puntosMenos = false;
+    private boolean puntosMenos = true;
     private boolean mismoJugador = false;
     private boolean modoTrio = false;
     private int grupoCartas;
