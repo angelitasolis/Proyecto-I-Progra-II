@@ -4,6 +4,7 @@
  */
 package Controladores;
 
+import javafx.scene.Cursor;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -55,7 +56,6 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private BorderPane VistaJugadores;
     @FXML
     private CheckBox HumanoVSHumano;
-    @FXML
     private CheckBox checkBoxHumanoVSComputadora;
     @FXML
     private TextField JugadorHumano1vsH;
@@ -237,6 +237,12 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private Button BotDificultad;
     @FXML
     private CheckBox BotEsTrio;
+    @FXML
+    private CheckBox HumanoVSComputadora;
+    @FXML
+    private CheckBox BotPuntoExtra;
+        @FXML
+    private ImageView infoJuegoImagen;
 
     private Stage getPrimaryStage() {
         return (Stage) VistaPrincipal.getScene().getWindow();
@@ -260,6 +266,12 @@ public class Vista_Pantalla_InicialController implements Initializable {
     @FXML
     private void AcercaDe(MouseEvent event) {
         VistaAcercaDe.toFront();
+
+    }
+
+    @FXML
+    void mouseMovedAcercaDeImagen(MouseEvent event) {
+        AcercaDeImagen.setCursor(Cursor.HAND);
     }
 
     @FXML
@@ -289,7 +301,6 @@ public class Vista_Pantalla_InicialController implements Initializable {
         }
     }
 
-    @FXML
     private void HumanoVSComputadora(ActionEvent event) {
         if (checkBoxHumanoVSComputadora.isSelected() == true) {
             HumanoVSHumano.setDisable(true);
@@ -306,14 +317,12 @@ public class Vista_Pantalla_InicialController implements Initializable {
         }
     }
 
-    @FXML
     private void getInfoHumanovsHumano(ActionEvent event) {
         Jugador1HvsH = JugadorHumano1vsH.getText();
         Jugador2HvsH = JugadorHumano2vsH.getText();
         VistaPrincipal.toFront();
     }
 
-    @FXML
     private void getInfoHumanovsComputadora(ActionEvent event) {
         Jugador1vsC = JugadorHumano1vsC.getText();
         VistaPrincipal.toFront();
@@ -439,5 +448,12 @@ public class Vista_Pantalla_InicialController implements Initializable {
         CheckBox checkBox = (CheckBox) event.getSource();
         puntosMenos = checkBox.isSelected();
     }
+
+    @FXML
+    private void mouseMovedInfoJuegoImagen(MouseEvent event) {
+        infoJuegoImagen.setCursor(Cursor.HAND); 
+    }
+    
+    
 
 }

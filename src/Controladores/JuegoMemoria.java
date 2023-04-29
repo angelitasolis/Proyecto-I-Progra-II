@@ -48,7 +48,7 @@ public class JuegoMemoria {
     private Label jugador1Label;
     private Label jugador2Label;
     private boolean puntosExtra = true;
-    private boolean puntosMenos = false;
+    private boolean puntosMenos = true;
     private boolean mismoJugador = false;
     private boolean modoTrio = false;
     private int grupoCartas;
@@ -116,11 +116,10 @@ public class JuegoMemoria {
 
             String ruta = getClass().getResource("/Imagenes/" + i + ".png").toExternalForm();
             cartasImagenes[i - 1] = ruta;
-            System.out.println(i);
         }
 
         tablero = new Tablero(tamannoFilas, tamannoColumnas, cartasImagenes, grupoCartas);
-        jugadorComputador = new JugadorComputador(tablero, tamannoFilas, tamannoColumnas, nivelIA);
+        jugadorComputador = new JugadorComputador(tamannoFilas, tamannoColumnas, nivelIA);
         // Create the game board layout
         GridPane cuadricula = new GridPane();
 
@@ -182,10 +181,28 @@ public class JuegoMemoria {
             case 1: // Nivel fácil: no se realiza ninguna mejora en la lógica de selección
                 do {
                     int[] posicionCarta1 = new int[2];
-                    carta1 = jugadorComputador.elegirCarta(posicionCarta1);
+                    carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
 
+                                    
+                    for (int fila = 0; fila < tamannoFilas; fila++) {
+                        for (int col = 0; col < tamannoColumnas; col++) {
+                            Carta cartaI = tablero.getCarta(fila, col);
+                            if(carta1.getValor() == cartaI.getValor()) {
+                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta1, fila, col);
+                            }
+                        }
+                    }
                     int[] posicionCarta2 = new int[2];
-                    carta2 = jugadorComputador.elegirCarta(posicionCarta2);
+                    carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
+
+                    for (int fila = 0; fila < tamannoFilas; fila++) {
+                        for (int col = 0; col < tamannoColumnas; col++) {
+                            Carta cartaII = tablero.getCarta(fila, col);
+                            if(carta2.getValor() == cartaII.getValor()) {
+                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta2, fila, col);
+                            }
+                        }
+                    }
 
                 } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
 //        int valor1= carta1.getValor();
@@ -201,25 +218,13 @@ public class JuegoMemoria {
                 ArrayList<Carta> cartasVistas = new ArrayList<>();
 
                 do {
-                    // Si hay alguna carta vista que no haya encontrado su pareja, elegirla
-                    for (Carta carta : cartasVistas) {
-                        if (!carta.esParejaEncontrada()) {
-                            carta1 = carta;
-                            carta2 = buscarParejaParaCarta(carta1);
-                            if (carta2 != null) {
-                                ejecutarClickEnCarta(carta1);
-                                ejecutarClickEnCarta(carta2);
-                                return;
-                            }
-                        }
-                    }
-
+   
                     // Si no hay ninguna carta vista por encontrar pareja, elegir dos cartas al azar
                     int[] posicionCarta1 = new int[2];
-                    carta1 = jugadorComputador.elegirCarta(posicionCarta1);
+                    carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
 
                     int[] posicionCarta2 = new int[2];
-                    carta2 = jugadorComputador.elegirCarta(posicionCarta2);
+                    carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
                     // Guardar las cartas elegidas en la lista de cartas vistas
                     if (!cartasVistas.contains(carta1)) {
                         cartasVistas.add(carta1);
@@ -236,18 +241,23 @@ public class JuegoMemoria {
             case 3: // Nivel 3
                 System.out.println("Caso tres");
                 int[] posicionCarta1 = new int[2];
-                int[] posicionCarta2 = new int[2];
-
-                jugadorComputador = new JugadorComputador(tablero, tamannoFilas, tamannoColumnas, nivelIA);
-
-                do {
-                    carta1 = jugadorComputador.elegirCarta(posicionCarta1);
-
+                
+                
+                    System.out.println("SE JALA 1200");
+                    carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
+                    for (int fila = 0; fila < tamannoFilas; fila++) {
+                        for (int col = 0; col < tamannoColumnas; col++) {
+                            Carta cartaI = tablero.getCarta(fila, col);
+                            if(carta1.getValor() == cartaI.getValor()) {
+                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta1, fila, col);
+                            }
+                        }
+                    }
+                    
                     jugadorComputador.actualizarCartasVistas(carta1.getValor(), posicionCarta1);
 
-                    carta2 = jugadorComputador.elegirSegundaCartaCasoTres(carta1, posicionCarta1);
+                    carta2 = jugadorComputador.elegirSegundaCartaCasoTres(carta1, posicionCarta1, tablero);
 
-                } while (carta1.esParejaEncontrada() || carta1 == carta2);
 
                 ejecutarClickEnCarta(carta1);
                 ejecutarClickEnCarta(carta2);
@@ -280,6 +290,7 @@ public class JuegoMemoria {
         return;
     }
 
+    System.out.println("SEDFEDFE");
     // Se actualiza la imagen de la carta y se añade a la lista de cartas seleccionadas.
     imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
     cartasSeleccionadas.add(carta);
@@ -301,11 +312,11 @@ private void procesarGrupoEncontrado() {
     for (Carta cartaSeleccionada : cartasSeleccionadas) {
         cartaSeleccionada.setParejaEncontrada(true);
     }
-
     int puntosGanados = 1; // Un punto por encontrar un grupo
     if (puntosExtra && mismoJugador) {
         puntosGanados++; // Un punto extra por encontrar grupos consecutivos
     }
+    
     mismoJugador = true;
 
     if (turnoJugador1) {
@@ -338,7 +349,6 @@ private void procesarGrupoNoEncontrado() {
         cartasSeleccionadas.clear();
         mismoJugador = false;
         turnoJugador1 = !turnoJugador1;
-
         actualizarEtiquetasJugadores();
 
         if (puntosMenos) {
