@@ -92,7 +92,7 @@ public class JuegoMemoria {
         return tablero;
     }
 
-    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio, int pnivelIA) {
+    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio, String pJugador1vsC) {
         primaryStage.setTitle("Juego Memoria");
         tamannoFilas = ptamannoFilas;
         tamannoColumnas = ptamannoColumnas;
@@ -109,7 +109,8 @@ public class JuegoMemoria {
         this.puntosExtra = pPuntosExtra;
         this.modoTrio = pmodoTrio;
         this.jugadorAutomatico = !pModoHumanoVsHumano;
-        this.nivelIA = pnivelIA;
+        this.Jugador1vsC = pJugador1vsC;
+        
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
         for (int i = 1; i < (tamannoFilas * tamannoColumnas) / 2 + 1; i++) {
@@ -136,7 +137,7 @@ public class JuegoMemoria {
         tiempoTranscurridoLabel.textProperty().bind(tiempoTranscurrido.asString());
         Label modoJuegoLabel = new Label();
         if (pmodoTrio) {
-            modoJuegoLabel.setText("Modo de juego: Trio");
+            modoJuegoLabel.setText("Modo de juego: Trío");
         } else {
             modoJuegoLabel.setText("Modo de juego: Parejas");
         }
@@ -155,6 +156,8 @@ public class JuegoMemoria {
             }
         });
 
+        
+        
         // agrega los labels a la escena
         VBox vbox = new VBox();
         jugador1Label = new Label(modoHumanoVsHumano ? (jugador1Nombre + ": " + jugador1Puntaje) : (Jugador1vsC + ": " + jugador1Puntaje));

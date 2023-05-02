@@ -14,17 +14,12 @@ public class JugadorComputador {
 
     private int tamannoFilas;
     private int tamannoColumnas;
-    private int nivelIA;
-    
 
     public JugadorComputador(int tamannoFilas, int tamannoColumnas, int nivelIA) {
         this.tamannoFilas = tamannoFilas;
         this.tamannoColumnas = tamannoColumnas;
-        this.nivelIA = nivelIA;
-    
-
     }
-    
+
     public Carta elegirCarta(int[] posicionCartaElegida, Tablero tablero) {
         ArrayList<Carta> cartasNoEncontradas = new ArrayList<>();
 
@@ -45,7 +40,7 @@ public class JugadorComputador {
         }
 
     }
-    
+
     public Carta elegirCartaPareja(int[] posicionCartaElegida, Tablero tablero, Carta cartaAnterior) {
         ArrayList<Carta> cartasNoEncontradas = new ArrayList<>();
 
@@ -67,7 +62,4 @@ public class JugadorComputador {
 
     }
 
-
-
- 
 }
