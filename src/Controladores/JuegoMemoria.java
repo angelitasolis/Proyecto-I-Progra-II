@@ -49,7 +49,7 @@ public class JuegoMemoria {
     private Label jugador1Label;
     private Label jugador2Label;
     private boolean puntosExtra = true;
-    private boolean puntosMenos = true;
+    private boolean puntosMenos = false;
     private boolean mismoJugador = false;
     private boolean modoTrio = false;
     private int grupoCartas;
@@ -96,7 +96,6 @@ public class JuegoMemoria {
         tamannoFilas = ptamannoFilas;
         tamannoColumnas = ptamannoColumnas;
 
-        this.modoTrio = pmodoTrio;
         this.cantidadSegundos = pcantidadSegundos; // Actualizar la variable cantidadSegundos
         this.grupoCartas = pmodoTrio ? 3 : 2;
         this.cartasSeleccionadas = new ArrayList<>();
@@ -186,7 +185,32 @@ public class JuegoMemoria {
                 }
                 break;
             case 3:
-                if ((int) (Math.random() * 11)  >  5) { // 50%
+                if ((int) (Math.random() * 11) > 5) { // 50%
+                    carta2 = jugadorComputador.elegirCartaPareja(posicionCarta2, tablero, carta1);
+                } else {
+                    carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
+                }
+                break;
+            default:
+                carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
+        }
+
+        return carta2;
+    }
+    
+    private Carta elegirCarta3(int nivelIA, Carta carta1, Tablero tablero, int[] posicionCarta2) {
+        Carta carta2;
+
+        switch (nivelIA) {
+            case 2:
+                if ((int) (Math.random() * 4) == 3) { // 25%
+                    carta2 = jugadorComputador.elegirCartaPareja(posicionCarta2, tablero, carta1);
+                } else {
+                    carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
+                }
+                break;
+            case 3:
+                if ((int) (Math.random() * 10) > 0) { // 9 / 10 // 90%
                     carta2 = jugadorComputador.elegirCartaPareja(posicionCarta2, tablero, carta1);
                 } else {
                     carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
@@ -200,38 +224,63 @@ public class JuegoMemoria {
     }
 
     private void jugarComputador(int nivelIA) {
-        Carta carta1;
-        AtomicReference<Carta> carta2Ref = new AtomicReference<>(); // This will allow you to use the container within the lambda expression, while still satisfying the effectively final requirement.
 
-        int[] posicionCarta1 = new int[2];
-        int[] posicionCarta2 = new int[2];
+        if (grupoCartas == 2) {
+            Carta carta1;
+            AtomicReference<Carta> carta2Ref = new AtomicReference<>(); // This will allow you to use the container within the lambda expression, while still satisfying the effectively final requirement.
 
-        do {
-            carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
-            carta2Ref.set(elegirCarta2(nivelIA, carta1, tablero, posicionCarta2));
-        } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2Ref.get());
+            int[] posicionCarta1 = new int[2];
+            int[] posicionCarta2 = new int[2];
 
-        ejecutarClickEnCarta(carta1);
+            do {
+                carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
+                carta2Ref.set(elegirCarta2(nivelIA, carta1, tablero, posicionCarta2));
+            } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2Ref.get());
 
-        PauseTransition pausa = new PauseTransition(Duration.seconds(1));
-        pausa.setOnFinished((e) -> {
-            ejecutarClickEnCarta(carta2Ref.get());
-        });
-        pausa.play();
-    }
+            ejecutarClickEnCarta(carta1);
 
-    private Carta buscarParejaParaCarta(Carta carta) {
-        for (int fila = 0; fila < tablero.getTamannoFilas(); fila++) {
-            for (int columna = 0; columna < tablero.getTamannoColumnas(); columna++) {
-                Carta posiblePareja = tablero.getCarta(fila, columna);
-                if (posiblePareja != carta && posiblePareja.getValor() == carta.getValor() && !posiblePareja.esParejaEncontrada()) {
-                    return posiblePareja;
-                }
-            }
+            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+            pausa.setOnFinished((e) -> {
+                ejecutarClickEnCarta(carta2Ref.get());
+            });
+            pausa.play();
+            
+            
+            
+        } else {
+
+            Carta carta1;
+            AtomicReference<Carta> carta2Ref = new AtomicReference<>(); // This will allow you to use the container within the lambda expression, while still satisfying the effectively final requirement.
+            AtomicReference<Carta> carta3Ref = new AtomicReference<>();
+            int[] posicionCarta1 = new int[2];
+            int[] posicionCarta2 = new int[2];
+            int[] posicionCarta3 = new int[2];
+
+            do {
+                carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
+                carta2Ref.set(elegirCarta3(nivelIA, carta1, tablero, posicionCarta2));
+                carta3Ref.set(elegirCarta3(nivelIA, carta1, tablero, posicionCarta3));
+            } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2Ref.get() || carta2Ref.get() ==  carta3Ref.get());
+
+            ejecutarClickEnCarta(carta1);
+
+            PauseTransition pausa = new PauseTransition(Duration.seconds(0.7));
+            pausa.setOnFinished((e) -> {
+                ejecutarClickEnCarta(carta2Ref.get());
+                
+            });
+            pausa.play();
+             PauseTransition pausa2 = new PauseTransition(Duration.seconds(0.7));
+            pausa2.setOnFinished((e) -> {
+                ejecutarClickEnCarta(carta3Ref.get());
+            });
+             pausa2.play();
+            
         }
-        return null;
+
     }
 
+    
     private void handleCardClick(MouseEvent event) {
         ImageView imageView = (ImageView) event.getSource();
         Carta carta = (Carta) imageView.getUserData();
@@ -242,7 +291,6 @@ public class JuegoMemoria {
             return;
         }
 
-        System.out.println("SEDFEDFE");
         // Se actualiza la imagen de la carta y se añade a la lista de cartas seleccionadas.
         imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
         cartasSeleccionadas.add(carta);
@@ -303,8 +351,8 @@ public class JuegoMemoria {
             turnoJugador1 = !turnoJugador1;
             actualizarEtiquetasJugadores();
 
-            if (puntosMenos) {
-                ajustarPuntaje();
+            if (puntosMenos==true) {
+              ajustarPuntaje();
             }
 
             actualizarEtiquetasJugadores();
@@ -319,8 +367,10 @@ public class JuegoMemoria {
     private void ajustarPuntaje() {
         if (turnoJugador1 && jugador1Puntaje > 0) {
             jugador1Puntaje -= 0.5;
+             actualizarEtiquetasJugadores();
         } else if (!turnoJugador1 && jugador2Puntaje > 0) {
             jugador2Puntaje -= 0.5;
+             actualizarEtiquetasJugadores();
         }
     }
 
