@@ -29,21 +29,69 @@ public class JugadorComputador {
 
     }
 
-    public Carta elegirCarta(int[] posicionCartaElegida, Tablero tablero) {
-        if (nivelIA == 3) {
-            return elegirCartaCasoTres(posicionCartaElegida, tablero);
-        } else {
-            return elegirCartaCasoUnoDos(posicionCartaElegida, tablero);
-        }
-    }
+//    public Carta elegirCasoUno(){
+//     do {
+//                    int[] posicionCarta1 = new int[2];
+//                    carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
+//
+//                                    
+//                    for (int fila = 0; fila < tamannoFilas; fila++) {
+//                        for (int col = 0; col < tamannoColumnas; col++) {
+//                            Carta cartaI = tablero.getCarta(fila, col);
+//                            if(carta1.getValor() == cartaI.getValor()) {
+//                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta1, fila, col);
+//                            }
+//                        }
+//                    }
+//                    int[] posicionCarta2 = new int[2];
+//                    carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
+//
+//                    for (int fila = 0; fila < tamannoFilas; fila++) {
+//                        for (int col = 0; col < tamannoColumnas; col++) {
+//                            Carta cartaII = tablero.getCarta(fila, col);
+//                            if(carta2.getValor() == cartaII.getValor()) {
+//                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta2, fila, col);
+//                            }
+//                        }
+//                    }
+//
+//                } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
+////        int valor1= carta1.getValor();
+////        int valor2= carta2.getValor();
+//
+//                ejecutarClickEnCarta(carta1);
+//                ejecutarClickEnCarta(carta2);
+//    }
 
-    public Carta elegirCartaCasoUnoDos(int[] posicionCartaElegida, Tablero tablero) {
+    
+    public Carta elegirCarta(int[] posicionCartaElegida, Tablero tablero) {
         ArrayList<Carta> cartasNoEncontradas = new ArrayList<>();
 
         for (int fila = 0; fila < tamannoFilas; fila++) {
             for (int col = 0; col < tamannoColumnas; col++) {
                 Carta carta = tablero.getCarta(fila, col);
                 if (!carta.esParejaEncontrada()) {
+                    cartasNoEncontradas.add(carta);
+                }
+            }
+        }
+
+        if (cartasNoEncontradas.isEmpty()) {
+            return null;
+        } else {
+            int indiceAleatorio = (int) (Math.random() * cartasNoEncontradas.size());
+            return cartasNoEncontradas.get(indiceAleatorio);
+        }
+
+    }
+    
+    public Carta elegirCartaPareja(int[] posicionCartaElegida, Tablero tablero, Carta cartaAnterior) {
+        ArrayList<Carta> cartasNoEncontradas = new ArrayList<>();
+
+        for (int fila = 0; fila < tamannoFilas; fila++) {
+            for (int col = 0; col < tamannoColumnas; col++) {
+                Carta carta = tablero.getCarta(fila, col);
+                if (!carta.esParejaEncontrada() && carta.getValor() == cartaAnterior.getValor() && carta != cartaAnterior) {
                     cartasNoEncontradas.add(carta);
                 }
             }
@@ -102,6 +150,8 @@ public class JugadorComputador {
                 Carta carta = tablero.getCarta(fila, col);
                 if (!carta.esParejaEncontrada()) {
                     cartasNoEncontradas.add(carta);
+  
+                
                 }
             }
         }
@@ -125,7 +175,7 @@ public class JugadorComputador {
 
     public Carta elegirSegundaCartaCasoTres(Carta primeraCarta, int[] posicionPrimeraCarta, Tablero tablero) {
 
-        if (cartasVistas != null && !cartasVistas.isEmpty()){
+        if ( !cartasVistas.isEmpty()){
             if(cartasVistas.get(primeraCarta.getValor()).size() > 1) {
                 for (int[] posicion : cartasVistas.get(primeraCarta.getValor())) {
                     if (posicion[0] != posicionPrimeraCarta[0] || posicion[1] != posicionPrimeraCarta[1]) {
@@ -180,8 +230,11 @@ public class JugadorComputador {
 
     public final void actualizarCartasVistas(int valorCarta, int[] posicionCarta) {
         boolean flagRepetida = false;
+        if (cartasVistas == null) {
+        cartasVistas = new HashMap<>();
+    }
         System.out.println("EJDK");
-        if (cartasVistas != null && !cartasVistas.isEmpty()) {
+        if (!cartasVistas.isEmpty()) {
         // Busca una carta que tenga una pareja en el HashMap cartasVistas
         for (Map.Entry<Integer, ArrayList<int[]>> entry : cartasVistas.entrySet()) {
             if (entry.getValue().size() >= 2) {
@@ -189,8 +242,7 @@ public class JugadorComputador {
                 int[] posicion = entry.getValue().get(0);
                 if(posicionCarta[0] == posicion[0] && posicionCarta[1] == posicion[1]){
                     flagRepetida = true;
-                    System.out.println("WORKS");
-                }
+                                 }
             }
         }            
         }

@@ -18,6 +18,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.VBox;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -173,99 +174,50 @@ public class JuegoMemoria {
 
     }
 
-    private void jugarComputador(int nivelIA) {
-
-        Carta carta1, carta2;
+    private Carta elegirCarta2(int nivelIA, Carta carta1, Tablero tablero, int[] posicionCarta2) {
+        Carta carta2;
 
         switch (nivelIA) {
-            case 1: // Nivel fácil: no se realiza ninguna mejora en la lógica de selección
-                do {
-                    int[] posicionCarta1 = new int[2];
-                    carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
-
-                                    
-                    for (int fila = 0; fila < tamannoFilas; fila++) {
-                        for (int col = 0; col < tamannoColumnas; col++) {
-                            Carta cartaI = tablero.getCarta(fila, col);
-                            if(carta1.getValor() == cartaI.getValor()) {
-                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta1, fila, col);
-                            }
-                        }
-                    }
-                    int[] posicionCarta2 = new int[2];
-                    carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
-
-                    for (int fila = 0; fila < tamannoFilas; fila++) {
-                        for (int col = 0; col < tamannoColumnas; col++) {
-                            Carta cartaII = tablero.getCarta(fila, col);
-                            if(carta2.getValor() == cartaII.getValor()) {
-                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta2, fila, col);
-                            }
-                        }
-                    }
-
-                } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
-//        int valor1= carta1.getValor();
-//        int valor2= carta2.getValor();
-
-                ejecutarClickEnCarta(carta1);
-                ejecutarClickEnCarta(carta2);
-
-                break;
-
             case 2:
-                // Lista de las cartas vistas por el computador
-                ArrayList<Carta> cartasVistas = new ArrayList<>();
-
-                do {
-   
-                    // Si no hay ninguna carta vista por encontrar pareja, elegir dos cartas al azar
-                    int[] posicionCarta1 = new int[2];
-                    carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
-
-                    int[] posicionCarta2 = new int[2];
+                if ((int) (Math.random() * 4) == 3) { // 25%
+                    carta2 = jugadorComputador.elegirCartaPareja(posicionCarta2, tablero, carta1);
+                } else {
                     carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
-                    // Guardar las cartas elegidas en la lista de cartas vistas
-                    if (!cartasVistas.contains(carta1)) {
-                        cartasVistas.add(carta1);
-                    }
-                    if (!cartasVistas.contains(carta2)) {
-                        cartasVistas.add(carta2);
-                    }
-                } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2);
-
-                ejecutarClickEnCarta(carta1);
-                ejecutarClickEnCarta(carta2);
+                }
                 break;
-
-            case 3: // Nivel 3
-                System.out.println("Caso tres");
-                int[] posicionCarta1 = new int[2];
-                
-                
-                    System.out.println("SE JALA 1200");
-                    carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
-                    for (int fila = 0; fila < tamannoFilas; fila++) {
-                        for (int col = 0; col < tamannoColumnas; col++) {
-                            Carta cartaI = tablero.getCarta(fila, col);
-                            if(carta1.getValor() == cartaI.getValor()) {
-                                jugadorComputador.actualizarCartasVistasJugadorHumano(carta1, fila, col);
-                            }
-                        }
-                    }
-                    
-                    jugadorComputador.actualizarCartasVistas(carta1.getValor(), posicionCarta1);
-
-                    carta2 = jugadorComputador.elegirSegundaCartaCasoTres(carta1, posicionCarta1, tablero);
-
-
-                ejecutarClickEnCarta(carta1);
-                ejecutarClickEnCarta(carta2);
-
+            case 3:
+                if ((int) (Math.random() * 11)  >  5) { // 50%
+                    carta2 = jugadorComputador.elegirCartaPareja(posicionCarta2, tablero, carta1);
+                } else {
+                    carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
+                }
                 break;
-
+            default:
+                carta2 = jugadorComputador.elegirCarta(posicionCarta2, tablero);
         }
 
+        return carta2;
+    }
+
+    private void jugarComputador(int nivelIA) {
+        Carta carta1;
+        AtomicReference<Carta> carta2Ref = new AtomicReference<>(); // This will allow you to use the container within the lambda expression, while still satisfying the effectively final requirement.
+
+        int[] posicionCarta1 = new int[2];
+        int[] posicionCarta2 = new int[2];
+
+        do {
+            carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
+            carta2Ref.set(elegirCarta2(nivelIA, carta1, tablero, posicionCarta2));
+        } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2Ref.get());
+
+        ejecutarClickEnCarta(carta1);
+
+        PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+        pausa.setOnFinished((e) -> {
+            ejecutarClickEnCarta(carta2Ref.get());
+        });
+        pausa.play();
     }
 
     private Carta buscarParejaParaCarta(Carta carta) {
@@ -280,89 +232,89 @@ public class JuegoMemoria {
         return null;
     }
 
-  private void handleCardClick(MouseEvent event) {
-    ImageView imageView = (ImageView) event.getSource();
-    Carta carta = (Carta) imageView.getUserData();
+    private void handleCardClick(MouseEvent event) {
+        ImageView imageView = (ImageView) event.getSource();
+        Carta carta = (Carta) imageView.getUserData();
 
-    // Si la carta ya ha sido encontrada como parte de un grupo o si ya está en la lista de cartas seleccionadas,
-    // se evita que sea seleccionada nuevamente.
-    if (carta.esParejaEncontrada() || cartasSeleccionadas.contains(carta)) {
-        return;
-    }
+        // Si la carta ya ha sido encontrada como parte de un grupo o si ya está en la lista de cartas seleccionadas,
+        // se evita que sea seleccionada nuevamente.
+        if (carta.esParejaEncontrada() || cartasSeleccionadas.contains(carta)) {
+            return;
+        }
 
-    System.out.println("SEDFEDFE");
-    // Se actualiza la imagen de la carta y se añade a la lista de cartas seleccionadas.
-    imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
-    cartasSeleccionadas.add(carta);
+        System.out.println("SEDFEDFE");
+        // Se actualiza la imagen de la carta y se añade a la lista de cartas seleccionadas.
+        imageView.setImage(new Image(carta.getRutaImagen(), 100, 100, true, true));
+        cartasSeleccionadas.add(carta);
 
-    // Si se alcanza el tamaño del grupo, se verifica si las cartas seleccionadas forman un grupo válido.
-    if (cartasSeleccionadas.size() == grupoCartas) {
-        boolean grupoEncontrado = tablero.esGrupo(cartasSeleccionadas.toArray(new Carta[0]));
+        // Si se alcanza el tamaño del grupo, se verifica si las cartas seleccionadas forman un grupo válido.
+        if (cartasSeleccionadas.size() == grupoCartas) {
+            boolean grupoEncontrado = tablero.esGrupo(cartasSeleccionadas.toArray(new Carta[0]));
 
-        if (grupoEncontrado) {
-            procesarGrupoEncontrado();
-        } else {
-            procesarGrupoNoEncontrado();
+            if (grupoEncontrado) {
+                procesarGrupoEncontrado();
+            } else {
+                procesarGrupoNoEncontrado();
+            }
         }
     }
-}
 
-private void procesarGrupoEncontrado() {
-    // Se marca cada carta como encontrada y se actualizan los puntos.
-    for (Carta cartaSeleccionada : cartasSeleccionadas) {
-        cartaSeleccionada.setParejaEncontrada(true);
-    }
-    int puntosGanados = 1; // Un punto por encontrar un grupo
-    if (puntosExtra && mismoJugador) {
-        puntosGanados++; // Un punto extra por encontrar grupos consecutivos
-    }
-    
-    mismoJugador = true;
-
-    if (turnoJugador1) {
-        jugador1Puntaje += puntosGanados;
-    } else {
-        jugador2Puntaje += puntosGanados;
-    }
-
-    // Se limpia la lista de cartas seleccionadas y se actualizan las etiquetas de los jugadores.
-    cartasSeleccionadas.clear();
-    actualizarEtiquetasJugadores();
-
-    if (!modoHumanoVsHumano && !turnoJugador1) {
-        jugarComputador(nivelIA);
-    }
-
-    // Se verifica si el juego ha terminado y se muestra el resultado.
-    if (partidaGanada() != Resultado.JUEGO_EN_PROGRESO) {
-        mostrarResultados();
-    }
-}
-
-private void procesarGrupoNoEncontrado() {
-    // Se crea una pausa antes de voltear las cartas y cambiar el turno al otro jugador.
-    PauseTransition pausa = new PauseTransition(Duration.seconds(0.7));
-    pausa.setOnFinished((e) -> {
+    private void procesarGrupoEncontrado() {
+        // Se marca cada carta como encontrada y se actualizan los puntos.
         for (Carta cartaSeleccionada : cartasSeleccionadas) {
-            cartaSeleccionada.getVistaImagen().setImage(cartaImagenVuelta);
+            cartaSeleccionada.setParejaEncontrada(true);
         }
+        int puntosGanados = 1; // Un punto por encontrar un grupo
+        if (puntosExtra && mismoJugador) {
+            puntosGanados++; // Un punto extra por encontrar grupos consecutivos
+        }
+
+        mismoJugador = true;
+
+        if (turnoJugador1) {
+            jugador1Puntaje += puntosGanados;
+        } else {
+            jugador2Puntaje += puntosGanados;
+        }
+
+        // Se limpia la lista de cartas seleccionadas y se actualizan las etiquetas de los jugadores.
         cartasSeleccionadas.clear();
-        mismoJugador = false;
-        turnoJugador1 = !turnoJugador1;
-        actualizarEtiquetasJugadores();
-
-        if (puntosMenos) {
-            ajustarPuntaje();
-        }
-
         actualizarEtiquetasJugadores();
 
         if (!modoHumanoVsHumano && !turnoJugador1) {
             jugarComputador(nivelIA);
         }
-    });
-    pausa.play();
-}
+
+        // Se verifica si el juego ha terminado y se muestra el resultado.
+        if (partidaGanada() != Resultado.JUEGO_EN_PROGRESO) {
+            mostrarResultados();
+        }
+    }
+
+    private void procesarGrupoNoEncontrado() {
+        // Se crea una pausa antes de voltear las cartas y cambiar el turno al otro jugador.
+        PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+        pausa.setOnFinished((e) -> {
+            for (Carta cartaSeleccionada : cartasSeleccionadas) {
+                cartaSeleccionada.getVistaImagen().setImage(cartaImagenVuelta);
+            }
+            cartasSeleccionadas.clear();
+            mismoJugador = false;
+            turnoJugador1 = !turnoJugador1;
+            actualizarEtiquetasJugadores();
+
+            if (puntosMenos) {
+                ajustarPuntaje();
+            }
+
+            actualizarEtiquetasJugadores();
+
+            if (!modoHumanoVsHumano && !turnoJugador1) {
+                jugarComputador(nivelIA);
+            }
+        });
+        pausa.play();
+    }
 
     private void ajustarPuntaje() {
         if (turnoJugador1 && jugador1Puntaje > 0) {
@@ -395,8 +347,6 @@ private void procesarGrupoNoEncontrado() {
             alert.showAndWait();
         });
     }
-
-
 
     private void actualizarEtiquetasJugadores() {
         if (turnoJugador1) {
