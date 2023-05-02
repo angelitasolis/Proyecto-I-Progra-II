@@ -39,8 +39,8 @@ public class JuegoMemoria {
     private Timeline cronometro;
     private int cantidadSegundos;
 
-    private int jugador1Puntaje;
-    private int jugador2Puntaje;
+    private double jugador1Puntaje;
+    private double jugador2Puntaje;
     private String jugador1Nombre = "JUGADOR 1";
     private String jugador2Nombre = "JUGADOR 2";
     private String Jugador1vsC = "JUGADOR HUMANO";
@@ -49,7 +49,7 @@ public class JuegoMemoria {
     private Label jugador1Label;
     private Label jugador2Label;
     private boolean puntosExtra = true;
-    private boolean puntosMenos = false;
+    private boolean puntosMenos = true;
     private boolean mismoJugador = false;
     private boolean modoTrio = false;
     private int grupoCartas;
@@ -59,6 +59,7 @@ public class JuegoMemoria {
     private Random random = new Random();
     private JugadorComputador jugadorComputador;
     private int nivelIA;
+    private boolean parejaEncontrada;
 
     private enum Resultado {
         GANADOR_JUGADOR1, GANADOR_JUGADOR2, EMPATE, JUEGO_EN_PROGRESO
@@ -111,18 +112,15 @@ public class JuegoMemoria {
         this.nivelIA = pnivelIA;
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
-
         for (int i = 1; i < (tamannoFilas * tamannoColumnas) / 2 + 1; i++) {
-
             String ruta = getClass().getResource("/Imagenes/" + i + ".png").toExternalForm();
             cartasImagenes[i - 1] = ruta;
         }
 
         tablero = new Tablero(tamannoFilas, tamannoColumnas, cartasImagenes, grupoCartas);
         jugadorComputador = new JugadorComputador(tamannoFilas, tamannoColumnas, nivelIA);
-        // Create the game board layout
-        GridPane cuadricula = new GridPane();
 
+        GridPane cuadricula = new GridPane();
         for (int fila = 0; fila < tamannoFilas; fila++) {
             for (int col = 0; col < tamannoColumnas; col++) {
                 Carta carta = tablero.getCarta(fila, col);
@@ -136,7 +134,6 @@ public class JuegoMemoria {
 
         Label tiempoTranscurridoLabel = new Label();
         tiempoTranscurridoLabel.textProperty().bind(tiempoTranscurrido.asString());
-
         Label modoJuegoLabel = new Label();
         if (pmodoTrio) {
             modoJuegoLabel.setText("Modo de juego: Trio");
@@ -158,7 +155,7 @@ public class JuegoMemoria {
             }
         });
 
-        // Add the label to the scene
+        // agrega los labels a la escena
         VBox vbox = new VBox();
         jugador1Label = new Label(modoHumanoVsHumano ? (jugador1Nombre + ": " + jugador1Puntaje) : (Jugador1vsC + ": " + jugador1Puntaje));
         jugador2Label = new Label(modoHumanoVsHumano ? (jugador2Nombre + ": " + jugador2Puntaje) : ("COMPUTADOR" + ": " + jugador2Puntaje));
@@ -171,6 +168,18 @@ public class JuegoMemoria {
 
         iniciarCronometro(cantidadSegundos); // Llamar al cronómetro con la variable actualizada
 
+    }
+
+    private void actualizarEtiquetasJugadores() {
+        String nombreJugador2 = modoHumanoVsHumano ? jugador2Nombre : "COMPUTADOR";
+
+        if (turnoJugador1) {
+            jugador1Label.setText((modoHumanoVsHumano ? jugador1Nombre : Jugador1vsC) + String.format(": Puntaje:" + jugador1Puntaje + "-> Turno actual"));
+            jugador2Label.setText(nombreJugador2 + String.format(": Puntaje:" + jugador2Puntaje));
+        } else {
+            jugador2Label.setText(nombreJugador2 + String.format(": Puntaje:" + jugador2Puntaje + "-> Turno actual"));
+            jugador1Label.setText((modoHumanoVsHumano ? jugador1Nombre : Jugador1vsC) + String.format(": Puntaje:" + jugador1Puntaje));
+        }
     }
 
     private Carta elegirCarta2(int nivelIA, Carta carta1, Tablero tablero, int[] posicionCarta2) {
@@ -197,7 +206,7 @@ public class JuegoMemoria {
 
         return carta2;
     }
-    
+
     private Carta elegirCarta3(int nivelIA, Carta carta1, Tablero tablero, int[] posicionCarta2) {
         Carta carta2;
 
@@ -244,9 +253,7 @@ public class JuegoMemoria {
                 ejecutarClickEnCarta(carta2Ref.get());
             });
             pausa.play();
-            
-            
-            
+
         } else {
 
             Carta carta1;
@@ -260,27 +267,26 @@ public class JuegoMemoria {
                 carta1 = jugadorComputador.elegirCarta(posicionCarta1, tablero);
                 carta2Ref.set(elegirCarta3(nivelIA, carta1, tablero, posicionCarta2));
                 carta3Ref.set(elegirCarta3(nivelIA, carta1, tablero, posicionCarta3));
-            } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2Ref.get() || carta2Ref.get() ==  carta3Ref.get());
+            } while (carta1.esParejaEncontrada() || cartasSeleccionadas.contains(carta1) || carta1 == carta2Ref.get() || carta2Ref.get() == carta3Ref.get());
 
             ejecutarClickEnCarta(carta1);
 
             PauseTransition pausa = new PauseTransition(Duration.seconds(0.7));
             pausa.setOnFinished((e) -> {
                 ejecutarClickEnCarta(carta2Ref.get());
-                
+
             });
             pausa.play();
-             PauseTransition pausa2 = new PauseTransition(Duration.seconds(0.7));
+            PauseTransition pausa2 = new PauseTransition(Duration.seconds(0.7));
             pausa2.setOnFinished((e) -> {
                 ejecutarClickEnCarta(carta3Ref.get());
             });
-             pausa2.play();
-            
+            pausa2.play();
+
         }
 
     }
 
-    
     private void handleCardClick(MouseEvent event) {
         ImageView imageView = (ImageView) event.getSource();
         Carta carta = (Carta) imageView.getUserData();
@@ -308,6 +314,7 @@ public class JuegoMemoria {
     }
 
     private void procesarGrupoEncontrado() {
+        parejaEncontrada = true;//determina si ha habido una pareja en el turno
         // Se marca cada carta como encontrada y se actualizan los puntos.
         for (Carta cartaSeleccionada : cartasSeleccionadas) {
             cartaSeleccionada.setParejaEncontrada(true);
@@ -340,6 +347,7 @@ public class JuegoMemoria {
     }
 
     private void procesarGrupoNoEncontrado() {
+        parejaEncontrada = false;
         // Se crea una pausa antes de voltear las cartas y cambiar el turno al otro jugador.
         PauseTransition pausa = new PauseTransition(Duration.seconds(1));
         pausa.setOnFinished((e) -> {
@@ -348,12 +356,8 @@ public class JuegoMemoria {
             }
             cartasSeleccionadas.clear();
             mismoJugador = false;
-            turnoJugador1 = !turnoJugador1;
-            actualizarEtiquetasJugadores();
 
-            if (puntosMenos==true) {
-              ajustarPuntaje();
-            }
+            turnoJugador1 = !turnoJugador1;
 
             actualizarEtiquetasJugadores();
 
@@ -365,12 +369,14 @@ public class JuegoMemoria {
     }
 
     private void ajustarPuntaje() {
-        if (turnoJugador1 && jugador1Puntaje > 0) {
-            jugador1Puntaje -= 0.5;
-             actualizarEtiquetasJugadores();
-        } else if (!turnoJugador1 && jugador2Puntaje > 0) {
-            jugador2Puntaje -= 0.5;
-             actualizarEtiquetasJugadores();
+        if (!parejaEncontrada) {
+            if (turnoJugador1 && jugador1Puntaje > 0) {
+                jugador1Puntaje -= 0.5;
+
+            } else if (!turnoJugador1 && jugador2Puntaje > 0) {
+                jugador2Puntaje -= 0.5;
+            }
+            actualizarEtiquetasJugadores();
         }
     }
 
@@ -396,16 +402,6 @@ public class JuegoMemoria {
             alert.setContentText(mensaje);
             alert.showAndWait();
         });
-    }
-
-    private void actualizarEtiquetasJugadores() {
-        if (turnoJugador1) {
-            jugador1Label.setText(jugador1Nombre + ": Puntaje:" + jugador1Puntaje + "-> Turno actual");
-            jugador2Label.setText(jugador2Nombre + ": Puntaje:" + jugador2Puntaje);
-        } else {
-            jugador2Label.setText(jugador2Nombre + ": Puntaje:" + jugador2Puntaje + "-> Turno actual");
-            jugador1Label.setText(jugador1Nombre + ": Puntaje:" + jugador1Puntaje);
-        }
     }
 
     private Resultado partidaGanada() {
