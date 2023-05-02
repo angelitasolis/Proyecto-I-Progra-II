@@ -18,6 +18,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.VBox;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -35,7 +36,7 @@ public class JuegoMemoria {
     private String ruta = getClass().getResource("/Imagenes/SignoPreguntabien.png").toExternalForm();
     private Image cartaImagenVuelta = new Image(ruta);
 // crono variables
-    private IntegerProperty tiempoTranscurrido = new SimpleIntegerProperty(0);// para almacenar el tiempo transcurrido 
+
     private Timeline cronometro;
     private int cantidadSegundos;
 
@@ -60,6 +61,7 @@ public class JuegoMemoria {
     private JugadorComputador jugadorComputador;
     private int nivelIA;
     private boolean parejaEncontrada;
+    private Label tiempoRestanteLabel;
 
     private enum Resultado {
         GANADOR_JUGADOR1, GANADOR_JUGADOR2, EMPATE, JUEGO_EN_PROGRESO
@@ -67,16 +69,25 @@ public class JuegoMemoria {
 
     //Cronometro
     private void iniciarCronometro(int pduracionSegundos) {
-        jugador1Label.setText(jugador1Nombre + " :" + jugador1Puntaje + "-> Turno actual");
+        if (modoHumanoVsHumano) {
+            jugador1Label.setText(jugador1Nombre + " :" + jugador1Puntaje + "-> Turno actual");
+        } else {
+            jugador1Label.setText(Jugador1vsC + " :" + jugador1Puntaje + "-> Turno actual");
+        }
+
+        AtomicInteger tiempoRestante = new AtomicInteger(pduracionSegundos);
 
         Timeline timeline = new Timeline(
                 new KeyFrame(
                         Duration.seconds(1),
                         event -> {
-                            tiempoTranscurrido.set(tiempoTranscurrido.get() + 1);
-                            if (tiempoTranscurrido.get() >= pduracionSegundos) {
-                                //detener el tiempo, mostrar panatallla
-
+                            tiempoRestante.decrementAndGet();
+                            actualizarTiempoRestante(tiempoRestante.get());
+                            
+                            if (tiempoRestante.get() <= 0) {
+                                // Detiene el cronómetro y finaliza la partida
+                                ((Timeline) event.getSource()).stop();
+                                mostrarResultados();
                             }
                         }
                 )
@@ -110,7 +121,6 @@ public class JuegoMemoria {
         this.modoTrio = pmodoTrio;
         this.jugadorAutomatico = !pModoHumanoVsHumano;
         this.Jugador1vsC = pJugador1vsC;
-        
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
         for (int i = 1; i < (tamannoFilas * tamannoColumnas) / 2 + 1; i++) {
@@ -133,8 +143,8 @@ public class JuegoMemoria {
             }
         }
 
-        Label tiempoTranscurridoLabel = new Label();
-        tiempoTranscurridoLabel.textProperty().bind(tiempoTranscurrido.asString());
+        tiempoRestanteLabel = new Label();
+
         Label modoJuegoLabel = new Label();
         if (pmodoTrio) {
             modoJuegoLabel.setText("Modo de juego: Trío");
@@ -156,21 +166,23 @@ public class JuegoMemoria {
             }
         });
 
-        
-        
         // agrega los labels a la escena
         VBox vbox = new VBox();
         jugador1Label = new Label(modoHumanoVsHumano ? (jugador1Nombre + ": " + jugador1Puntaje) : (Jugador1vsC + ": " + jugador1Puntaje));
         jugador2Label = new Label(modoHumanoVsHumano ? (jugador2Nombre + ": " + jugador2Puntaje) : ("COMPUTADOR" + ": " + jugador2Puntaje));
         Label tipoJugadores = new Label(modoHumanoVsHumano ? " Modo Humano vs Humano" : "Modo Humano vs Computador");
 
-        vbox.getChildren().addAll(tipoJugadores, modoJuegoLabel, jugador1Label, jugador2Label, verTodasCartas, cuadricula, tiempoTranscurridoLabel);
+        vbox.getChildren().addAll(tipoJugadores, modoJuegoLabel, jugador1Label, jugador2Label, verTodasCartas, cuadricula, tiempoRestanteLabel);
 
         primaryStage.setScene(new Scene(vbox));
         primaryStage.show();
 
         iniciarCronometro(cantidadSegundos); // Llamar al cronómetro con la variable actualizada
 
+    }
+
+    private void actualizarTiempoRestante(int tiempoRestante) {
+        Platform.runLater(() -> tiempoRestanteLabel.setText("Tiempo restante: " + tiempoRestante));
     }
 
     private void actualizarEtiquetasJugadores() {
@@ -387,10 +399,18 @@ public class JuegoMemoria {
         String mensaje;
         switch (partidaGanada()) {
             case GANADOR_JUGADOR1:
-                mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos.";
+                if (modoHumanoVsHumano) {
+                    mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos.";
+                } else {
+                    mensaje = "¡Partida ganada! Ganador: " + Jugador1vsC + " con " + jugador1Puntaje + " puntos.";
+                }
                 break;
             case GANADOR_JUGADOR2:
-                mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos.";
+                if (modoHumanoVsHumano) {
+                    mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos.";
+                } else {
+                    mensaje = "¡Partida ganada! Ganador: COMPUTADOR con " + jugador2Puntaje + " puntos.";
+                }
                 break;
             case EMPATE:
                 mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos.";
