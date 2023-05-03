@@ -316,7 +316,27 @@ public class Vista_Pantalla_InicialController implements Initializable {
             JugadorHumano2vsH.setDisable(false);
         }
     }
+    
+ @FXML
+   private void checkBoxHumanoVSComputadora(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        modoHumanoVsHumano = !checkBox.isSelected();
+         if (checkBoxHumanoVSComputadora.isSelected() == true) {
+            HumanoVSHumano.setDisable(true);
+            EnviarHumanoVSHumano.setDisable(true);
+            JugadorHumano1vsH.setDisable(true);
+            JugadorHumano2vsH.setDisable(true);
 
+        } else {
+            HumanoVSHumano.setDisable(false);
+            HumanoVSHumano.setDisable(false);
+            EnviarHumanoVSHumano.setDisable(false);
+            JugadorHumano1vsH.setDisable(false);
+            JugadorHumano2vsH.setDisable(false);
+        }
+        
+
+    }
     private void getInfoHumanovsHumano(ActionEvent event) {
         Jugador1HvsH = JugadorHumano1vsH.getText();
         Jugador2HvsH = JugadorHumano2vsH.getText();
@@ -399,7 +419,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 60, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 15, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
         } else if (dificultad == 2) {
             juegoMemoria.mostrarJuego(primaryStage, 3, 6, 60, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
         } else {
@@ -436,12 +456,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
         modoTrio = checkBox.isSelected();
     }
 
-    @FXML
-    void checkBoxHumanoVSComputadora(ActionEvent event) {
-        CheckBox checkBox = (CheckBox) event.getSource();
-        modoHumanoVsHumano = !checkBox.isSelected();
-
-    }
+   
 
     @FXML
     void onPuntoMenos(ActionEvent event) {

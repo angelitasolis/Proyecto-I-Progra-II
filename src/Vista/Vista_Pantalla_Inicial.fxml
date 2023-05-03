@@ -192,54 +192,6 @@
                </children>
             </Pane>
          </top></BorderPane>
-      <BorderPane fx:id="VistaJugadores" prefHeight="200.0" prefWidth="200.0">
-         <center>
-            <Pane prefHeight="742.0" prefWidth="1276.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="754.0" fitWidth="1302.0" layoutX="-4.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../Imagenes/Background%20sencillo.jpg" />
-                     </image>
-                  </ImageView>
-                  <Text layoutX="542.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   L O S   J U G A D O R E S" />
-                  <CheckBox fx:id="HumanoVSHumano" layoutX="565.0" layoutY="129.0" mnemonicParsing="false" onAction="#HumanoVSHumano" prefHeight="48.0" prefWidth="280.0" text="Humano VS Humano">
-                     <font>
-                        <Font name="MV Boli" size="16.0" />
-                     </font></CheckBox>
-                  <TextField fx:id="JugadorHumano1vsH" layoutX="408.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
-                  <Text layoutX="646.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" />
-                  <TextField fx:id="JugadorHumano2vsH" layoutX="718.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
-                  <CheckBox fx:id="HumanoVSComputadora" layoutX="555.0" layoutY="311.0" mnemonicParsing="false" onAction="#checkBoxHumanoVSComputadora" text="Humano VS Computadora">
-                     <font>
-                        <Font name="MV Boli" size="16.0" />
-                     </font></CheckBox>
-                  <TextField fx:id="JugadorHumano1vsC" layoutX="576.0" layoutY="357.0" prefHeight="26.0" prefWidth="168.0" />
-                  <Button fx:id="EnviarHumanoVSHumano" layoutX="611.0" layoutY="244.0" mnemonicParsing="false" onMouseClicked="#onAceptarHvsH" style="-fx-background-color: orange;" text="Aceptar">
-                     <font>
-                        <Font name="Showcard Gothic" size="17.0" />
-                     </font></Button>
-                  <Button fx:id="EnviarHumanoVSC" layoutX="618.0" layoutY="409.0" mnemonicParsing="false" onMouseClicked="#onAceptarHvsC" style="-fx-background-color: orange;" text="Aceptar">
-                     <font>
-                        <Font name="Showcard Gothic" size="17.0" />
-                     </font></Button>
-                  <ImageView fx:id="BotBackJugadores" fitHeight="150.0" fitWidth="200.0" layoutX="996.0" layoutY="522.0" onMouseClicked="#BackJugadores" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/Backkkk.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="378.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/BowserPNG.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="859.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Imagenes/HonguitoPNG.png" />
-                     </image>
-                  </ImageView>
-               </children></Pane>
-         </center>
-      </BorderPane>
       <BorderPane fx:id="InformacionJuego" prefHeight="200.0" prefWidth="200.0">
          <top>
             <Pane prefHeight="761.0" prefWidth="1357.0" BorderPane.alignment="CENTER">
@@ -619,6 +571,54 @@
                   </ImageView>
                </children>
             </AnchorPane>
+         </center>
+      </BorderPane>
+      <BorderPane fx:id="VistaJugadores" prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <Pane prefHeight="742.0" prefWidth="1276.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="754.0" fitWidth="1302.0" layoutX="-4.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../Imagenes/Background%20sencillo.jpg" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="542.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S E L E C C I O N E   L O S   J U G A D O R E S" />
+                  <CheckBox fx:id="HumanoVSHumano" layoutX="565.0" layoutY="129.0" mnemonicParsing="false" onAction="#HumanoVSHumano" prefHeight="48.0" prefWidth="280.0" text="Humano VS Humano">
+                     <font>
+                        <Font name="MV Boli" size="16.0" />
+                     </font></CheckBox>
+                  <TextField fx:id="JugadorHumano1vsH" layoutX="408.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
+                  <Text layoutX="646.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" />
+                  <TextField fx:id="JugadorHumano2vsH" layoutX="718.0" layoutY="189.0" prefHeight="26.0" prefWidth="168.0" />
+                  <CheckBox fx:id="HumanoVSComputadora" layoutX="555.0" layoutY="311.0" mnemonicParsing="false" onAction="#checkBoxHumanoVSComputadora" text="Humano VS Computadora">
+                     <font>
+                        <Font name="MV Boli" size="16.0" />
+                     </font></CheckBox>
+                  <TextField fx:id="JugadorHumano1vsC" layoutX="576.0" layoutY="357.0" prefHeight="26.0" prefWidth="168.0" />
+                  <Button fx:id="EnviarHumanoVSHumano" layoutX="611.0" layoutY="244.0" mnemonicParsing="false" onMouseClicked="#onAceptarHvsH" style="-fx-background-color: orange;" text="Aceptar">
+                     <font>
+                        <Font name="Showcard Gothic" size="17.0" />
+                     </font></Button>
+                  <Button fx:id="EnviarHumanoVSC" layoutX="618.0" layoutY="409.0" mnemonicParsing="false" onMouseClicked="#onAceptarHvsC" style="-fx-background-color: orange;" text="Aceptar">
+                     <font>
+                        <Font name="Showcard Gothic" size="17.0" />
+                     </font></Button>
+                  <ImageView fx:id="BotBackJugadores" fitHeight="150.0" fitWidth="200.0" layoutX="996.0" layoutY="522.0" onMouseClicked="#BackJugadores" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Backkkk.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="378.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/BowserPNG.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="859.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/HonguitoPNG.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
          </center>
       </BorderPane>
    </children>

@@ -64,7 +64,7 @@ public class JuegoMemoria {
     private Label tiempoRestanteLabel;
 
     private enum Resultado {
-        GANADOR_JUGADOR1, GANADOR_JUGADOR2, EMPATE, JUEGO_EN_PROGRESO
+        ganadorJugador1, ganadorJugador2, resultadoEmpate, juegoEnCurso
     }
 
     //Cronometro
@@ -182,7 +182,7 @@ public class JuegoMemoria {
     }
 
     private void actualizarTiempoRestante(int tiempoRestante) {
-        Platform.runLater(() -> tiempoRestanteLabel.setText("Tiempo restante: " + tiempoRestante));
+        Platform.runLater(() -> tiempoRestanteLabel.setText("Tiempo restante: " + tiempoRestante + " segundos"));
     }
 
     private void actualizarEtiquetasJugadores() {
@@ -356,7 +356,7 @@ public class JuegoMemoria {
         }
 
         // Se verifica si el juego ha terminado y se muestra el resultado.
-        if (partidaGanada() != Resultado.JUEGO_EN_PROGRESO) {
+        if (partidaGanada() != Resultado.juegoEnCurso) {
             mostrarResultados();
         }
     }
@@ -373,7 +373,10 @@ public class JuegoMemoria {
             mismoJugador = false;
 
             turnoJugador1 = !turnoJugador1;
-
+            
+             ajustarPuntaje();
+             
+             
             actualizarEtiquetasJugadores();
 
             if (!modoHumanoVsHumano && !turnoJugador1) {
@@ -398,25 +401,25 @@ public class JuegoMemoria {
     private void mostrarResultados() {
         String mensaje;
         switch (partidaGanada()) {
-            case GANADOR_JUGADOR1:
+            case ganadorJugador1:
                 if (modoHumanoVsHumano) {
-                    mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos.";
+                    mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos";
                 } else {
-                    mensaje = "¡Partida ganada! Ganador: " + Jugador1vsC + " con " + jugador1Puntaje + " puntos.";
+                    mensaje = "¡Partida ganada! Ganador: " + Jugador1vsC + " con " + jugador1Puntaje + " puntos";
                 }
                 break;
-            case GANADOR_JUGADOR2:
+            case ganadorJugador2:
                 if (modoHumanoVsHumano) {
-                    mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos.";
+                    mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos";
                 } else {
-                    mensaje = "¡Partida ganada! Ganador: COMPUTADOR con " + jugador2Puntaje + " puntos.";
+                    mensaje = "¡Partida ganada! Ganador: COMPUTADOR con " + jugador2Puntaje + " puntos";
                 }
                 break;
-            case EMPATE:
-                mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos.";
+            case resultadoEmpate:
+                mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos";
                 break;
             default:
-                throw new IllegalStateException("Resultado de la partida desconocido.");
+                throw new IllegalStateException("Resultado de la partida desconocido");
         }
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -439,14 +442,14 @@ public class JuegoMemoria {
         }
 
         if (cartasRestantes > 0) {
-            return Resultado.JUEGO_EN_PROGRESO;
+            return Resultado.juegoEnCurso;
         } else {
             if (jugador1Puntaje > jugador2Puntaje) {
-                return Resultado.GANADOR_JUGADOR1;
+                return Resultado.ganadorJugador1;
             } else if (jugador1Puntaje < jugador2Puntaje) {
-                return Resultado.GANADOR_JUGADOR2;
+                return Resultado.ganadorJugador2;
             } else {
-                return Resultado.EMPATE;
+                return Resultado.resultadoEmpate;
             }
         }
     }
