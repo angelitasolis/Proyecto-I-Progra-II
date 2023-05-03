@@ -368,11 +368,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 4, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 60, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC, puntosMenos);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 80, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 80, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC, puntosMenos);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 90, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 90, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC,puntosMenos);
         }
 
     }

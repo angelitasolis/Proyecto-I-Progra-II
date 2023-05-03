@@ -53,10 +53,11 @@ public class JuegoMemoria {
     private Random random = new Random();
     private JugadorComputador jugadorComputador;
     private int nivelIA;
-    private boolean parejaEncontrada;
+    private boolean hayParejaTurno;
     private Label tiempoRestanteLabel;
     private Scene sceneAnterior;
     private Stage primaryStage;
+    
 
     private enum Resultado {
         ganadorJugador1, ganadorJugador2, resultadoEmpate, juegoEnCurso
@@ -112,7 +113,7 @@ public class JuegoMemoria {
                     mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos";
                     break;
                 default:
-                   mensaje = "Juego terminado!";
+                    mensaje = "Juego terminado!";
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -120,11 +121,11 @@ public class JuegoMemoria {
             alert.setHeaderText("RESULTADOS");
             alert.setContentText(mensaje);
             alert.setOnCloseRequest(event -> {
-            // Cierra el escenario actual y muestra la pantalla anterior
-            mostrarPantallaAnterior();
-            
-        });
-        alert.showAndWait();
+                // Cierra el escenario actual y muestra la pantalla anterior
+                mostrarPantallaAnterior();
+
+            });
+            alert.showAndWait();
         });
     }
 
@@ -134,16 +135,16 @@ public class JuegoMemoria {
     public Tablero getTablero() {
         return tablero;
     }
-    
-    private void mostrarPantallaAnterior() {
-    if (sceneAnterior != null) {
-        primaryStage.setScene(sceneAnterior);
-    } else {
-        // Código para manejar el caso en que sceneAnterior sea null
-    }
-}
 
-    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio, String pJugador1vsC) {
+    private void mostrarPantallaAnterior() {
+        if (sceneAnterior != null) {
+            primaryStage.setScene(sceneAnterior);
+        } else {
+            // Código para manejar el caso en que sceneAnterior sea null
+        }
+    }
+
+    public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio, String pJugador1vsC, boolean pPuntosMenos) {
         primaryStage.setTitle("Juego Memoria");
         tamannoFilas = ptamannoFilas;
         tamannoColumnas = ptamannoColumnas;
@@ -159,6 +160,7 @@ public class JuegoMemoria {
         this.jugador2Puntaje = 0;
         this.turnoJugador1 = true;
         this.puntosExtra = pPuntosExtra;
+        this.puntosMenos = pPuntosMenos;
         this.modoTrio = pmodoTrio;
         this.Jugador1vsC = pJugador1vsC;
 
@@ -370,7 +372,7 @@ public class JuegoMemoria {
     }
 
     private void procesarGrupoEncontrado() {
-        parejaEncontrada = true;//determina si ha habido una pareja en el turno
+        hayParejaTurno = true;//determina si ha habido una pareja en el turno
         // Se marca cada carta como encontrada y se actualizan los puntos.
         for (Carta cartaSeleccionada : cartasSeleccionadas) {
             cartaSeleccionada.setParejaEncontrada(true);
@@ -403,7 +405,7 @@ public class JuegoMemoria {
     }
 
     private void procesarGrupoNoEncontrado() {
-        parejaEncontrada = false;
+        hayParejaTurno = false;
         // Se crea una pausa antes de voltear las cartas y cambiar el turno al otro jugador.
         PauseTransition pausa = new PauseTransition(Duration.seconds(1));
         pausa.setOnFinished((e) -> {
@@ -414,9 +416,11 @@ public class JuegoMemoria {
             mismoJugador = false;
 
             turnoJugador1 = !turnoJugador1;
-
-            ajustarPuntaje();
-
+            
+            if (puntosMenos) {
+                ajustarPuntaje();
+            }
+            
             actualizarEtiquetasJugadores();
 
             if (!modoHumanoVsHumano && !turnoJugador1) {
@@ -427,7 +431,7 @@ public class JuegoMemoria {
     }
 
     private void ajustarPuntaje() {
-        if (!parejaEncontrada) {
+        if (!hayParejaTurno) {
             if (turnoJugador1 && jugador1Puntaje > 0) {
                 jugador1Puntaje -= 0.5;
 
@@ -461,7 +465,7 @@ public class JuegoMemoria {
             }
         }
     }
-    
+
     private Resultado validarResultado() {
         int cartasRestantes = 0;
         for (int fila = 0; fila < tamannoFilas; fila++) {
@@ -473,15 +477,14 @@ public class JuegoMemoria {
             }
         }
 
+        if (jugador1Puntaje > jugador2Puntaje) {
+            return Resultado.ganadorJugador1;
+        } else if (jugador1Puntaje < jugador2Puntaje) {
+            return Resultado.ganadorJugador2;
+        } else {
+            return Resultado.resultadoEmpate;
+        }
 
-            if (jugador1Puntaje > jugador2Puntaje) {
-                return Resultado.ganadorJugador1;
-            } else if (jugador1Puntaje < jugador2Puntaje) {
-                return Resultado.ganadorJugador2;
-            } else {
-                return Resultado.resultadoEmpate;
-            }
-        
     }
 
     private void ejecutarClickEnCarta(Carta cartaElegida) {
