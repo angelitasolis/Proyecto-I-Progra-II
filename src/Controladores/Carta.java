@@ -17,19 +17,21 @@ public class Carta {
     private int valor;
     private boolean parejaEncontrada;
     private final String rutaImagen;
-    private boolean trioEncontrado;
-
+    private boolean esCartaComodin = false;
+         
     public Carta(int valor, String rutaImagen) {
 
         this.valor = valor;
         this.parejaEncontrada = false;
-        this.trioEncontrado = false;
         this.rutaImagen = rutaImagen;
         this.vistaImagen = new ImageView();
         this.vistaImagen.setImage(new Image(rutaImagen, 100, 100, true, true));
         this.vistaImagen.setPreserveRatio(true);
         this.vistaImagen.setFitWidth(100);
+        
+        
     }
+    
 
     public ImageView getVistaImagen() {
         return vistaImagen;
@@ -51,9 +53,6 @@ public class Carta {
         return rutaImagen;
     }
 
-    public void setTrioEncontrado(boolean trioEncontrado) {
-        this.trioEncontrado = trioEncontrado;
-    }
     
 
 }

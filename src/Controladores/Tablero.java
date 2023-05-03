@@ -37,6 +37,7 @@ public class Tablero {
         for (int fila = 0; fila < tamannoFilas; fila++) {
             for (int col = 0; col < tamannoColumnas; col++) {
                 int valor = valoresCarta.remove(0);
+               
                 this.cartas[fila][col] = new Carta(valor, cartasImagenes[valor]);
             }
         }

@@ -1,9 +1,7 @@
 package Controladores;
 
-import java.net.URL;
 import java.util.ArrayList;
 import javafx.animation.PauseTransition;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,15 +12,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.VBox;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
 import javafx.scene.control.CheckBox;
@@ -37,7 +32,6 @@ public class JuegoMemoria {
     private Image cartaImagenVuelta = new Image(ruta);
 // crono variables
 
-    private Timeline cronometro;
     private int cantidadSegundos;
 
     private double jugador1Puntaje;
@@ -56,12 +50,13 @@ public class JuegoMemoria {
     private int grupoCartas;
     private ArrayList<Carta> cartasSeleccionadas;
     private Stage ventanaRevision;
-    private boolean jugadorAutomatico = false;
     private Random random = new Random();
     private JugadorComputador jugadorComputador;
     private int nivelIA;
     private boolean parejaEncontrada;
     private Label tiempoRestanteLabel;
+    private Scene sceneAnterior;
+    private Stage primaryStage;
 
     private enum Resultado {
         ganadorJugador1, ganadorJugador2, resultadoEmpate, juegoEnCurso
@@ -77,23 +72,60 @@ public class JuegoMemoria {
 
         AtomicInteger tiempoRestante = new AtomicInteger(pduracionSegundos);
 
-        Timeline timeline = new Timeline(
-                new KeyFrame(
-                        Duration.seconds(1),
-                        event -> {
-                            tiempoRestante.decrementAndGet();
-                            actualizarTiempoRestante(tiempoRestante.get());
-                            
-                            if (tiempoRestante.get() <= 0) {
-                                // Detiene el cronómetro y finaliza la partida
-                                ((Timeline) event.getSource()).stop();
-                                mostrarResultados();
-                            }
-                        }
-                )
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE); // Cronómetro continuo
-        timeline.play();
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event -> {
+            tiempoRestante.decrementAndGet();
+            actualizarTiempoRestante(tiempoRestante.get());
+
+            if (tiempoRestante.get() > 0) {
+                pause.playFromStart();
+            } else {
+                mostrarResultados();
+            }
+        });
+        pause.play();
+    }
+
+    private void mostrarResultados() {
+
+        Platform.runLater(() -> {
+            String mensaje = "Juego terminado!";
+            // Agregar un mensaje de registro para verificar el resultado de partidaGanada()
+            System.out.println("Resultado de validarResultado(): " + validarResultado());
+
+            switch (validarResultado()) {
+                case ganadorJugador1:
+                    if (modoHumanoVsHumano) {
+                        mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos";
+                    } else {
+                        mensaje = "¡Partida ganada! Ganador: " + Jugador1vsC + " con " + jugador1Puntaje + " puntos";
+                    }
+                    break;
+                case ganadorJugador2:
+                    if (modoHumanoVsHumano) {
+                        mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos";
+                    } else {
+                        mensaje = "¡Partida ganada! Ganador: COMPUTADOR con " + jugador2Puntaje + " puntos";
+                    }
+                    break;
+                case resultadoEmpate:
+                    mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos";
+                    break;
+                default:
+                   mensaje = "Juego terminado!";
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Juego terminado");
+            alert.setHeaderText("RESULTADOS");
+            alert.setContentText(mensaje);
+            alert.setOnCloseRequest(event -> {
+            // Cierra el escenario actual y muestra la pantalla anterior
+            mostrarPantallaAnterior();
+            
+        });
+        alert.showAndWait();
+        });
     }
 
     public JuegoMemoria() {
@@ -102,12 +134,21 @@ public class JuegoMemoria {
     public Tablero getTablero() {
         return tablero;
     }
+    
+    private void mostrarPantallaAnterior() {
+    if (sceneAnterior != null) {
+        primaryStage.setScene(sceneAnterior);
+    } else {
+        // Código para manejar el caso en que sceneAnterior sea null
+    }
+}
 
     public void mostrarJuego(Stage primaryStage, int ptamannoFilas, int ptamannoColumnas, int pcantidadSegundos, boolean pModoHumanoVsHumano, String pJugador1Nombre, String pJugador2Nombre, boolean pPuntosExtra, boolean pmodoTrio, String pJugador1vsC) {
         primaryStage.setTitle("Juego Memoria");
         tamannoFilas = ptamannoFilas;
         tamannoColumnas = ptamannoColumnas;
-
+        this.sceneAnterior = primaryStage.getScene();
+        this.primaryStage = primaryStage;
         this.cantidadSegundos = pcantidadSegundos; // Actualizar la variable cantidadSegundos
         this.grupoCartas = pmodoTrio ? 3 : 2;
         this.cartasSeleccionadas = new ArrayList<>();
@@ -119,10 +160,10 @@ public class JuegoMemoria {
         this.turnoJugador1 = true;
         this.puntosExtra = pPuntosExtra;
         this.modoTrio = pmodoTrio;
-        this.jugadorAutomatico = !pModoHumanoVsHumano;
         this.Jugador1vsC = pJugador1vsC;
 
         String[] cartasImagenes = new String[tamannoFilas * tamannoColumnas];//Crea la baraja de cartas
+        // ruta comodin
         for (int i = 1; i < (tamannoFilas * tamannoColumnas) / 2 + 1; i++) {
             String ruta = getClass().getResource("/Imagenes/" + i + ".png").toExternalForm();
             cartasImagenes[i - 1] = ruta;
@@ -373,10 +414,9 @@ public class JuegoMemoria {
             mismoJugador = false;
 
             turnoJugador1 = !turnoJugador1;
-            
-             ajustarPuntaje();
-             
-             
+
+            ajustarPuntaje();
+
             actualizarEtiquetasJugadores();
 
             if (!modoHumanoVsHumano && !turnoJugador1) {
@@ -396,38 +436,6 @@ public class JuegoMemoria {
             }
             actualizarEtiquetasJugadores();
         }
-    }
-
-    private void mostrarResultados() {
-        String mensaje;
-        switch (partidaGanada()) {
-            case ganadorJugador1:
-                if (modoHumanoVsHumano) {
-                    mensaje = "¡Partida ganada! Ganador: " + jugador1Nombre + " con " + jugador1Puntaje + " puntos";
-                } else {
-                    mensaje = "¡Partida ganada! Ganador: " + Jugador1vsC + " con " + jugador1Puntaje + " puntos";
-                }
-                break;
-            case ganadorJugador2:
-                if (modoHumanoVsHumano) {
-                    mensaje = "¡Partida ganada! Ganador: " + jugador2Nombre + " con " + jugador2Puntaje + " puntos";
-                } else {
-                    mensaje = "¡Partida ganada! Ganador: COMPUTADOR con " + jugador2Puntaje + " puntos";
-                }
-                break;
-            case resultadoEmpate:
-                mensaje = "¡Empate! Ambos jugadores tienen " + jugador1Puntaje + " puntos";
-                break;
-            default:
-                throw new IllegalStateException("Resultado de la partida desconocido");
-        }
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Juego terminado");
-            alert.setHeaderText("RESULTADOS");
-            alert.setContentText(mensaje);
-            alert.showAndWait();
-        });
     }
 
     private Resultado partidaGanada() {
@@ -452,6 +460,28 @@ public class JuegoMemoria {
                 return Resultado.resultadoEmpate;
             }
         }
+    }
+    
+    private Resultado validarResultado() {
+        int cartasRestantes = 0;
+        for (int fila = 0; fila < tamannoFilas; fila++) {
+            for (int col = 0; col < tamannoColumnas; col++) {
+                Carta carta = tablero.getCarta(fila, col);
+                if (!carta.esParejaEncontrada()) {
+                    cartasRestantes++;
+                }
+            }
+        }
+
+
+            if (jugador1Puntaje > jugador2Puntaje) {
+                return Resultado.ganadorJugador1;
+            } else if (jugador1Puntaje < jugador2Puntaje) {
+                return Resultado.ganadorJugador2;
+            } else {
+                return Resultado.resultadoEmpate;
+            }
+        
     }
 
     private void ejecutarClickEnCarta(Carta cartaElegida) {

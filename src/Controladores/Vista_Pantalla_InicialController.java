@@ -32,6 +32,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private boolean puntosExtra = false;
     private boolean puntosMenos = false;
     private boolean modoTrio = false;
+    private boolean modoCartaComodin =false;
     int nivelIA = 1;
 
     @FXML
@@ -284,59 +285,7 @@ public class Vista_Pantalla_InicialController implements Initializable {
         VistaJugadores.toFront();
     }
 
-    @FXML
-    private void HumanoVSHumano(ActionEvent event) {
-
-        if (HumanoVSHumano.isSelected() == true) {
-            modoHumanoVsHumano = true;
-            checkBoxHumanoVSComputadora.setDisable(true);
-            EnviarHumanoVSC.setDisable(true);
-            JugadorHumano1vsC.setDisable(true);
-
-        } else {
-            modoHumanoVsHumano = false;
-            checkBoxHumanoVSComputadora.setDisable(false);
-            EnviarHumanoVSC.setDisable(false);
-            JugadorHumano1vsC.setDisable(false);
-        }
-    }
-
-    private void HumanoVSComputadora(ActionEvent event) {
-        if (checkBoxHumanoVSComputadora.isSelected() == true) {
-            HumanoVSHumano.setDisable(true);
-            EnviarHumanoVSHumano.setDisable(true);
-            JugadorHumano1vsH.setDisable(true);
-            JugadorHumano2vsH.setDisable(true);
-
-        } else {
-            HumanoVSHumano.setDisable(false);
-            HumanoVSHumano.setDisable(false);
-            EnviarHumanoVSHumano.setDisable(false);
-            JugadorHumano1vsH.setDisable(false);
-            JugadorHumano2vsH.setDisable(false);
-        }
-    }
-    
- @FXML
-   private void checkBoxHumanoVSComputadora(ActionEvent event) {
-        CheckBox checkBox = (CheckBox) event.getSource();
-        modoHumanoVsHumano = !checkBox.isSelected();
-         if (checkBoxHumanoVSComputadora.isSelected() == true) {
-            HumanoVSHumano.setDisable(true);
-            EnviarHumanoVSHumano.setDisable(true);
-            JugadorHumano1vsH.setDisable(true);
-            JugadorHumano2vsH.setDisable(true);
-
-        } else {
-            HumanoVSHumano.setDisable(false);
-            HumanoVSHumano.setDisable(false);
-            EnviarHumanoVSHumano.setDisable(false);
-            JugadorHumano1vsH.setDisable(false);
-            JugadorHumano2vsH.setDisable(false);
-        }
-        
-
-    }
+   
     private void getInfoHumanovsHumano(ActionEvent event) {
         Jugador1HvsH = JugadorHumano1vsH.getText();
         Jugador2HvsH = JugadorHumano2vsH.getText();
@@ -419,11 +368,11 @@ public class Vista_Pantalla_InicialController implements Initializable {
         Stage primaryStage = getPrimaryStage();
 
         if (dificultad == 1) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 15, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 4, 4, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
         } else if (dificultad == 2) {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 60, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 6, 80, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
         } else {
-            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 40, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
+            juegoMemoria.mostrarJuego(primaryStage, 3, 8, 90, modoHumanoVsHumano, Jugador1HvsH, Jugador2HvsH, puntosExtra, modoTrio, Jugador1vsC);
         }
 
     }
@@ -468,7 +417,48 @@ public class Vista_Pantalla_InicialController implements Initializable {
     private void mouseMovedInfoJuegoImagen(MouseEvent event) {
         infoJuegoImagen.setCursor(Cursor.HAND); 
     }
+
+    @FXML
+    private void onHumanoVSHumano(ActionEvent event) {
+         if (HumanoVSHumano.isSelected() == true) {
+            modoHumanoVsHumano = true;
+            checkBoxHumanoVSComputadora.setDisable(true);
+            EnviarHumanoVSC.setDisable(true);
+            JugadorHumano1vsC.setDisable(true);
+
+        } else {
+            modoHumanoVsHumano = false;
+            checkBoxHumanoVSComputadora.setDisable(false);
+            EnviarHumanoVSC.setDisable(false);
+            JugadorHumano1vsC.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void onHumanoVSComputadora(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        modoHumanoVsHumano = !checkBox.isSelected();
+         if (checkBoxHumanoVSComputadora.isSelected() == true) {
+            HumanoVSHumano.setDisable(true);
+            EnviarHumanoVSHumano.setDisable(true);
+            JugadorHumano1vsH.setDisable(true);
+            JugadorHumano2vsH.setDisable(true);
+
+        } else {
+            HumanoVSHumano.setDisable(false);
+            EnviarHumanoVSHumano.setDisable(false);
+            JugadorHumano1vsH.setDisable(false);
+            JugadorHumano2vsH.setDisable(false);
+        }
+        
+    }
     
+    @FXML
+    private void onCartaComodin(ActionEvent event) {
+    
+    CheckBox checkBox = (CheckBox) event.getSource();
+         modoCartaComodin= checkBox.isSelected();
+    }
     
 
 }
